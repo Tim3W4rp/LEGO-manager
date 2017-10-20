@@ -1,1 +1,1 @@
-# LEGO-manager
+# LegoManager
