@@ -6,3 +6,4 @@ test-output
 *.iml
 *~
 target
+.DS_Store
