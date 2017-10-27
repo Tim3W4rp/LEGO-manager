@@ -12,7 +12,7 @@ public class Kit {
 
     @NotNull
     @Column
-    private Integer ageLimit;
+    private String description;
 
     @NotNull
     @Column
@@ -20,43 +20,43 @@ public class Kit {
 
     @NotNull
     @Column
-    private String description;
+    private Integer ageLimit;
 
     public Kit() {
     }
 
     public Kit(Integer ageLimit, Integer price, String description) {
-        this.ageLimit = ageLimit;
-        this.price = price;
         this.description = description;
+        this.price = price;
+        this.ageLimit = ageLimit;
     }
 
     public Long getId() {
         return id;
     }
 
-    public Integer getAgeLimit() {
-        return ageLimit;
+    public String getDescription() {
+        return description;
     }
 
     public Integer getPrice() {
         return price;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getAgeLimit() {
+        return ageLimit;
     }
 
-    public void setAgeLimit(Integer ageLimit) {
-        this.ageLimit = ageLimit;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setAgeLimit(Integer ageLimit) {
+        this.ageLimit = ageLimit;
     }
 
     @Override
@@ -64,9 +64,9 @@ public class Kit {
         final int prime = 31;
         int result = 1;
         result = prime * result +
-                (ageLimit == null ? 0 : ageLimit.hashCode()) +
+                (description == null ? 0 : description.hashCode()) +
                 (price == null ? 0 : price.hashCode()) +
-                (description == null ? 0 : description.hashCode());
+                (ageLimit == null ? 0 : ageLimit.hashCode());
         return result;
     }
 
@@ -82,12 +82,12 @@ public class Kit {
             return false;
 
         Kit other = (Kit) obj;
-        if (ageLimit == null || price == null || description == null) {
-            if (other.getAgeLimit() != null || other.getPrice() != null || other.getDescription() != null)
+        if (description == null || price == null || ageLimit == null) {
+            if (other.getDescription() != null || other.getPrice() != null || other.getAgeLimit() != null)
                 return false;
-        } else if (!ageLimit.equals(other.getAgeLimit()) ||
-                   !price.equals(other.getPrice()) ||
-                   !description.equals(other.getDescription()))
+        } else if (!description.equals(other.getDescription()) ||
+                !price.equals(other.getPrice()) ||
+                !ageLimit.equals(other.getAgeLimit()))
             return false;
         return true;
     }
