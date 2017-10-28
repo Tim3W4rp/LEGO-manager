@@ -1,3 +1,6 @@
+/**
+ * @author Michal Peška
+ */
 package cz.fi.muni.legomanager.entity;
 
 import javax.persistence.Column;
@@ -30,16 +33,16 @@ public class Set {
     }
 
     public String getDescription() {
-		return description;
+        return description;
 	}
 	public void setDescription(String description) {
-		this.description = description;
+        this.description = description;
 	}
 	public BigDecimal getPrice() {
-		return price;
+        return price;
 	}
 	public void setPrice(BigDecimal price) {
-		this.price = price;
+        this.price = price;
 	}
 	public Long getId() {
         return id;
@@ -47,14 +50,14 @@ public class Set {
 
     @Override
     public int hashCode() {
-    	int result = 0;
-    	int primeNumber = 13;
+        int result = 0;
+        int primeNumber = 13;
     	
-    	if(this.description != null)
-    		result = this.description.hashCode();
-    	if(this.price != null)
-    		result += this.price.hashCode() * primeNumber;
-    	
+        if(this.description != null)
+            result = this.description.hashCode();
+        if(this.price != null)
+            result += this.price.hashCode() * primeNumber;
+    
         return result;
     }
 
@@ -70,11 +73,10 @@ public class Set {
         
         if (this.price.equals(otherObject.price) 
         	&& this.description.equals(otherObject.description))
+        {
         	return true;
-        
+        }
         return false;
     }
-
-
 
 }
