@@ -1,12 +1,11 @@
-/**
- * @author Martin Jordán
- */
-
 package cz.fi.muni.legomanager.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author Martin Jordán
+ */
 @Entity
 public class Kit {
 
