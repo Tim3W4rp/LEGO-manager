@@ -1,3 +1,7 @@
+/**
+ * @author Martin Jordán
+ */
+
 package cz.fi.muni.legomanager.Dao;
 
 import cz.fi.muni.legomanager.entity.Kit;
