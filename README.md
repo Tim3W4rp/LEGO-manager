@@ -4,20 +4,24 @@ Description: This project has been created as a school project for the PA165 cla
 
 Assignment in Czech: Vžijme se opět do dětských let. Mějme firmu prodávající stavebnice Lego. Aplikace bude sloužit jako manažer, který obstarává správu stavebnic, setů skládajících se z různých kombinací a kategorií do kterých jsou zařazeny. Každá stavebnice bude mít soupis dílů které do ní patří stejně jako každý set bude obsahovat soupis stavebnic ze kterých se skládá. U každého dílu je zase potřeba uvádět ba2revné kombinace v jakých se vyrábí.Manažer obstarává správu (tedy přídávání, odebírání, úprava) stavebnic a jejich dílů stejně jako setů. Každá stavebnice se skládá z různých dílů. V nabídce jsou i sety složené z jednotlivých stavebnic. Existují různé tématické kategorie pod které se stavebnice budou řadit.
 
-Je třeba uchovávat: Barevné kombinace u jednotlivých dílů
-                    Evidovat z jakých dílů v jaké barevné variantě je stavebnice složena
-                    Cena za jakou je stavebnice prodávána
-                    Je nutné evidovat věkovou hranici pro děti
-                    Z jakých stavebnic je složen set
-                    Za jakou cenu se každý set prodává (nemusí nezbytně odpovídat součtu cen stavebnic)
-                    Set i samotná stavebnice musí evidovat do které kategorie je přiřazena
-                    Kategorie také nese stručný popis
+Je třeba uchovávat:
+    
+    Barevné kombinace u jednotlivých dílů
+    Evidovat z jakých dílů v jaké barevné variantě je stavebnice slo
+    Cena za jakou je stavebnice prodávána
+    Je nutné evidovat věkovou hranici pro děti
+    Z jakých stavebnic je složen set
+    Za jakou cenu se každý set prodává (nemusí nezbytně odpovídat součtu cen stavebnic)
+    Set i samotná stavebnice musí evidovat do které kategorie je přiřazena
+    Kategorie také nese stručný popis
 
 Installation: You can compile the project by using "mvn clean install" 
 
 Usage: This project serves for educational purposes only.
 
-Credits: https://github.com/xdvora22
+Credits:
+
+         https://github.com/xdvora22
          https://github.com/stepan662
          https://github.com/Tim3W4rp
          https://github.com/majklllll
