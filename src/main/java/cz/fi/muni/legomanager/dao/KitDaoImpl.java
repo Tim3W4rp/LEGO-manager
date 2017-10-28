@@ -1,4 +1,8 @@
-package cz.fi.muni.legomanager.dao;
+/**
+ * @author Martin Jordán
+ */
+
+package cz.fi.muni.legomanager.Dao;
 
 import cz.fi.muni.legomanager.entity.Kit;
 import org.springframework.stereotype.Repository;
