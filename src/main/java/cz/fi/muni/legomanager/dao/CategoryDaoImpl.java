@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * @author Stepan Granat
@@ -34,5 +35,11 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public void delete(Category category) {
         em.remove(category);
+    }
+
+    @Override
+    public List<Category> findAll() {
+        return em.createQuery("select c from Category c", Category.class)
+                .getResultList();
     }
 }
