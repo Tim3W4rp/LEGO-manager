@@ -11,21 +11,22 @@ public class Kit {
     private Long id;
 
     @NotNull
-    @Column
+    @Column(nullable = false)
     private String description;
 
     @NotNull
-    @Column
+    @Column(nullable = false)
     private Integer price;
 
     @NotNull
-    @Column
+    @Column(nullable = false)
     private Integer ageLimit;
 
     public Kit() {
     }
 
-    public Kit(Integer ageLimit, Integer price, String description) {
+    public Kit(Long id, String description, Integer price, Integer ageLimit) {
+        this.id = id;
         this.description = description;
         this.price = price;
         this.ageLimit = ageLimit;
@@ -72,23 +73,28 @@ public class Kit {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
 
-        if (obj == null)
+        if (obj == null) {
             return false;
+        }
 
-        if (! (obj instanceof Kit))
+        if (! (obj instanceof Kit)) {
             return false;
+        }
 
         Kit other = (Kit) obj;
         if (description == null || price == null || ageLimit == null) {
-            if (other.getDescription() != null || other.getPrice() != null || other.getAgeLimit() != null)
+            if (other.getDescription() != null || other.getPrice() != null || other.getAgeLimit() != null) {
                 return false;
+            }
         } else if (!description.equals(other.getDescription()) ||
                 !price.equals(other.getPrice()) ||
-                !ageLimit.equals(other.getAgeLimit()))
+                !ageLimit.equals(other.getAgeLimit())) {
             return false;
+        }
         return true;
     }
 
