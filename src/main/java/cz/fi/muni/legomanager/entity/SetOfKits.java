@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
-public class Set {
+public class SetOfKits {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -26,10 +26,10 @@ public class Set {
     private BigDecimal price;
 
 
-    public Set(Long setId) {
+    public SetOfKits(Long setId) {
         this.id = setId;
     }
-    public Set() {
+    public SetOfKits() {
     }
 
     public String getDescription() {
@@ -67,9 +67,9 @@ public class Set {
             return true;
         if (obj == null)
             return false;
-        if (! (obj instanceof Set))
+        if (! (obj instanceof SetOfKits))
             return false;
-        Set otherObject = (Set) obj;
+        SetOfKits otherObject = (SetOfKits) obj;
         
         if (this.price.equals(otherObject.price) 
         	&& this.description.equals(otherObject.description))
