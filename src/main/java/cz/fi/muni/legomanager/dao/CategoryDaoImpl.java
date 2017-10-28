@@ -2,6 +2,7 @@ package cz.fi.muni.legomanager.dao;
 
 import cz.fi.muni.legomanager.entity.Category;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,7 +18,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public void create(Category category) {
-        System.out.println(em);
+        em.persist(category);
     }
 
     @Override
