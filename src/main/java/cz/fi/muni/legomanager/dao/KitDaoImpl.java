@@ -1,14 +1,13 @@
-/**
- * @author Martin Jordán
- */
-
-package cz.fi.muni.legomanager.Dao;
+package cz.fi.muni.legomanager.dao;
 
 import cz.fi.muni.legomanager.entity.Kit;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/**
+ * @author Martin Jordán
+ */
 @Repository
 public class KitDaoImpl implements KitDao {
 
