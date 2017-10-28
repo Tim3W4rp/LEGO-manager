@@ -34,17 +34,17 @@ public class Set {
 
     public String getDescription() {
         return description;
-	}
-	public void setDescription(String description) {
+    }
+    public void setDescription(String description) {
         this.description = description;
-	}
-	public BigDecimal getPrice() {
+    }
+    public BigDecimal getPrice() {
         return price;
-	}
-	public void setPrice(BigDecimal price) {
+    }
+    public void setPrice(BigDecimal price) {
         this.price = price;
-	}
-	public Long getId() {
+    }
+    public Long getId() {
         return id;
     }
 
