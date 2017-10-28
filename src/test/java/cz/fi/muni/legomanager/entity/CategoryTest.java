@@ -16,7 +16,9 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.List;
 
-
+/**
+ * @author Stepan Granat
+ */
 public class CategoryTest {
 
     private EntityManagerFactory emf;

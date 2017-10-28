@@ -1,4 +1,4 @@
-package cz.fi.muni.legomanager.Dao;
+package cz.fi.muni.legomanager.dao;
 
 import cz.fi.muni.legomanager.entity.Kit;
 

@@ -4,6 +4,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
+/**
+ * @author Stepan Granat
+ */
 @Entity
 public class Category {
 
@@ -26,6 +29,13 @@ public class Category {
     //@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     //private public Set<Set>
 
+    public Category() {
+    }
+
+    public Category(String name, String description) {
+        this.setName(name);
+        this.setDescription(description);
+    }
 
     public Long getId() {
         return id;
@@ -61,18 +71,23 @@ public class Category {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (! (obj instanceof Category))
+        }
+        if (! (obj instanceof Category)) {
             return false;
+        }
         Category other = (Category) obj;
         if (name == null) {
-            if (other.getName() != null)
+            if (other.getName() != null) {
                 return false;
-        } else if (!name.equals(other.getName()))
+            }
+        } else if (!name.equals(other.getName())) {
             return false;
+        }
         return true;
     }
 
