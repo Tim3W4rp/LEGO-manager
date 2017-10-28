@@ -1,3 +1,7 @@
+/**
+ * @author Martin Jordán
+ */
+
 package cz.fi.muni.legomanager.Dao;
 
 import cz.fi.muni.legomanager.entity.Kit;
@@ -22,11 +26,12 @@ public class KitDaoImpl implements KitDao {
     }
 
     @Override
-    public void update(Kit kit, String description, Integer price, Integer ageLimit) {
-        kit.setDescription(description);
-        kit.setPrice(price);
-        kit.setAgeLimit(ageLimit);
-        em.persist(kit);
+    public void update(Kit kit) {
+        Kit updatedKit = findById(kit.getId());
+        updatedKit.setDescription(kit.getDescription());
+        updatedKit.setPrice(kit.getPrice());
+        updatedKit.setAgeLimit(kit.getAgeLimit());
+        em.persist(updatedKit);
     }
 
     @Override
