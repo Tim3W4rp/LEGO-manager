@@ -22,7 +22,8 @@ public class KitDaoImpl implements KitDao {
     }
 
     @Override
-    public void update(Kit kit, String description, Integer price, Integer ageLimit) {
+    public void update(Long id, String description, Integer price, Integer ageLimit) {
+        Kit kit = em.find(Kit. class, id);
         kit.setDescription(description);
         kit.setPrice(price);
         kit.setAgeLimit(ageLimit);
