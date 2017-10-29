@@ -4,13 +4,17 @@ import cz.fi.muni.legomanager.entity.Shape;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 /**
- * ShapeDaoImpl implements {@Link ShapeDao}.
+ * ShapeDaoImpl implements {@link ShapeDao}.
  *
  * @author Lukáš Dvořák
  */
+@Repository
 public class ShapeDaoImpl implements ShapeDao {
 
     @PersistenceContext
