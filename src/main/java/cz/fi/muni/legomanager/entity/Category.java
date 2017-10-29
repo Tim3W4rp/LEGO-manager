@@ -2,6 +2,8 @@ package cz.fi.muni.legomanager.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -23,11 +25,11 @@ public class Category {
     @Column(nullable=false)
     private String description;
 
-    //@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //private public Set<Kit>
+    @ManyToMany
+    private Set<Kit> kits = new HashSet<>();
 
-    //@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //private public Set<Set>
+    @ManyToMany
+    private Set<SetOfKits> setsOfKits = new HashSet<>();
 
     public Category() {
     }
@@ -60,6 +62,35 @@ public class Category {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Set<Kit> getKits() {
+        return Collections.unmodifiableSet(kits);
+    }
+
+    public void addKit(Kit kit) {
+        kits.add(kit);
+        kit.addCategory(this);
+    }
+
+    public void removeKit(Kit kit) {
+        kits.remove(kit);
+        kit.removeCategory(this);
+    }
+
+    public Set<SetOfKits> getSetsOfKits() {
+        return Collections.unmodifiableSet(setsOfKits);
+    }
+
+    public void addSetOfKits(SetOfKits setOfKits) {
+        setsOfKits.add(setOfKits);
+        setOfKits.addCategory(this);
+    }
+
+    public void removeSetOfKits(SetOfKits setOfKits) {
+        setsOfKits.remove(setOfKits);
+        setOfKits.removeCategory(this);
+    }
+
 
     @Override
     public int hashCode() {

@@ -2,15 +2,12 @@ package cz.fi.muni.legomanager.entity;
 
 import cz.fi.muni.legomanager.enums.Color;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Class for representing bricks.
@@ -32,6 +29,9 @@ public class Brick {
     @ManyToOne
     private Shape shape;
 
+    @ManyToMany(mappedBy = "bricks")
+    private Set<Kit> kits = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -50,6 +50,18 @@ public class Brick {
 
     public void setShape(Shape shape) {
         this.shape = shape;
+    }
+
+    public Set<Kit> getKits() {
+        return Collections.unmodifiableSet(kits);
+    }
+
+    public void addKit(Kit kit) {
+        this.kits.add(kit);
+    }
+
+    public void removeKit(Kit kit) {
+        this.kits.remove(kit);
     }
 
     @Override

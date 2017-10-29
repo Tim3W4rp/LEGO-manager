@@ -14,17 +14,12 @@ import java.util.List;
 @Repository
 public class CategoryDaoImpl implements CategoryDao {
 
-    @PersistenceContext(unitName = "default")
+    @PersistenceContext
     private EntityManager em;
 
     @Override
     public void create(Category category) {
         em.persist(category);
-    }
-
-    @Override
-    public Category findById(Long id) {
-        return em.find(Category.class, id);
     }
 
     @Override
@@ -35,6 +30,11 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public void delete(Category category) {
         em.remove(category);
+    }
+
+    @Override
+    public Category findById(Long id) {
+        return em.find(Category.class, id);
     }
 
     @Override

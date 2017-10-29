@@ -62,6 +62,34 @@ public class CategoryTest {
 
     @Test
     public void relationTest() {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        Category category = new Category();
+        category.setName("Test category");
+        category.setDescription("Test description");
+
+        Kit kit = new Kit();
+        kit.setAgeLimit(10);
+        kit.setDescription("Test category");
+        kit.setPrice(123);
+
+        category.addKit(kit);
+
+        em.persist(kit);
+        em.persist(category);
+        em.getTransaction().commit();
+
+
+        em.getTransaction().begin();
+
+        List result = em.createQuery("FROM Category C where C.name = :categoryName")
+                .setParameter("categoryName", category.getName()).getResultList();
+
+        Assert.assertEquals(result.size(), 1);
+        Category cat_db = (Category) result.get(0);
+
+        Assert.assertEquals(cat_db.getKits().size(), 1);
 
     }
 }
