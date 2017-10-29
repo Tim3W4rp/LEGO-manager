@@ -1,6 +1,3 @@
-/**
- * @author Michal Peška
- */
 package cz.fi.muni.legomanager.entity;
 
 import javax.persistence.*;
@@ -8,20 +5,22 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Michal Peška
+ */
 @Entity
 public class SetOfKits {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Column(nullable=false,unique=true)
+    @Column(nullable = false, unique = true)
     private String description;
-    
+
     @NotNull
     private BigDecimal price;
 
@@ -31,24 +30,22 @@ public class SetOfKits {
     @OneToMany(mappedBy = "setOfKits")
     private Set<Kit> kits = new HashSet<>();
 
-    public SetOfKits(Long setId) {
-        this.id = setId;
-    }
-    public SetOfKits() {
-    }
-
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public BigDecimal getPrice() {
         return price;
     }
+
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
     public Long getId() {
         return id;
     }
@@ -81,7 +78,7 @@ public class SetOfKits {
     public int hashCode() {
         int result = 0;
         int primeNumber = 13;
-    	
+
         if (this.description != null) {
             result = this.description.hashCode();
         }
@@ -93,21 +90,20 @@ public class SetOfKits {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
         }
         if (obj == null) {
             return false;
         }
-        if (! (obj instanceof SetOfKits)) {
+        if (!(obj instanceof SetOfKits)) {
             return false;
         }
         SetOfKits otherObject = (SetOfKits) obj;
-        
-        if (this.price.equals(otherObject.price) 
-        	&& this.description.equals(otherObject.description))
-        {
-        	return true;
+
+        if (this.price.equals(otherObject.price)
+                && this.description.equals(otherObject.description)) {
+            return true;
         }
         return false;
     }
