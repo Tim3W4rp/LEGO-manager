@@ -1,6 +1,7 @@
 package cz.fi.muni.legomanager.dao;
 
 import cz.fi.muni.legomanager.entity.Brick;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,6 +12,7 @@ import java.util.List;
  *
  * @author Lukáš Dvořák
  */
+@Repository
 public class BrickDaoImpl implements BrickDao {
 
     @PersistenceContext
