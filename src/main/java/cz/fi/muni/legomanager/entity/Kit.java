@@ -2,6 +2,10 @@ package cz.fi.muni.legomanager.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Martin Jordán
@@ -24,6 +28,16 @@ public class Kit {
     @NotNull
     @Column(nullable = false)
     private Integer ageLimit;
+
+    @ManyToMany(mappedBy = "kits")
+    private Set<Category> categories = new HashSet<>();
+
+    @ManyToMany
+    private Set<Brick> bricks = new HashSet<>();
+
+    @NotNull
+    @ManyToOne
+    private SetOfKits setOfKits;
 
     public Kit() {
     }
@@ -61,6 +75,40 @@ public class Kit {
 
     public void setAgeLimit(Integer ageLimit) {
         this.ageLimit = ageLimit;
+    }
+
+    public Set<Category> getCategories() {
+        return Collections.unmodifiableSet(categories);
+    }
+
+    public void addCategory(Category category) {
+        this.categories.add(category);
+    }
+
+    public void removeCategory(Category category) {
+        this.categories.remove(category);
+    }
+
+    public Set<Brick> getBricks() {
+        return Collections.unmodifiableSet(bricks);
+    }
+
+    public void addBrick(Brick brick) {
+        bricks.add(brick);
+        brick.addKit(this);
+    }
+
+    public void removeBrick(Brick brick) {
+        bricks.remove(brick);
+        brick.removeKit(this);
+    }
+
+    public SetOfKits getSetOfKits() {
+        return setOfKits;
+    }
+
+    public void setSetOfKits(SetOfKits shape) {
+        this.setOfKits = setOfKits;
     }
 
     @Override

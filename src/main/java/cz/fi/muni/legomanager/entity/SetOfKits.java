@@ -3,13 +3,13 @@
  */
 package cz.fi.muni.legomanager.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class SetOfKits {
@@ -25,6 +25,11 @@ public class SetOfKits {
     @NotNull
     private BigDecimal price;
 
+    @ManyToMany(mappedBy = "setsOfKits")
+    private Set<Category> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "setOfKits")
+    private Set<Kit> kits = new HashSet<>();
 
     public SetOfKits(Long setId) {
         this.id = setId;
@@ -46,6 +51,30 @@ public class SetOfKits {
     }
     public Long getId() {
         return id;
+    }
+
+    public Set<Category> getCategories() {
+        return Collections.unmodifiableSet(categories);
+    }
+
+    public void addCategory(Category category) {
+        this.categories.add(category);
+    }
+
+    public void removeCategory(Category category) {
+        this.categories.remove(category);
+    }
+
+    public Set<Kit> getKits() {
+        return Collections.unmodifiableSet(kits);
+    }
+
+    public void addKit(Kit kit) {
+        kits.add(kit);
+    }
+
+    public void removeKit(Kit kit) {
+        kits.remove(kit);
     }
 
     @Override
@@ -82,5 +111,4 @@ public class SetOfKits {
         }
         return false;
     }
-
 }
