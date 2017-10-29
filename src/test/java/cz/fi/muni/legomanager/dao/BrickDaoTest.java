@@ -2,6 +2,7 @@ package cz.fi.muni.legomanager.dao;
 
 import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
 import cz.fi.muni.legomanager.entity.Brick;
+import cz.fi.muni.legomanager.entity.Shape;
 import cz.fi.muni.legomanager.enums.*;
 
 import org.junit.Assert;
@@ -33,6 +34,9 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private BrickDao brickDao;
 
+    @Autowired
+    private ShapeDao shapeDao;
+    
     @Test
     public void testBrickDao() {
         
@@ -46,11 +50,11 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
         
         
         Assert.assertTrue(brickDao.findAll().size() == 2);
-        Assert.assertTrue(brickDao.findById(Long.valueOf(1)) != null);
-        Assert.assertTrue(brickDao.findById(Long.valueOf(1)).equals(firstBrick));
-        Assert.assertFalse(brickDao.findById(Long.valueOf(1)).equals(secondBrick));
+        Assert.assertTrue(brickDao.findAll().get(0) != null);
+        Assert.assertTrue(brickDao.findAll().get(0).equals(firstBrick));
+        Assert.assertFalse(brickDao.findAll().get(0).equals(secondBrick));
         
-        Brick locatedBrick = brickDao.findById(Long.valueOf(1));
+        Brick locatedBrick = brickDao.findAll().get(0);
         Assert.assertTrue(locatedBrick.getColor().equals(Color.BLACK));
         
         
@@ -65,11 +69,40 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
         
         List<Brick> greenBrickList = brickDao.findAll();
         Assert.assertTrue(greenBrickList.size() == 1);
-        Assert.assertTrue(greenBrickList.get(0).getColor() == Color.GREEN);
-        
-        
+        Assert.assertTrue(greenBrickList.get(0).getColor().equals(Color.GREEN));
+         
+        brickDao.delete(greenBrickList.get(0));
+        Assert.assertTrue(brickDao.findAll().size() == 0);
     }
     
-    
+    @Test
+    public void testBrickRelation() {
+        
+        Brick firstBrick = new Brick();
+        Shape manShape = new Shape();
+        manShape.setName("Man");
+        
+        // add shape to DB
+        shapeDao.create(manShape);
+        
+        firstBrick.setColor(Color.BLUE);
+        firstBrick.setShape(manShape);
+        
+        // add brick to DB
+        brickDao.create(firstBrick);
+
+        
+        List<Brick> bricks = brickDao.findAll();
+        
+        Assert.assertTrue(bricks.size() == 1);
+        Assert.assertTrue(shapeDao.findAll().size() == 1);
+        
+        Assert.assertTrue(bricks.get(0).getShape().getName().equals("Man"));
+        Assert.assertTrue(bricks.get(0).getColor().equals(Color.BLUE));
+        
+        
+        
+         
+    }   
     
 }
