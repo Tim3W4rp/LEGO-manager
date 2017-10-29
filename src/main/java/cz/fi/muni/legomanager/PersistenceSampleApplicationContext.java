@@ -25,7 +25,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories
-@ComponentScan(basePackageClasses = {CategoryDao.class}, basePackages = "cz.fi.muni.legomanager")
+@ComponentScan(basePackages = "cz.fi.muni.legomanager")
 public class PersistenceSampleApplicationContext {
 
 	/**
