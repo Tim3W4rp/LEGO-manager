@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,6 +34,10 @@ public class Kit {
 
     @ManyToMany
     private Set<Brick> bricks = new HashSet<>();
+
+    @NotNull
+    @ManyToOne
+    private SetOfKits setOfKits;
 
     public Kit() {
     }
@@ -96,6 +101,14 @@ public class Kit {
     public void removeBrick(Brick brick) {
         bricks.remove(brick);
         brick.removeKit(this);
+    }
+
+    public SetOfKits getSetOfKits() {
+        return setOfKits;
+    }
+
+    public void setSetOfKits(SetOfKits shape) {
+        this.setOfKits = setOfKits;
     }
 
     @Override
