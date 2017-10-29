@@ -53,22 +53,26 @@ public class SetOfKits {
         int result = 0;
         int primeNumber = 13;
     	
-        if(this.description != null)
+        if (this.description != null) {
             result = this.description.hashCode();
-        if(this.price != null)
+        }
+        if (this.price != null) {
             result += this.price.hashCode() * primeNumber;
-    
+        }
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj){
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (! (obj instanceof SetOfKits))
+        }
+        if (! (obj instanceof SetOfKits)) {
             return false;
+        }
         SetOfKits otherObject = (SetOfKits) obj;
         
         if (this.price.equals(otherObject.price) 
