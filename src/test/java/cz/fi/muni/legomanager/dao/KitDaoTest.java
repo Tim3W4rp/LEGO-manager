@@ -4,13 +4,11 @@ import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
 import cz.fi.muni.legomanager.entity.Kit;
 import org.hibernate.Session;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +17,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
+ * Test of {@link KitDao} methods.
+ *
  * @author Stepan Granat
  */
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=PersistenceSampleApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
@@ -35,7 +34,7 @@ public class KitDaoTest extends AbstractTestNGSpringContextTests {
 
     private Kit kit;
 
-    @Before
+    @BeforeMethod
     public void setUp() {
         kit = new Kit();
         kit.setPrice(10);
@@ -78,9 +77,8 @@ public class KitDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void getById() {
+    public void findById() {
         Kit kit = kitDao.findById(this.kit.getId());
-
-        Assert.assertEquals(kit.getDescription(), "Test2");
+        Assert.assertEquals(kit.getDescription(), "Test");
     }
 }

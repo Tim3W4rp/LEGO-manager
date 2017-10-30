@@ -16,6 +16,9 @@ public class KitDaoImpl implements KitDao {
 
     @Override
     public void create(Kit kit) {
+        if (kit == null) {
+            throw new NullPointerException("Argument cannot be null");
+        }
         em.persist(kit);
     }
 

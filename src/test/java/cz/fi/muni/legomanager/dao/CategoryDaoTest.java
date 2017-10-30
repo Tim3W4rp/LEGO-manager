@@ -4,13 +4,11 @@ import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
 import cz.fi.muni.legomanager.entity.Category;
 import org.hibernate.Session;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +25,6 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Martin Jordán
  */
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=PersistenceSampleApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
@@ -43,7 +40,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     private Category starWarsCategory;
     private List<Category> categoryList;
 
-    @Before
+    @BeforeMethod
     public void setUp() throws Exception {
         starWarsCategory = new Category("Star Wars","A universe of Jedis and space battles");
         testCategory = new Category("Test","Test category");
@@ -57,6 +54,23 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         Category category = (Category) session.createQuery("FROM Category ").list().get(1);
         Assert.assertEquals(category.getName(), "Star Wars");
     }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void createAlreadyExists() {
+        categoryDao.create(testCategory);
+    }
+
+    @Test
+    public void createCategoryWithNullDescription() {
+
+    }
+
+    @Test
+    public void createCategoryWithNullName() {
+
+    }
+
+
 
     @Test
     public void findById() throws Exception {
@@ -87,9 +101,36 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(categoryList.size(), 1);
     }
 
-    @Test
-    public void createNull() throws Exception {
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void createNull() {
         categoryDao.create(null);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void findByIdNull() {
+
+    }
+
+
+
+    @Test
+    public void updateWithNullDescription() {
+
+    }
+
+    @Test
+    public void updateWithNullName() {
+
+    }
+
+    @Test
+    public void deleteNotExists() {
+
+    }
+
+    @Test
+    public void deleteNull() {
+
     }
 
 }
