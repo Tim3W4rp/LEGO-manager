@@ -13,21 +13,22 @@ import java.util.Set;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Column(nullable=false,unique=true)
+    @Column(nullable = false, unique = true)
     private String name;
 
-
     @NotNull
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String description;
 
+    @NotNull
     @ManyToMany
     private Set<Kit> kits = new HashSet<>();
 
+    @NotNull
     @ManyToMany
     private Set<SetOfKits> setsOfKits = new HashSet<>();
 
@@ -108,7 +109,7 @@ public class Category {
         if (obj == null) {
             return false;
         }
-        if (! (obj instanceof Category)) {
+        if (!(obj instanceof Category)) {
             return false;
         }
         Category other = (Category) obj;
@@ -121,7 +122,6 @@ public class Category {
         }
         return true;
     }
-
 
 
 }

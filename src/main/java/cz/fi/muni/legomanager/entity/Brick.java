@@ -29,6 +29,7 @@ public class Brick {
     @ManyToOne
     private Shape shape;
 
+    @NotNull
     @ManyToMany(mappedBy = "bricks")
     private Set<Kit> kits = new HashSet<>();
 
