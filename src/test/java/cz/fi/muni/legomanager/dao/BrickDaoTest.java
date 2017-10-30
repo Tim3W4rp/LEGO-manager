@@ -8,11 +8,9 @@ import cz.fi.muni.legomanager.enums.*;
 import org.hibernate.Session;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +22,11 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
+ * Test of {@link BrickDao} methods.
+ * 
  * @author Michal Peška
  */
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=PersistenceSampleApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
@@ -36,7 +35,7 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private BrickDao brickDao;
 
-    //@Autowired
+    @Autowired
     private ShapeDao shapeDao;
     
     @PersistenceContext
