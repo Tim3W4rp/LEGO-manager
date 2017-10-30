@@ -20,11 +20,11 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public void create(Category category) {
         if (category == null) {
-            throw new IllegalArgumentException("Argument cannot be null");
+            throw new InvalidDataAccessApiUsageException("Argument cannot be null");
         }
 
         if (em.contains(category)) {
-            throw new InvalidDataAccessApiUsageException("Such kit already exists");
+            throw new InvalidDataAccessApiUsageException("Such category already exists");
         }
 
         if (category.getName() == null) {
@@ -53,7 +53,7 @@ public class CategoryDaoImpl implements CategoryDao {
         }
 
         if (!em.contains(category)){
-            throw new InvalidDataAccessApiUsageException("Such kit does not exist");
+            throw new InvalidDataAccessApiUsageException("Such category does not exist");
         }
         em.remove(category);
     }
@@ -65,7 +65,7 @@ public class CategoryDaoImpl implements CategoryDao {
         }
 
         if (em.find(Category.class, id) == null) {
-            throw new InvalidDataAccessApiUsageException("Kit with such ID does not exist");
+            throw new InvalidDataAccessApiUsageException("Category with such ID does not exist");
         }
         return em.find(Category.class, id);
     }
