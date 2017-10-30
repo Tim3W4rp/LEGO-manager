@@ -4,6 +4,7 @@ import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
 import cz.fi.muni.legomanager.entity.Kit;
 import org.hibernate.Session;
 import org.junit.Assert;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +47,18 @@ public class KitDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void create() {
         Session session = (Session) em.getDelegate();
-
         Kit kit = (Kit) session.createQuery("FROM Kit").list().get(0);
+        Assert.assertEquals("Test", kit.getDescription());
+    }
 
-        Assert.assertEquals(kit.getDescription(), "Test");
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void createWithNull() {
+        kitDao.create(null);
+    }
+
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void createDuplicate() {
+        kitDao.create(kit);
     }
 
     @Test
@@ -62,7 +71,12 @@ public class KitDaoTest extends AbstractTestNGSpringContextTests {
         kitDao.update(kit);
         Kit b_db = (Kit) session.createQuery("FROM Kit").list().get(0);
 
-        Assert.assertEquals(b_db.getDescription(), "Change");
+        Assert.assertEquals("Change", b_db.getDescription());
+    }
+
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void updateWithNull() {
+        kitDao.update(null);
     }
 
     @Test
@@ -72,12 +86,29 @@ public class KitDaoTest extends AbstractTestNGSpringContextTests {
         Session session = (Session) em.getDelegate();
         int tableSize = session.createQuery("FROM Kit").list().size();
 
-        Assert.assertEquals(tableSize, 0);
+        Assert.assertEquals(0, tableSize);
+    }
+
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void deleteWithNull() {
+        kitDao.delete(null);
+    }
+
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void deleteNotExists() {
+        Kit k = new Kit();
+        kitDao.delete(k);
     }
 
     @Test
     public void findById() {
         Kit kit = kitDao.findById(this.kit.getId());
-        Assert.assertEquals(kit.getDescription(), "Test");
+        Assert.assertEquals("Test", kit.getDescription());
     }
+
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void findByIdNull() {
+        kitDao.findById(null);
+    }
+
 }
