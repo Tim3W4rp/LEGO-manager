@@ -7,14 +7,16 @@ import cz.fi.muni.legomanager.enums.*;
 
 import org.hibernate.Session;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import org.testng.annotations.BeforeMethod;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

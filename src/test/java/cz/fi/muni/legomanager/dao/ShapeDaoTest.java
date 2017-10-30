@@ -6,14 +6,15 @@ import cz.fi.muni.legomanager.entity.Shape;
 
 import org.hibernate.Session;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import org.testng.annotations.BeforeMethod;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -78,7 +79,7 @@ public class ShapeDaoTest extends AbstractTestNGSpringContextTests {
         Session session = (Session) em.getDelegate();
         blockShape.setName("Tower block");
         shapeDao.update(blockShape);
-        Shape foundShape = (Shape) session.createQuery("FROM Shape ").list().get(0);
+        Shape foundShape = (Shape) session.createQuery("FROM Shape ").list().get(1);
         Assert.assertEquals(foundShape.getName(), "Tower block");        
         
     }
@@ -93,7 +94,7 @@ public class ShapeDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void findAll() throws Exception {
         shapeList = shapeDao.findAll();
-        Assert.assertEquals(shapeList.size(), 2);        
+        Assert.assertEquals(shapeList.size(), 3);
         
     }
     
