@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.junit.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import cz.fi.muni.legomanager.entity.Kit;
+import cz.fi.muni.legomanager.entity.SetOfKits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -57,7 +59,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void createAlreadyExists() {
-        categoryDao.create(testCategory);
+
     }
 
     @Test
@@ -86,6 +88,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         Category b_db = (Category) session.createQuery("FROM Category ").list().get(0);
         Assert.assertEquals(b_db.getDescription(), "Changed test category");
     }
+
 
     @Test
     public void delete() throws Exception {
