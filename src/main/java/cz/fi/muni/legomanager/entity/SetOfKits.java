@@ -1,6 +1,7 @@
 package cz.fi.muni.legomanager.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -22,11 +23,15 @@ public class SetOfKits {
     private String description;
 
     @NotNull
+    @Min(0)
+    @Column(nullable = false)
     private BigDecimal price;
 
+    @NotNull
     @ManyToMany(mappedBy = "setsOfKits")
     private Set<Category> categories = new HashSet<>();
 
+    @NotNull
     @OneToMany(mappedBy = "setOfKits")
     private Set<Kit> kits = new HashSet<>();
 

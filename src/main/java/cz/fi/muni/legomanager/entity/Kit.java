@@ -1,10 +1,16 @@
 package cz.fi.muni.legomanager.entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,16 +28,20 @@ public class Kit {
     private String description;
 
     @NotNull
+    @Min(0)
     @Column(nullable = false)
     private Integer price;
 
     @NotNull
+    @Min(0)
     @Column(nullable = false)
     private Integer ageLimit;
 
+    @NotNull
     @ManyToMany(mappedBy = "kits")
     private Set<Category> categories = new HashSet<>();
 
+    @NotNull
     @ManyToMany
     private Set<Brick> bricks = new HashSet<>();
 
@@ -132,7 +142,7 @@ public class Kit {
             return false;
         }
 
-        if (! (obj instanceof Kit)) {
+        if (!(obj instanceof Kit)) {
             return false;
         }
 

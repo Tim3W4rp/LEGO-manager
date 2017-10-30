@@ -22,6 +22,7 @@ public class Shape {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @NotNull
     @OneToMany(mappedBy = "shape")
     private List<Brick> bricks;
 

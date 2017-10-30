@@ -4,7 +4,6 @@ import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
 import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.entity.Kit;
 import cz.fi.muni.legomanager.entity.SetOfKits;
-import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -178,7 +177,7 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCreateSetWithNullPrice() {
         SetOfKits wrongSet = new SetOfKits();
-        wrongSet.setDescription("Set of the fastest cars on the planet.");
+        wrongSet.setDescription("Wrong set.");
         wrongSet.setPrice(null);
         wrongSet.addCategory(carsCategory);
         wrongSet.addKit(porscheKit);
@@ -189,7 +188,7 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCreateSetWithNegativePrice() {
         SetOfKits wrongSet = new SetOfKits();
-        wrongSet.setDescription("Set of the fastest cars on the planet.");
+        wrongSet.setDescription("Wrong set.");
         wrongSet.setPrice(new BigDecimal("-189"));
         wrongSet.addCategory(carsCategory);
         wrongSet.addKit(porscheKit);
@@ -200,7 +199,7 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCreateSetWithNullCategory() {
         SetOfKits wrongSet = new SetOfKits();
-        wrongSet.setDescription("Set of the fastest cars on the planet.");
+        wrongSet.setDescription("Wrong set.");
         wrongSet.setPrice(new BigDecimal("189"));
         wrongSet.addCategory(null);
         wrongSet.addKit(porscheKit);
@@ -211,7 +210,7 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCreateSetWithNullKits() {
         SetOfKits wrongSet = new SetOfKits();
-        wrongSet.setDescription("Set of the fastest cars on the planet.");
+        wrongSet.setDescription("Wrong set.");
         wrongSet.setPrice(new BigDecimal("189"));
         wrongSet.addCategory(carsCategory);
         wrongSet.addKit(null);
@@ -224,6 +223,10 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         buildingsSet.setPrice(new BigDecimal("100"));
 
         setOfKitsDao.update(buildingsSet);
+
+        SetOfKits actual = setOfKitsDao.findById(buildingsSet.getId());
+
+        assertEquals(buildingsSet, actual);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -260,7 +263,7 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         List<SetOfKits> expectedSets = new ArrayList<>();
         expectedSets.add(carsSet);
 
-        Assert.assertEquals(existingSets.size(), 1);
+        assertEquals(existingSets.size(), 1);
         assertEquals(expectedSets, existingSets);
     }
 
@@ -291,7 +294,7 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testFindSetById() {
         SetOfKits foundSet = setOfKitsDao.findById(carsSet.getId());
-        Assert.assertEquals(foundSet, carsSet);
+        assertEquals(foundSet, carsSet);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -307,7 +310,7 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testFindAll() {
         List<SetOfKits> foundSets = setOfKitsDao.findAll();
-        Assert.assertEquals(foundSets.size(), 2);
+        assertEquals(foundSets.size(), 2);
     }
 
 }
