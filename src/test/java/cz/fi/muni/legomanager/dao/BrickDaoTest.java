@@ -5,16 +5,18 @@ import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Shape;
 import cz.fi.muni.legomanager.enums.*;
 
+import org.hibernate.Session;
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,10 +24,11 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
+ * Test of {@link BrickDao} methods.
+ * 
  * @author Michal Peška
  */
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=PersistenceSampleApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
@@ -37,72 +40,84 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private ShapeDao shapeDao;
     
-    @Test
-    public void testBrickDao() {
+    @PersistenceContext
+    private EntityManager em;
+    
+    Brick greenBlockBrick;
+    Brick redBlockBrick;
+    Brick blackBlockBrick;
+    Shape blockShape;
+    List<Brick> brickList;
+    
+    
+    @BeforeMethod
+    public void setUp() {
+        blockShape = new Shape();
+        blockShape.setName("Block");
+        shapeDao.create(blockShape);
         
-        Brick firstBrick = new Brick();
-        firstBrick.setColor(Color.BLACK);
-        brickDao.create(firstBrick);
+        greenBlockBrick = new Brick();
+        greenBlockBrick.setColor(Color.GREEN);
+        greenBlockBrick.setShape(blockShape);
+        brickDao.create(greenBlockBrick);
         
-        Brick secondBrick = new Brick();
-        secondBrick.setColor(Color.WHITE);
-        brickDao.create(secondBrick);
+        redBlockBrick = new Brick();
+        redBlockBrick.setColor(Color.RED);
+        redBlockBrick.setShape(blockShape);
+        brickDao.create(redBlockBrick);
         
+        blackBlockBrick = new Brick();
+        blackBlockBrick.setColor(Color.BLACK);
+        blackBlockBrick.setShape(blockShape);
+        brickDao.create(blackBlockBrick);
         
-        Assert.assertTrue(brickDao.findAll().size() == 2);
-        Assert.assertTrue(brickDao.findAll().get(0) != null);
-        Assert.assertTrue(brickDao.findAll().get(0).equals(firstBrick));
-        Assert.assertFalse(brickDao.findAll().get(0).equals(secondBrick));
-        
-        Brick locatedBrick = brickDao.findAll().get(0);
-        Assert.assertTrue(locatedBrick.getColor().equals(Color.BLACK));
-        
-        
-        brickDao.delete(locatedBrick);
-        
-        
-        List<Brick> brickList = brickDao.findAll();
-        Assert.assertTrue(brickList.size() == 1);
-        brickList.get(0).setColor(Color.GREEN);
-        
-        brickDao.update(brickList.get(0));
-        
-        List<Brick> greenBrickList = brickDao.findAll();
-        Assert.assertTrue(greenBrickList.size() == 1);
-        Assert.assertTrue(greenBrickList.get(0).getColor().equals(Color.GREEN));
-         
-        brickDao.delete(greenBrickList.get(0));
-        Assert.assertTrue(brickDao.findAll().size() == 0);
     }
     
     @Test
-    public void testBrickRelation() {
+    public void create() throws Exception {
+        Session session = (Session) em.getDelegate();
+        Brick brick = (Brick) session.createQuery("FROM Brick").list().get(0);
+        Assert.assertEquals(brick.getColor(), Color.GREEN);     
+        Assert.assertEquals(brick.getShape(), blockShape);  
+    }
+    
+    @Test
+    public void delete() throws Exception {
+        brickDao.delete(greenBlockBrick);
+        Session session = (Session) em.getDelegate();
+        int tableSize = session.createQuery("FROM Brick").list().size();
+        Assert.assertEquals(tableSize, 2);
+    }
+    
+    @Test
+    public void update() throws Exception {
+        Session session = (Session) em.getDelegate();
+        redBlockBrick.setColor(Color.PINK);
+        brickDao.update(redBlockBrick);
+        Brick foundBrick = (Brick) session.createQuery("FROM Brick ").list().get(0);
+        Assert.assertEquals(foundBrick.getColor(), Color.PINK);        
         
-        Brick firstBrick = new Brick();
-        Shape manShape = new Shape();
-        manShape.setName("Man");
+    }
+    
+    @Test
+    public void findById() throws Exception {
+        Brick brick = brickDao.findById(blackBlockBrick.getId());
+        Assert.assertEquals(brick.getColor(), Color.BLACK);        
+    }
+    
+    @Test
+    public void findAll() throws Exception {
+        brickList = brickDao.findAll();
+        Assert.assertEquals(brickList.size(), 2);        
         
-        // add shape to DB
-        shapeDao.create(manShape);
-        
-        firstBrick.setColor(Color.BLUE);
-        firstBrick.setShape(manShape);
-        
-        // add brick to DB
-        brickDao.create(firstBrick);
-
-        
-        List<Brick> bricks = brickDao.findAll();
-        
-        Assert.assertTrue(bricks.size() == 1);
-        Assert.assertTrue(shapeDao.findAll().size() == 1);
-        
-        Assert.assertTrue(bricks.get(0).getShape().getName().equals("Man"));
-        Assert.assertTrue(bricks.get(0).getColor().equals(Color.BLUE));
-        
-        
-        
-         
+    }
+     
+    @Test
+    public void testBrickShapeRelationship() throws Exception{
+                
+        Assert.assertEquals(blackBlockBrick.getShape().getName(), "Block");
+        Assert.assertEquals(blackBlockBrick.getColor(), Color.BLACK);
+       
     }   
     
 }
