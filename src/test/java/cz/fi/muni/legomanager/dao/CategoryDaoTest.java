@@ -4,10 +4,9 @@ import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
 import cz.fi.muni.legomanager.entity.Category;
 import org.hibernate.Session;
 import org.junit.Assert;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import cz.fi.muni.legomanager.entity.Kit;
-import cz.fi.muni.legomanager.entity.SetOfKits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -43,45 +42,44 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     private List<Category> categoryList;
 
     @BeforeMethod
-    public void setUp() throws Exception {
+    public void setUp() {
         starWarsCategory = new Category("Star Wars","A universe of Jedis and space battles");
         testCategory = new Category("Test","Test category");
         categoryDao.create(testCategory);
     }
 
     @Test
-    public void create() throws Exception {
+    public void create() {
         categoryDao.create(starWarsCategory);
         Session session = (Session) em.getDelegate();
         Category category = (Category) session.createQuery("FROM Category ").list().get(1);
         Assert.assertEquals(category.getName(), "Star Wars");
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void createAlreadyExists() {
-
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void createCategoryWithNull() {
+        categoryDao.create(null);
     }
 
-    @Test
-    public void createCategoryWithNullDescription() {
-
-    }
-
-    @Test
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void createCategoryWithNullName() {
-
+        testCategory.setName(null);
+        categoryDao.create(testCategory);
     }
 
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void createCategoryWithNullDescription() {
+            starWarsCategory.setDescription(null);
+            categoryDao.create(starWarsCategory);
+    }
 
-
-    @Test
-    public void findById() throws Exception {
-        Category category = categoryDao.findById(testCategory.getId());
-        assertEquals(category, testCategory);
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void createAlreadyExists() {
+        categoryDao.create(testCategory);
     }
 
     @Test
-    public void update() throws Exception {
+    public void update() {
         Session session = (Session) em.getDelegate();
         testCategory.setDescription("Changed test category");
         categoryDao.update(testCategory);
@@ -89,51 +87,61 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(b_db.getDescription(), "Changed test category");
     }
 
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void updateWithNull() {
+        categoryDao.update(null);
+    }
 
     @Test
-    public void delete() throws Exception {
+    public void updateWithNullDescription() {
+        testCategory.setDescription(null);
+        categoryDao.update(testCategory);
+    }
+
+    @Test
+    public void updateWithNullName() {
+        testCategory.setName(null);
+        categoryDao.update(testCategory);
+    }
+
+    @Test
+    public void delete() {
         categoryDao.delete(testCategory);
         Session session = (Session) em.getDelegate();
         int tableSize = session.createQuery("FROM Category").list().size();
         Assert.assertEquals(tableSize, 0);
     }
 
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void deleteWithNull() {
+        categoryDao.delete(null);
+    }
+
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void deleteDoesNotExist() {
+        categoryDao.delete(starWarsCategory);
+    }
+
     @Test
-    public void findAll() throws Exception {
+    public void findById() {
+        Category category = categoryDao.findById(testCategory.getId());
+        assertEquals(category, testCategory);
+    }
+
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void findByIdNull() {
+        categoryDao.findById(null);
+    }
+
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void findByIdDoesNotExist() {
+        categoryDao.findById(999L);
+    }
+
+    @Test
+    public void findAll() {
         categoryList = categoryDao.findAll();
         Assert.assertEquals(categoryList.size(), 1);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void createNull() {
-        categoryDao.create(null);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void findByIdNull() {
-
-    }
-
-
-
-    @Test
-    public void updateWithNullDescription() {
-
-    }
-
-    @Test
-    public void updateWithNullName() {
-
-    }
-
-    @Test
-    public void deleteNotExists() {
-
-    }
-
-    @Test
-    public void deleteNull() {
-
     }
 
 }

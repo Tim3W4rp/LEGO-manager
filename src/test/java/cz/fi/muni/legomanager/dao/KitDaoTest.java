@@ -21,7 +21,6 @@ import javax.persistence.PersistenceContext;
  *
  * @author Stepan Granat
  */
-
 @ContextConfiguration(classes=PersistenceSampleApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
