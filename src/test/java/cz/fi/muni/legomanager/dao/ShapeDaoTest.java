@@ -71,7 +71,7 @@ public class ShapeDaoTest extends AbstractTestNGSpringContextTests {
         shapeDao.delete(vaderShape);
         Session session = (Session) em.getDelegate();
         int tableSize = session.createQuery("FROM Shape").list().size();
-        Assert.assertEquals(tableSize, 2);
+        Assert.assertEquals(2, tableSize);
     }
     
     @Test
@@ -94,7 +94,7 @@ public class ShapeDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void findAll() throws Exception {
         shapeList = shapeDao.findAll();
-        Assert.assertEquals(shapeList.size(), 3);
+        Assert.assertEquals(3, shapeList.size());
         
     }
     

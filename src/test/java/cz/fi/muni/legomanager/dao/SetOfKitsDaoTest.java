@@ -260,7 +260,7 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         List<SetOfKits> expectedSets = new ArrayList<>();
         expectedSets.add(carsSet);
 
-        assertEquals(existingSets.size(), 1);
+        assertEquals(1, existingSets.size());
         assertEquals(expectedSets, existingSets);
     }
 
@@ -307,7 +307,7 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testFindAll() {
         List<SetOfKits> foundSets = setOfKitsDao.findAll();
-        assertEquals(foundSets.size(), 2);
+        assertEquals(2, foundSets.size());
     }
 
 }

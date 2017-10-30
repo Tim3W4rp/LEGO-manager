@@ -86,7 +86,7 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
         brickDao.delete(greenBlockBrick);
         Session session = (Session) em.getDelegate();
         int tableSize = session.createQuery("FROM Brick").list().size();
-        Assert.assertEquals(tableSize, 2);
+        Assert.assertEquals(2, tableSize);
     }
     
     @Test
@@ -108,7 +108,7 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void findAll() throws Exception {
         brickList = brickDao.findAll();
-        Assert.assertEquals(brickList.size(), 2);        
+        Assert.assertEquals(3, brickList.size());
         
     }
      

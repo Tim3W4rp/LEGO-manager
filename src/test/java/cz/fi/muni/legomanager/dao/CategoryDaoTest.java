@@ -109,7 +109,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         categoryDao.delete(testCategory);
         Session session = (Session) em.getDelegate();
         int tableSize = session.createQuery("FROM Category").list().size();
-        Assert.assertEquals(tableSize, 0);
+        Assert.assertEquals(0, tableSize);
     }
 
     @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
@@ -141,7 +141,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void findAll() {
         categoryList = categoryDao.findAll();
-        Assert.assertEquals(categoryList.size(), 1);
+        Assert.assertEquals(1, categoryList.size());
     }
 
 }
