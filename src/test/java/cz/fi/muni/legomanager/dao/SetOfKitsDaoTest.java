@@ -150,71 +150,6 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         assertEquals(sportsSet, actual);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testCreateNullSet() {
-        setOfKitsDao.create(null);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testCreateAlreadyExists() {
-        setOfKitsDao.create(carsSet);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testCreateSetWithNullDescription() {
-        SetOfKits wrongSet = new SetOfKits();
-        wrongSet.setDescription(null);
-        wrongSet.setPrice(new BigDecimal("189"));
-        wrongSet.addCategory(carsCategory);
-        wrongSet.addKit(porscheKit);
-
-        setOfKitsDao.create(wrongSet);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testCreateSetWithNullPrice() {
-        SetOfKits wrongSet = new SetOfKits();
-        wrongSet.setDescription("Wrong set.");
-        wrongSet.setPrice(null);
-        wrongSet.addCategory(carsCategory);
-        wrongSet.addKit(porscheKit);
-
-        setOfKitsDao.create(wrongSet);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testCreateSetWithNegativePrice() {
-        SetOfKits wrongSet = new SetOfKits();
-        wrongSet.setDescription("Wrong set.");
-        wrongSet.setPrice(new BigDecimal("-189"));
-        wrongSet.addCategory(carsCategory);
-        wrongSet.addKit(porscheKit);
-
-        setOfKitsDao.create(wrongSet);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testCreateSetWithNullCategory() {
-        SetOfKits wrongSet = new SetOfKits();
-        wrongSet.setDescription("Wrong set.");
-        wrongSet.setPrice(new BigDecimal("189"));
-        wrongSet.addCategory(null);
-        wrongSet.addKit(porscheKit);
-
-        setOfKitsDao.create(wrongSet);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testCreateSetWithNullKits() {
-        SetOfKits wrongSet = new SetOfKits();
-        wrongSet.setDescription("Wrong set.");
-        wrongSet.setPrice(new BigDecimal("189"));
-        wrongSet.addCategory(carsCategory);
-        wrongSet.addKit(null);
-
-        setOfKitsDao.create(wrongSet);
-    }
-
     @Test
     public void testUpdate() {
         buildingsSet.setPrice(new BigDecimal("100"));
@@ -224,32 +159,6 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         SetOfKits actual = setOfKitsDao.findById(buildingsSet.getId());
 
         assertEquals(buildingsSet, actual);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testUpdateNullSet() {
-        setOfKitsDao.update(null);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testUpdateSetWithNullDescription() {
-        buildingsSet.setDescription(null);
-
-        setOfKitsDao.update(buildingsSet);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testUpdateSetWithNullPrice() {
-        buildingsSet.setPrice(null);
-
-        setOfKitsDao.update(buildingsSet);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testUpdateSetWithNegativePrice() {
-        buildingsSet.setPrice(new BigDecimal("-100"));
-
-        setOfKitsDao.update(buildingsSet);
     }
 
     @Test
@@ -264,44 +173,10 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         assertEquals(expectedSets, existingSets);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testDeleteNotExist() {
-        SetOfKits wrongSet = new SetOfKits();
-        wrongSet.setDescription("Wrong set.");
-        wrongSet.setPrice(new BigDecimal("500"));
-        wrongSet.addCategory(buildingsCategory);
-        wrongSet.addKit(eiffelTowerKit);
-
-        setOfKitsDao.delete(wrongSet);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testDeleteAlreadyRemoved() {
-        setOfKitsDao.delete(buildingsSet);
-        em.flush();
-
-        setOfKitsDao.delete(buildingsSet);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testDeleteNullSet() {
-        setOfKitsDao.delete(null);
-    }
-
     @Test
     public void testFindSetById() {
         SetOfKits foundSet = setOfKitsDao.findById(carsSet.getId());
         assertEquals(foundSet, carsSet);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testFindSetByIdWithNonExistingId() {
-        setOfKitsDao.findById(20L);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testFindSetByIdNull() {
-        setOfKitsDao.findById(null);
     }
 
     @Test
