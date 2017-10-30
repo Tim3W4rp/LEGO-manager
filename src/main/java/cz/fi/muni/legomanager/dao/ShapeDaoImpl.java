@@ -1,5 +1,6 @@
 package cz.fi.muni.legomanager.dao;
 
+import cz.fi.muni.legomanager.entity.Kit;
 import cz.fi.muni.legomanager.entity.Shape;
 
 import javax.persistence.EntityManager;
@@ -22,21 +23,48 @@ public class ShapeDaoImpl implements ShapeDao {
 
     @Override
     public void create(Shape shape) {
+        if (shape == null) {
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
+
+        if (em.contains(shape)) {
+            throw new IllegalArgumentException("Such shape already exists");
+        }
+
         em.persist(shape);
     }
 
     @Override
     public void update(Shape shape) {
+        if (shape == null) {
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
         em.merge(shape);
     }
 
     @Override
     public void delete(Shape shape) {
+        if (shape == null) {
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
+
+        if (!em.contains(shape)){
+            throw new IllegalArgumentException("Such shape does not exist");
+        }
+
         em.remove(shape);
     }
 
     @Override
     public Shape findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
+
+        if (em.find(Shape.class, id) == null) {
+            throw new IllegalArgumentException("Shape with such ID does not exist");
+        }
+
         return em.find(Shape.class, id);
     }
 
