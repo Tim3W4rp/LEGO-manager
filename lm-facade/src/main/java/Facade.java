@@ -1,4 +1,6 @@
-package PACKAGE_NAME;
-
+/**
+ * @author Martin Jordán
+ */
 public interface Facade {
+
 }

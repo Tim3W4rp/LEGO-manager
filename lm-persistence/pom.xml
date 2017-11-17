@@ -9,7 +9,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lm-persistance</artifactId>
-
+    <artifactId>lm-persistence</artifactId>
 
 </project>

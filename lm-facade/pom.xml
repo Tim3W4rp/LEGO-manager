@@ -11,5 +11,13 @@
 
     <artifactId>lm-facade</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>PA165</groupId>
+            <artifactId>lm-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 
 </project>

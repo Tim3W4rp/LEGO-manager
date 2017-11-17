@@ -1,4 +1,5 @@
-package PACKAGE_NAME;
-
-public class FacadeImpl {
+/**
+ * @author Martin Jordán
+ */
+public class FacadeImpl implements Facade {
 }

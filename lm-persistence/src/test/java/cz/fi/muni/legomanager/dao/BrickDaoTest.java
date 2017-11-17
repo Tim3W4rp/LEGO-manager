@@ -45,7 +45,7 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
     
     Brick greenBlockBrick;
     Brick redBlockBrick;
-    Brick blackBlockBrick;
+    Brick blueBlockBrick;
     Shape blockShape;
     List<Brick> brickList;
     
@@ -55,21 +55,27 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
         blockShape = new Shape();
         blockShape.setName("Block");
         shapeDao.create(blockShape);
-        
+
+        redBlockBrick = new Brick();
+        redBlockBrick.setRed(255);
+        redBlockBrick.setGreen(0);
+        redBlockBrick.setBlue(0);
+        redBlockBrick.setShape(blockShape);
+        brickDao.create(redBlockBrick);
+
         greenBlockBrick = new Brick();
-        greenBlockBrick.setColor(Color.GREEN);
+        greenBlockBrick.setRed(0);
+        greenBlockBrick.setGreen(255);
+        greenBlockBrick.setBlue(0);
         greenBlockBrick.setShape(blockShape);
         brickDao.create(greenBlockBrick);
         
-        redBlockBrick = new Brick();
-        redBlockBrick.setColor(Color.RED);
-        redBlockBrick.setShape(blockShape);
-        brickDao.create(redBlockBrick);
-        
-        blackBlockBrick = new Brick();
-        blackBlockBrick.setColor(Color.BLACK);
-        blackBlockBrick.setShape(blockShape);
-        brickDao.create(blackBlockBrick);
+        blueBlockBrick = new Brick();
+        blueBlockBrick.setRed(0);
+        blueBlockBrick.setGreen(0);
+        blueBlockBrick.setBlue(255);
+        blueBlockBrick.setShape(blockShape);
+        brickDao.create(blueBlockBrick);
         
     }
     
@@ -77,8 +83,7 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
     public void create() throws Exception {
         Session session = (Session) em.getDelegate();
         Brick brick = (Brick) session.createQuery("FROM Brick").list().get(0);
-        Assert.assertEquals(Color.GREEN, brick.getColor());
-        Assert.assertEquals(blockShape, brick.getShape());
+        Assert.assertEquals(255, brick.getRed());
     }
     
     @Test
@@ -92,16 +97,20 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void update() throws Exception {
         Session session = (Session) em.getDelegate();
-        redBlockBrick.setColor(Color.PINK);
+        redBlockBrick.setRed(0);
+        redBlockBrick.setGreen(255);
+        redBlockBrick.setBlue(0);
         brickDao.update(redBlockBrick);
         Brick foundBrick = (Brick) session.createQuery("FROM Brick ").list().get(1);
-        Assert.assertEquals(Color.PINK, foundBrick.getColor());
+        Assert.assertEquals(0, foundBrick.getRed());
+        Assert.assertEquals(255, foundBrick.getGreen());
+        Assert.assertEquals(0, foundBrick.getBlue());
     }
     
     @Test
     public void findById() throws Exception {
-        Brick brick = brickDao.findById(blackBlockBrick.getId());
-        Assert.assertEquals(Color.BLACK, brick.getColor());
+        Brick brick = brickDao.findById(blueBlockBrick.getIdBrick());
+        Assert.assertEquals(blueBlockBrick.getIdBrick(), brick.getIdBrick());
     }
     
     @Test
@@ -113,9 +122,7 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
      
     @Test
     public void testBrickShapeRelationship() throws Exception{
-                
-        Assert.assertEquals("Block", blackBlockBrick.getShape().getName());
-        Assert.assertEquals(Color.BLACK, blackBlockBrick.getColor());
+        Assert.assertEquals("Block", blueBlockBrick.getShape().getName());
        
     }   
     

@@ -102,7 +102,7 @@ public class KitDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findById() {
-        Kit kit = kitDao.findById(this.kit.getId());
+        Kit kit = kitDao.findById(this.kit.getIdKit());
         Assert.assertEquals("Test", kit.getDescription());
     }
 

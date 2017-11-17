@@ -1,4 +1,4 @@
-package dtos;
+package cz.fi.muni.legomanager.dtos;
 
 /**
  * @author Martin Jordán

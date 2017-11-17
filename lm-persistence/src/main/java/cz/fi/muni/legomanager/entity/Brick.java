@@ -4,10 +4,7 @@ import cz.fi.muni.legomanager.enums.Color;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Class for representing bricks.
@@ -19,30 +16,51 @@ public class Brick {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idBrick;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private Color color;
+    private int red;
+
+    @NotNull
+    private int green;
+
+    @NotNull
+    private int blue;
+
+    @NotNull
+    @OneToMany(mappedBy = "brick")
+    private List<KitBrick> kitBricks = new ArrayList<>();
 
     @NotNull
     @ManyToOne
     private Shape shape;
 
-    @NotNull
-    @ManyToMany(mappedBy = "bricks")
-    private Set<Kit> kits = new HashSet<>();
-
-    public Long getId() {
-        return id;
+    public Long getIdBrick() {
+        return idBrick;
     }
 
-    public Color getColor() {
-        return color;
+    public int getRed() {
+        return red;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public int getGreen() {
+        return green;
+    }
+
+    public int getBlue() {
+        return blue;
+    }
+
+    public void setRed(int red) {
+        this.red = red;
+    }
+
+    public void setGreen(int green) {
+        this.green = green;
+    }
+
+    public void setBlue(int blue) {
+        this.blue = blue;
     }
 
     public Shape getShape() {
@@ -51,18 +69,6 @@ public class Brick {
 
     public void setShape(Shape shape) {
         this.shape = shape;
-    }
-
-    public Set<Kit> getKits() {
-        return Collections.unmodifiableSet(kits);
-    }
-
-    public void addKit(Kit kit) {
-        this.kits.add(kit);
-    }
-
-    public void removeKit(Kit kit) {
-        this.kits.remove(kit);
     }
 
     @Override
@@ -80,9 +86,12 @@ public class Brick {
         }
 
         Brick other = (Brick) obj;
-        return this.getId() != null && Objects.equals(id, other.id) &&
-                color == other.color && Objects.equals(shape, other.shape);
-
+        return getIdBrick() != null &&
+                Objects.equals(idBrick, other.idBrick) &&
+                Objects.equals(shape, other.shape) &&
+                Objects.equals(red, other.red) &&
+                Objects.equals(green, other.green) &&
+                Objects.equals(blue, other.blue);
     }
 
     @Override
@@ -90,7 +99,7 @@ public class Brick {
         final int prime = 59;
         int result = 3;
         result = prime * result +
-                (color == null ? 0 : color.hashCode()) +
+                (red + green + blue) +
                 (shape == null ? 0 : shape.hashCode());
         return result;
     }
@@ -98,10 +107,12 @@ public class Brick {
     @Override
     public String toString() {
         return "Brick{" +
-                "id=" + id +
-                ", color=" + color +
+                "idBrick=" + idBrick +
+                ", red=" + red +
+                ", greem=" + green +
+                ", blue=" + blue +
+                ", kitBricks=" + kitBricks +
                 ", shape=" + shape +
                 '}';
     }
-
 }

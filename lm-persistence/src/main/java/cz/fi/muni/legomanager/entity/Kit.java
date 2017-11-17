@@ -1,17 +1,9 @@
 package cz.fi.muni.legomanager.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Martin Jordán
@@ -21,7 +13,7 @@ public class Kit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idKit;
 
     @NotNull
     @Column(nullable = false)
@@ -43,7 +35,11 @@ public class Kit {
 
     @NotNull
     @ManyToMany
-    private Set<Brick> bricks = new HashSet<>();
+    private List<Brick> bricks = new ArrayList<>();
+
+    @NotNull
+    @OneToMany(mappedBy = "kit")
+    private List<KitBrick> kitBricks = new ArrayList<>();
 
     @NotNull
     @ManyToOne
@@ -52,15 +48,15 @@ public class Kit {
     public Kit() {
     }
 
-    public Kit(Long id, String description, Integer price, Integer ageLimit) {
-        this.id = id;
+    public Kit(Long idKit, String description, Integer price, Integer ageLimit) {
+        this.idKit = idKit;
         this.description = description;
         this.price = price;
         this.ageLimit = ageLimit;
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdKit() {
+        return idKit;
     }
 
     public String getDescription() {
@@ -99,18 +95,29 @@ public class Kit {
         this.categories.remove(category);
     }
 
-    public Set<Brick> getBricks() {
-        return Collections.unmodifiableSet(bricks);
+    public List<Brick> getBricks() {
+        return Collections.unmodifiableList(bricks);
     }
 
     public void addBrick(Brick brick) {
         bricks.add(brick);
-        brick.addKit(this);
     }
 
     public void removeBrick(Brick brick) {
         bricks.remove(brick);
-        brick.removeKit(this);
+    }
+
+    public void removeBrickById(long id) {
+        bricks.remove(findBrickById(id));
+    }
+
+    public Brick findBrickById(long id) {
+        for (Brick brick: bricks) {
+            if (brick.getIdBrick() == id) {
+                return brick;
+            }
+        }
+        return null;
     }
 
     public SetOfKits getSetOfKits() {
