@@ -6,18 +6,21 @@ import java.io.Serializable;
 /**
  * @author Martin Jordán
  */
-@Entity(name = "kitBricks")
+@Entity
+@Table(name = "kitBricks")
 public class KitBrick implements Serializable {
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "idBrick")
     private Brick brick;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "idKit")
     private Kit kit;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "count")
     private long count;
@@ -62,4 +65,16 @@ public class KitBrick implements Serializable {
         result = 31 * result + (int) (count ^ (count >>> 32));
         return result;
     }
+
+    public void increaseCountByOne() {
+        count++;
+    }
+
+    public void decreaseCountByOne() {
+        if (count == 0) {
+            throw new RuntimeException("Count is zero");
+        }
+        count--;
+    }
+
 }

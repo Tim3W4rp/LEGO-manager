@@ -1,7 +1,5 @@
 package cz.fi.muni.legomanager.entity;
 
-import cz.fi.muni.legomanager.enums.Color;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.*;
@@ -16,7 +14,7 @@ public class Brick {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idBrick;
+    private Long id;
 
     @NotNull
     private int red;
@@ -35,8 +33,8 @@ public class Brick {
     @ManyToOne
     private Shape shape;
 
-    public Long getIdBrick() {
-        return idBrick;
+    public Long getId() {
+        return id;
     }
 
     public int getRed() {
@@ -86,8 +84,8 @@ public class Brick {
         }
 
         Brick other = (Brick) obj;
-        return getIdBrick() != null &&
-                Objects.equals(idBrick, other.idBrick) &&
+        return getId() != null &&
+                Objects.equals(id, other.id) &&
                 Objects.equals(shape, other.shape) &&
                 Objects.equals(red, other.red) &&
                 Objects.equals(green, other.green) &&
@@ -107,7 +105,7 @@ public class Brick {
     @Override
     public String toString() {
         return "Brick{" +
-                "idBrick=" + idBrick +
+                "idBrick=" + id +
                 ", red=" + red +
                 ", greem=" + green +
                 ", blue=" + blue +

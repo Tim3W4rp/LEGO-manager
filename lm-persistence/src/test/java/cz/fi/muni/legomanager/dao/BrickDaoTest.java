@@ -108,8 +108,8 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void findById() throws Exception {
-        Brick brick = brickDao.findById(blueBlockBrick.getIdBrick());
-        Assert.assertEquals(blueBlockBrick.getIdBrick(), brick.getIdBrick());
+        Brick brick = brickDao.findById(blueBlockBrick.getId());
+        Assert.assertEquals(blueBlockBrick.getId(), brick.getId());
     }
     
     @Test

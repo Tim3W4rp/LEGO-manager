@@ -60,7 +60,7 @@ public class KitDaoImpl implements KitDao {
         if (kit == null) {
             throw new InvalidDataAccessApiUsageException("Argument cannot be null");
         }
-        Kit updatedKit = findById(kit.getIdKit());
+        Kit updatedKit = findById(kit.getId());
         updatedKit.setDescription(kit.getDescription());
         updatedKit.setPrice(kit.getPrice());
         updatedKit.setAgeLimit(kit.getAgeLimit());
