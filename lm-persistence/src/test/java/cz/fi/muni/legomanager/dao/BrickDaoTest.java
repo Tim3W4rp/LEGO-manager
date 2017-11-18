@@ -3,7 +3,6 @@ package cz.fi.muni.legomanager.dao;
 import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
 import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Shape;
-import cz.fi.muni.legomanager.enums.*;
 
 import org.hibernate.Session;
 import org.junit.Assert;

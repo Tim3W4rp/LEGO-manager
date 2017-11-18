@@ -30,4 +30,36 @@ public class KitBrick implements Serializable {
         this.kit = kit;
         this.count = count;
     }
+
+    public Brick getBrick() {
+        return brick;
+    }
+
+    public Kit getKit() {
+        return kit;
+    }
+
+    public long getCount() {
+        return count;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        KitBrick kitBrick = (KitBrick) o;
+
+        if (count != kitBrick.count) return false;
+        if (!brick.equals(kitBrick.brick)) return false;
+        return kit.equals(kitBrick.kit);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = brick.hashCode();
+        result = 31 * result + kit.hashCode();
+        result = 31 * result + (int) (count ^ (count >>> 32));
+        return result;
+    }
 }
