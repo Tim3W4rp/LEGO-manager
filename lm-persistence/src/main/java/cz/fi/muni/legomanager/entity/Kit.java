@@ -13,7 +13,7 @@ public class Kit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idKit;
+    private Long id;
 
     @NotNull
     @Column(nullable = false)
@@ -34,10 +34,6 @@ public class Kit {
     private Set<Category> categories = new HashSet<>();
 
     @NotNull
-    @ManyToMany
-    private List<Brick> bricks = new ArrayList<>();
-
-    @NotNull
     @OneToMany(mappedBy = "kit")
     private List<KitBrick> kitBricks = new ArrayList<>();
 
@@ -48,15 +44,15 @@ public class Kit {
     public Kit() {
     }
 
-    public Kit(Long idKit, String description, Integer price, Integer ageLimit) {
-        this.idKit = idKit;
+    public Kit(Long id, String description, Integer price, Integer ageLimit) {
+        this.id = id;
         this.description = description;
         this.price = price;
         this.ageLimit = ageLimit;
     }
 
-    public Long getIdKit() {
-        return idKit;
+    public Long getId() {
+        return id;
     }
 
     public String getDescription() {
@@ -95,29 +91,37 @@ public class Kit {
         this.categories.remove(category);
     }
 
-    public List<Brick> getBricks() {
-        return Collections.unmodifiableList(bricks);
-    }
-
+    //todo test
     public void addBrick(Brick brick) {
-        bricks.add(brick);
-    }
-
-    public void removeBrick(Brick brick) {
-        bricks.remove(brick);
-    }
-
-    public void removeBrickById(long id) {
-        bricks.remove(findBrickById(id));
-    }
-
-    public Brick findBrickById(long id) {
-        for (Brick brick: bricks) {
-            if (brick.getIdBrick() == id) {
-                return brick;
+        for (KitBrick kitBrick : kitBricks) {
+            if (kitBrick.getBrick().equals(brick)) {
+                kitBrick.increaseCountByOne();
+                return;
             }
         }
-        return null;
+        kitBricks.add(new KitBrick(brick, this, 1));
+    }
+
+    //todo test
+    public void removeBrick(Brick brick) {
+        for (KitBrick kitBrick : kitBricks) {
+            if (kitBrick.getBrick().equals(brick)) {
+                kitBrick.decreaseCountByOne();
+                return;
+            }
+        }
+        throw new RuntimeException("Such brick does not exist in this kit");
+    }
+
+    //todo test
+    public void removeAllBricksOfThisType(Brick brick) {
+        for (KitBrick kitBrick : kitBricks) {
+            if (kitBrick.getBrick().equals(brick)) {
+                kitBricks.remove(kitBrick);
+                return;
+            }
+        }
+        throw new RuntimeException("Such brick does not exist in this kit");
     }
 
     public SetOfKits getSetOfKits() {

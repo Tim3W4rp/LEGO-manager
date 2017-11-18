@@ -3,7 +3,6 @@ package cz.fi.muni.legomanager.dao;
 import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
 import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Shape;
-import cz.fi.muni.legomanager.enums.*;
 
 import org.hibernate.Session;
 import org.junit.Assert;
@@ -109,8 +108,8 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void findById() throws Exception {
-        Brick brick = brickDao.findById(blueBlockBrick.getIdBrick());
-        Assert.assertEquals(blueBlockBrick.getIdBrick(), brick.getIdBrick());
+        Brick brick = brickDao.findById(blueBlockBrick.getId());
+        Assert.assertEquals(blueBlockBrick.getId(), brick.getId());
     }
     
     @Test
