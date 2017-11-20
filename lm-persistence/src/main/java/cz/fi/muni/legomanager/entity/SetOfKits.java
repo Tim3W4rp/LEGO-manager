@@ -35,6 +35,8 @@ public class SetOfKits {
     @OneToMany(mappedBy = "setOfKits")
     private Set<Kit> kits = new HashSet<>();
 
+
+
     public String getDescription() {
         return description;
     }

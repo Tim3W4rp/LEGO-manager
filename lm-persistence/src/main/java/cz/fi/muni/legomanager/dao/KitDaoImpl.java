@@ -1,10 +1,12 @@
 package cz.fi.muni.legomanager.dao;
 
 import cz.fi.muni.legomanager.entity.Kit;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.xml.crypto.Data;
 import java.util.List;
 
 /**
@@ -17,7 +19,7 @@ public class KitDaoImpl implements KitDao {
     private EntityManager em;
 
     @Override
-    public Kit create(Kit kit) {
+    public Kit create(Kit kit) throws DataAccessException{
         if (kit == null) {
             throw new InvalidDataAccessApiUsageException("Argument cannot be null");
         }

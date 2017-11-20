@@ -105,9 +105,9 @@ public class Brick {
     @Override
     public String toString() {
         return "Brick{" +
-                "idBrick=" + id +
+                "id=" + id +
                 ", red=" + red +
-                ", greem=" + green +
+                ", green=" + green +
                 ", blue=" + blue +
                 ", kitBricks=" + kitBricks +
                 ", shape=" + shape +
