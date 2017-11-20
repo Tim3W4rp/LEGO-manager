@@ -5,8 +5,6 @@ import cz.fi.muni.legomanager.dao.KitDao;
 import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.entity.Kit;
-import cz.fi.muni.legomanager.entity.KitBrick;
-import org.hibernate.jpa.event.internal.jpa.ListenerCallback;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
