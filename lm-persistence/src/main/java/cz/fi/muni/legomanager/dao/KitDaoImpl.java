@@ -4,6 +4,7 @@ import cz.fi.muni.legomanager.entity.Kit;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.xml.crypto.Data;
@@ -62,11 +63,7 @@ public class KitDaoImpl implements KitDao {
         if (kit == null) {
             throw new InvalidDataAccessApiUsageException("Argument cannot be null");
         }
-        Kit updatedKit = findById(kit.getId());
-        updatedKit.setDescription(kit.getDescription());
-        updatedKit.setPrice(kit.getPrice());
-        updatedKit.setAgeLimit(kit.getAgeLimit());
-        em.persist(updatedKit);
+        em.merge(kit);
     }
 
     @Override
@@ -75,7 +72,7 @@ public class KitDaoImpl implements KitDao {
             throw new InvalidDataAccessApiUsageException("Argument cannot be null");
         }
 
-        if (!em.contains(kit)){
+        if (!em.contains(kit)) {
             throw new InvalidDataAccessApiUsageException("Such kit does not exist");
         }
 
