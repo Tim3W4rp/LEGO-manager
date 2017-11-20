@@ -7,15 +7,15 @@ import java.io.Serializable;
  * @author Martin Jordán
  */
 @Entity
-@Table(name = "kitBricks")
+@Table(name = "kit_bricks")
 public class KitBrick implements Serializable {
 
     @ManyToOne
-    @JoinColumn(name = "idBrick")
+    @JoinColumn(name = "id_brick")
     private Brick brick;
 
     @ManyToOne
-    @JoinColumn(name = "idKit")
+    @JoinColumn(name = "id_kit")
     private Kit kit;
 
     @Id
