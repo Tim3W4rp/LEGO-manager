@@ -15,7 +15,7 @@ public interface CategoryService {
 
     List<Category> getAllCategories();
 
-    void create(Category category);
+    Category create(Category category);
 
     void delete(long id);
 
