@@ -34,32 +34,45 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
     @Override
     public void updateCategory(CategoryDTO category) {
-
+        Category mappedCategory = dozerService.mapTo(category, Category.class);
+        categoryService.update(mappedCategory);
     }
 
     @Override
     public List<CategoryDTO> getAllCategories() {
-        return null;
+        return dozerService.mapTo(categoryService.getAllCategories(), CategoryDTO.class);
     }
 
     @Override
     public CategoryDTO getCategoryById(Long categoryId) {
-        CategoryDTO mappedCategory = dozerService.mapTo(categoryService.getCategory(categoryId), CategoryDTO.class);
-        return mappedCategory;
+        return dozerService.mapTo(categoryService.getCategory(categoryId), CategoryDTO.class);
     }
 
     @Override
     public List<SetOfKitsDTO> getSets(Long categoryId) {
-        return null;
+        Category c = categoryService.getCategory(categoryId);
+        if (c == null) {
+            throw new RuntimeException("Category doesn't exist.");
+        }
+        return dozerService.mapTo(c.getSetsOfKits(), SetOfKitsDTO.class);
     }
 
     @Override
     public List<KitDTO> getKits(Long categoryId) {
-        return null;
+        Category c = categoryService.getCategory(categoryId);
+        if (c == null) {
+            throw new RuntimeException("Category doesn't exist.");
+        }
+        return dozerService.mapTo(c.getKits(), KitDTO.class);
     }
 
     @Override
     public void addSet(Long categoryId, Long setId) {
+
+    }
+
+    @Override
+    public void removeSet(Long categoryId, Long setId) {
 
     }
 
@@ -69,12 +82,12 @@ public class CategoryFacadeImpl implements CategoryFacade {
     }
 
     @Override
-    public void removeSet(Long categoryId) {
+    public void removeKit(Long categoryId, Long kitId) {
 
     }
 
     @Override
-    public void removeCategory(Long productId) {
-
+    public void removeCategory(Long categoryId) {
+        categoryService.delete(categoryId);
     }
 }

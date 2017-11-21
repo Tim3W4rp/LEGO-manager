@@ -19,9 +19,11 @@ public interface CategoryFacade {
 
     void addSet(Long categoryId, Long setId);
 
+    void removeSet(Long categoryId, Long setId);
+
     void addKit(Long categoryId, Long kitId);
 
-    void removeSet(Long categoryId);
+    void removeKit(Long categoryId, Long kitId);
 
-    void removeCategory(Long productId);
+    void removeCategory(Long categoryId);
 }
