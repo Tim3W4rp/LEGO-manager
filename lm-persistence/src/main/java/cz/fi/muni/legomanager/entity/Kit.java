@@ -92,6 +92,17 @@ public class Kit {
     }
 
     //todo test
+    public void removeCategoryById(Long id) {
+        for (Category category : categories){
+            if (category.getId().equals(id)){
+                categories.remove(category);
+                return;
+            }
+        }
+        throw new RuntimeException("Such category does not exist");
+    }
+
+    //todo test
     public void addBrick(Brick brick) {
         for (KitBrick kitBrick : kitBricks) {
             if (kitBrick.getBrick().equals(brick)) {

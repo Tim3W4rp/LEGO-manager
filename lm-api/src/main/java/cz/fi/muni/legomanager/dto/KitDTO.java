@@ -15,7 +15,6 @@ public class KitDTO {
     private Integer ageLimit;
     private Set<CategoryDTO> categories = new HashSet<>();
     private List<KitBrickDTO> kitBricks = new ArrayList<>();
-    private SetOfKitsDTO setOfKits;
 
     public Long getId() {
         return id;
@@ -65,14 +64,6 @@ public class KitDTO {
         this.kitBricks = kitBricks;
     }
 
-    public SetOfKitsDTO getSetOfKits() {
-        return setOfKits;
-    }
-
-    public void setSetOfKits(SetOfKitsDTO setOfKits) {
-        this.setOfKits = setOfKits;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,8 +76,7 @@ public class KitDTO {
         if (price != null ? !price.equals(kitDTO.price) : kitDTO.price != null) return false;
         if (ageLimit != null ? !ageLimit.equals(kitDTO.ageLimit) : kitDTO.ageLimit != null) return false;
         if (categories != null ? !categories.equals(kitDTO.categories) : kitDTO.categories != null) return false;
-        if (kitBricks != null ? !kitBricks.equals(kitDTO.kitBricks) : kitDTO.kitBricks != null) return false;
-        return setOfKits != null ? setOfKits.equals(kitDTO.setOfKits) : kitDTO.setOfKits == null;
+        return kitBricks != null ? kitBricks.equals(kitDTO.kitBricks) : kitDTO.kitBricks == null;
     }
 
     @Override
@@ -97,7 +87,6 @@ public class KitDTO {
         result = 31 * result + (ageLimit != null ? ageLimit.hashCode() : 0);
         result = 31 * result + (categories != null ? categories.hashCode() : 0);
         result = 31 * result + (kitBricks != null ? kitBricks.hashCode() : 0);
-        result = 31 * result + (setOfKits != null ? setOfKits.hashCode() : 0);
         return result;
     }
 
@@ -110,7 +99,6 @@ public class KitDTO {
                 ", ageLimit=" + ageLimit +
                 ", categories=" + categories +
                 ", kitBricks=" + kitBricks +
-                ", setOfKits=" + setOfKits +
                 '}';
     }
 }
