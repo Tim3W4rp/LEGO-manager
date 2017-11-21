@@ -1,13 +1,14 @@
 package cz.fi.muni.legomanager.services;
 
 import cz.fi.muni.legomanager.dao.BrickDao;
+import cz.fi.muni.legomanager.dao.CategoryDao;
 import cz.fi.muni.legomanager.dao.KitDao;
 import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.entity.Kit;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,11 +20,14 @@ import java.util.Set;
 @Service
 public class KitServiceImpl implements KitService {
 
-    @Inject
+    @Autowired
     private KitDao kitDao;
 
-    @Inject
+    @Autowired
     private BrickDao brickDao;
+
+    @Autowired
+    private CategoryDao categoryDao;
 
     @Override
     public Long createKit(Kit kit) {
@@ -48,7 +52,7 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
-    public void deleteKit(long id) {
+    public void deleteKitById(long id) {
         Kit kit = kitDao.findById(id);
         if (kit == null) {
             throw new RuntimeException("Deleting non-existant kit");
@@ -137,5 +141,30 @@ public class KitServiceImpl implements KitService {
         }
 
         return similarKits;
+    }
+
+    @Override
+    public Set<Kit> getKitsByCategory(Long categoryId) {
+        return categoryDao.findById(categoryId).getKits();
+    }
+
+    @Override
+    public void addCategory(Long kitId, Long categoryId) {
+        categoryDao.findById(categoryId).addKit(kitDao.findById(kitId));
+    }
+
+    @Override
+    public void removeCategory(Long kitId, Long categoryId) {
+        categoryDao.findById(categoryId).removeKit(kitDao.findById(kitId));
+    }
+
+    @Override
+    public Set<Category> getKitCategories(Long kitId) {
+        return kitDao.findById(kitId).getCategories();
+    }
+
+    @Override
+    public void addBrickToKit(Long kitId, Long brickId) {
+        kitDao.findById(kitId).addBrick(brickDao.findById(brickId));
     }
 }

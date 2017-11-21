@@ -11,17 +11,17 @@ import java.util.List;
  */
 public interface KitFacade {
     public Long createKit(KitCreateDTO kitCreateDTO);
+    public KitDTO findKitById(Long kitId);
+    public void updateKit(KitDTO kitDTO);
+    public void deleteKitById(Long kitId);
+    public void changeDescription(Long kitId, String newDescription);
+    public void changePrice(Long kitId, Integer newPrice);
+    public void changeAgeLimit(Long kitId, Integer newAgeLimit);
+    public List<KitDTO> findAllKits();
+    public List<KitDTO> getKitsByCategoryId(Long categoryId);
     public void addCategory(Long kitId, Long categoryId);
     public void removeCategory(Long kitId, Long categoryId);
-    public void changeDescription(String newDescription);
-    public void changePrice(Integer newPrice);
-    public void changeAgeLimit(Integer newAgeLimit);
-    public void deleteKitById(Long kitId);
-    public void deleteKit(KitDTO kitDTO);
-    public List<KitDTO> getAllKits();
-    public List<KitDTO> getKitsByCategory(Long categoryId);
-    public List<CategoryDTO> getKitCategories();
-    public KitDTO getKitById(Long kitId);
+    public List<CategoryDTO> getKitCategories(Long kitId);
     public void addBrickToKit(Long kitId, Long brickId);
     public void removeOneBrickFromKitById(Long kitId, Long brickId);
     public void removeAllBricksOfThisTypeFromKitById(Long kitId, Long brickId);

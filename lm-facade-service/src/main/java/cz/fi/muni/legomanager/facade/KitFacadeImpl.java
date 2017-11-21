@@ -29,82 +29,85 @@ public class KitFacadeImpl implements KitFacade {
     }
 
     @Override
-    public void addCategory(Long kitId, Long categoryId) {
-
+    public KitDTO findKitById(Long kitId) {
+        return dozerService.mapTo(kitService.findKitById(kitId), KitDTO.class);
     }
 
     @Override
-    public void removeCategory(Long kitId, Long categoryId) {
-
-    }
-
-    @Override
-    public void changeDescription(String newDescription) {
-
-    }
-
-    @Override
-    public void changePrice(Integer newPrice) {
-
-    }
-
-    @Override
-    public void changeAgeLimit(Integer newAgeLimit) {
-
+    public void updateKit(KitDTO kitDTO) {
+        Kit mappedKit = dozerService.mapTo(kitDTO, Kit.class);
+        kitService.updateKit(mappedKit);
     }
 
     @Override
     public void deleteKitById(Long kitId) {
-
+        kitService.deleteKitById(kitId);
     }
 
     @Override
-    public void deleteKit(KitDTO kitDTO) {
-
+    public void changeDescription(Long kitId, String newDescription) {
+        kitService.findKitById(kitId).setDescription(newDescription);
     }
 
     @Override
-    public List<KitDTO> getAllKits() {
-        return null;
+    public void changePrice(Long kitId, Integer newPrice) {
+        kitService.findKitById(kitId).setPrice(newPrice);
     }
 
     @Override
-    public List<KitDTO> getKitsByCategory(Long categoryId) {
-        return null;
+    public void changeAgeLimit(Long kitId, Integer newAgeLimit) {
+        kitService.findKitById(kitId).setAgeLimit(newAgeLimit);
     }
 
     @Override
-    public List<CategoryDTO> getKitCategories() {
-        return null;
+    public List<KitDTO> findAllKits() {
+        return dozerService.mapTo(kitService.findAllKits(), KitDTO.class);
     }
 
     @Override
-    public KitDTO getKitById(Long kitId) {
-        return null;
+    public List<KitDTO> getKitsByCategoryId(Long categoryId) {
+        return dozerService.mapTo(kitService.getKitsByCategory(categoryId), KitDTO.class);
+    }
+
+    @Override
+    public void addCategory(Long kitId, Long categoryId) {
+        kitService.addCategory(kitId, categoryId);
+    }
+
+    @Override
+    public void removeCategory(Long kitId, Long categoryId) {
+        kitService.removeCategory(kitId, categoryId);
+    }
+
+    @Override
+    public List<CategoryDTO> getKitCategories(Long kitId) {
+        return dozerService.mapTo(kitService.getKitCategories(kitId), CategoryDTO.class);
     }
 
     @Override
     public void addBrickToKit(Long kitId, Long brickId) {
-
+        kitService.addBrickToKit(kitId, brickId);
     }
 
     @Override
     public void removeOneBrickFromKitById(Long kitId, Long brickId) {
-
+        kitService.removeOneBrickFromKitById(kitId, brickId);
     }
 
     @Override
     public void removeAllBricksOfThisTypeFromKitById(Long kitId, Long brickId) {
-
+        kitService.removeAllBricksOfThisTypeFromKitById(kitId, brickId);
     }
 
     @Override
     public KitDTO findOneRandomSimilarKit(KitDTO kitDTO) {
-        return null;
+        Kit mappedKit = dozerService.mapTo(kitDTO, Kit.class);
+        return dozerService.mapTo(kitService.findOneRandomSimilarKit(mappedKit), KitDTO.class);
     }
 
     @Override
     public List<KitDTO> findSimilarKits(KitDTO kitDTO) {
-        return null;
+        Kit mappedKit = dozerService.mapTo(kitDTO, Kit.class);
+        return dozerService.mapTo(kitService.findSimilarKits(mappedKit), KitDTO.class);
     }
 }
