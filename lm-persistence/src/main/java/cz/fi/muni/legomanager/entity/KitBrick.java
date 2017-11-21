@@ -11,18 +11,18 @@ import java.io.Serializable;
 public class KitBrick implements Serializable {
 
     @ManyToOne
-    @JoinColumn(name = "id_brick")
+    @JoinColumn(name = "brick")
     private Brick brick;
 
     @ManyToOne
-    @JoinColumn(name = "id_kit")
+    @JoinColumn(name = "kit")
     private Kit kit;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "count")
+    @Column(nullable = false, name = "count")
     private long count;
 
     public KitBrick() {
