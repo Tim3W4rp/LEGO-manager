@@ -30,7 +30,7 @@ public class Kit {
     private Integer ageLimit;
 
     @NotNull
-    @ManyToMany(mappedBy = "kit_categories")
+    @ManyToMany(mappedBy = "kits")
     private Set<Category> categories = new HashSet<>();
 
     @NotNull
