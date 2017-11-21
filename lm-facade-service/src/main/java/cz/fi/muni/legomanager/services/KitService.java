@@ -15,7 +15,7 @@ public interface KitService {
     public void deleteKit(long id);
     public List<Kit> findAllKits();
     public Brick findBrickById(long id);
-    public void removeAllBricksFromKitById(long kitId, long brickId);
+    public void removeAllBricksOfThisTypeFromKitById(long kitId, long brickId);
     public void removeOneBrickFromKitById(long kitId, long brickId);
     public Kit findOneRandomSimilarKit(Kit kit);
     public List<Kit> findSimilarKits(Kit kit);

@@ -10,6 +10,10 @@ import java.io.Serializable;
 @Table(name = "kit_bricks")
 public class KitBrick implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @ManyToOne
     @JoinColumn(name = "brick")
     private Brick brick;
@@ -17,10 +21,6 @@ public class KitBrick implements Serializable {
     @ManyToOne
     @JoinColumn(name = "kit")
     private Kit kit;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(nullable = false, name = "count")
     private long count;

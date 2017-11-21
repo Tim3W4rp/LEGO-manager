@@ -1,9 +1,9 @@
 package cz.fi.muni.legomanager.dto;
 
 public class KitBrickDTO {
+    private Long id;
     private BrickDTO brick;
     private KitDTO kit;
-    private Long id;
     private long count;
 
     public BrickDTO getBrick() {
