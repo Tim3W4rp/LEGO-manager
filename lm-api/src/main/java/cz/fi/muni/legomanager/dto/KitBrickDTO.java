@@ -1,7 +1,5 @@
 package cz.fi.muni.legomanager.dto;
 
-
-
 public class KitBrickDTO {
     private BrickDTO brick;
     private KitDTO kit;
