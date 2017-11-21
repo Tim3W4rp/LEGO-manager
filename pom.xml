@@ -6,9 +6,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>lm-persistence</module>
-        <module>lm-service</module>
         <module>lm-api</module>
-        <module>lm-facade</module>
+        <module>lm-facade-service</module>
     </modules>
 
     <parent>
