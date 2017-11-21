@@ -1,0 +1,80 @@
+package cz.fi.muni.legomanager.facade;
+
+import cz.fi.muni.legomanager.entity.Category;
+import cz.fi.muni.legomanager.services.DozerService;
+import org.dozer.Mapper;
+
+import cz.fi.muni.legomanager.dto.CategoryDTO;
+import cz.fi.muni.legomanager.dto.KitDTO;
+import cz.fi.muni.legomanager.dto.SetOfKitsDTO;
+import cz.fi.muni.legomanager.services.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Transactional
+public class CategoryFacadeImpl implements CategoryFacade {
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private DozerService dozerService;
+
+
+
+    @Override
+    public Long createCategory(CategoryDTO category) {
+        Category mappedCategory = dozerService.mapTo(category, Category.class);
+        categoryService.create(mappedCategory);
+        return mappedCategory.getId();
+    }
+
+    @Override
+    public void updateCategory(CategoryDTO category) {
+
+    }
+
+    @Override
+    public List<CategoryDTO> getAllCategories() {
+        return null;
+    }
+
+    @Override
+    public CategoryDTO getCategoryById(Long categoryId) {
+        CategoryDTO mappedCategory = dozerService.mapTo(categoryService.getCategory(categoryId), CategoryDTO.class);
+        return mappedCategory;
+    }
+
+    @Override
+    public List<SetOfKitsDTO> getSets(Long categoryId) {
+        return null;
+    }
+
+    @Override
+    public List<KitDTO> getKits(Long categoryId) {
+        return null;
+    }
+
+    @Override
+    public void addSet(Long categoryId, Long setId) {
+
+    }
+
+    @Override
+    public void addKit(Long categoryId, Long kitId) {
+
+    }
+
+    @Override
+    public void removeSet(Long categoryId) {
+
+    }
+
+    @Override
+    public void removeCategory(Long productId) {
+
+    }
+}

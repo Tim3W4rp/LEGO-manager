@@ -4,6 +4,7 @@ import cz.fi.muni.legomanager.dao.CategoryDao;
 import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.entity.Kit;
 import cz.fi.muni.legomanager.entity.SetOfKits;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * @author Stepan Granat
  */
+@Service
 public class CategoryServiceImpl implements CategoryService {
     private CategoryDao categoryDao;
 
@@ -30,8 +32,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void create(Category category) {
+    public Category create(Category category) {
         categoryDao.create(category);
+        return category;
     }
 
     @Override
