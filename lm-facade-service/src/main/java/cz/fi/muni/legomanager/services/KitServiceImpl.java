@@ -73,7 +73,7 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
-    public void removeAllBricksFromKitById(long kitId, long brickId) {
+    public void removeAllBricksOfThisTypeFromKitById(long kitId, long brickId) {
         Kit kit = findKitById(kitId);
         Brick brick = findBrickById(brickId);
         kit.removeAllBricksOfThisType(brick);
