@@ -13,8 +13,6 @@ public interface CategoryFacade {
 
     CategoryDTO getCategoryById(Long categoryId);
 
-    List<SetOfKitsDTO> getSets(Long categoryId);
-
     List<KitDTO> getKits(Long categoryId);
 
     void removeCategory(Long categoryId);

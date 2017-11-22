@@ -28,10 +28,6 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private Set<Kit> kits = new HashSet<>();
 
-    @NotNull
-    @OneToMany(mappedBy = "category")
-    private Set<SetOfKits> setOfKits = new HashSet<>();
-
     public Category() {
     }
 
@@ -70,14 +66,6 @@ public class Category {
 
     public void setKits(Set<Kit> kits) {
         this.kits = kits;
-    }
-
-    public Set<SetOfKits> getSetsOfKits() {
-        return setOfKits;
-    }
-
-    public void setSetOfKits(Set<SetOfKits> setOfKits) {
-        this.setOfKits = setOfKits;
     }
 
     @Override

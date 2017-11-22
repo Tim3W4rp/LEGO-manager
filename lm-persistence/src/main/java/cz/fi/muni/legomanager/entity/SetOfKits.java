@@ -28,10 +28,6 @@ public class SetOfKits {
     private BigDecimal price;
 
     @NotNull
-    @ManyToOne
-    private Category category;
-
-    @NotNull
     @OneToMany(mappedBy = "setOfKits")
     private Set<Kit> kits = new HashSet<>();
 
@@ -53,14 +49,6 @@ public class SetOfKits {
 
     public Long getId() {
         return id;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public Set<Kit> getKits() {

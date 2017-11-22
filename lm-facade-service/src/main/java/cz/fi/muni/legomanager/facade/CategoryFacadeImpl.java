@@ -60,15 +60,6 @@ public class CategoryFacadeImpl implements CategoryFacade {
     }
 
     @Override
-    public List<SetOfKitsDTO> getSets(Long categoryId) {
-        Category c = categoryService.getCategory(categoryId);
-        if (c == null) {
-            throw new RuntimeException("Category doesn't exist.");
-        }
-        return dozerService.mapTo(c.getSetsOfKits(), SetOfKitsDTO.class);
-    }
-
-    @Override
     public List<KitDTO> getKits(Long categoryId) {
         Category c = categoryService.getCategory(categoryId);
         if (c == null) {
