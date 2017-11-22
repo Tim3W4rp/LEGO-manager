@@ -1,7 +1,11 @@
 package cz.fi.muni.legomanager.facade;
 
 import cz.fi.muni.legomanager.entity.Category;
+import cz.fi.muni.legomanager.entity.Kit;
+import cz.fi.muni.legomanager.entity.SetOfKits;
 import cz.fi.muni.legomanager.services.DozerService;
+import cz.fi.muni.legomanager.services.KitService;
+import cz.fi.muni.legomanager.services.SetOfKitsService;
 import org.dozer.Mapper;
 
 import cz.fi.muni.legomanager.dto.CategoryDTO;
@@ -13,12 +17,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
 public class CategoryFacadeImpl implements CategoryFacade {
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private KitService kitService;
+
+    @Autowired
+    SetOfKitsService setOfKitsService;
 
     @Autowired
     private DozerService dozerService;
@@ -68,22 +79,54 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
     @Override
     public void addSet(Long categoryId, Long setId) {
-
+        Category category = categoryService.getCategory(categoryId);
+        if (category == null) {
+            throw new RuntimeException("Category doesn't exist.");
+        }
+        SetOfKits set = setOfKitsService.getSet(setId);
+        if (set == null) {
+            throw new RuntimeException("Set doesn't exist.");
+        }
+        categoryService.addSetOfKits(category, set);
     }
 
     @Override
     public void removeSet(Long categoryId, Long setId) {
-
+        Category category = categoryService.getCategory(categoryId);
+        if (category == null) {
+            throw new RuntimeException("Category doesn't exist.");
+        }
+        SetOfKits set = setOfKitsService.getSet(setId);
+        if (set == null) {
+            throw new RuntimeException("Set doesn't exist.");
+        }
+        category.removeSetOfKits(set);
     }
 
     @Override
     public void addKit(Long categoryId, Long kitId) {
-
+        Category category = categoryService.getCategory(categoryId);
+        if (category == null) {
+            throw new RuntimeException("Category doesn't exist.");
+        }
+        Kit kit = kitService.findKitById(kitId);
+        if (kit == null) {
+            throw new RuntimeException("Kit doesn't exist.");
+        }
+        category.addKit(kit);
     }
 
     @Override
     public void removeKit(Long categoryId, Long kitId) {
-
+        Category category = categoryService.getCategory(categoryId);
+        if (category == null) {
+            throw new RuntimeException("Category doesn't exist.");
+        }
+        Kit kit = kitService.findKitById(kitId);
+        if (kit == null) {
+            throw new RuntimeException("Kit doesn't exist.");
+        }
+        category.removeKit(kit);
     }
 
     @Override
