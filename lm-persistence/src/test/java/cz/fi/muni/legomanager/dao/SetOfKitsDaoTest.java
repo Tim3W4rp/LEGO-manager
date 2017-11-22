@@ -116,7 +116,7 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         buildingsSet = new SetOfKits();
         buildingsSet.setDescription("Set of the most famous buildings.");
         buildingsSet.setPrice(new BigDecimal("429"));
-        buildingsSet.addCategory(buildingsCategory);
+        buildingsSet.setCategory(buildingsCategory);
         buildingsSet.addKit(eiffelTowerKit);
         buildingsSet.addKit(statueOfLibertyKit);
         buildingsSet.addKit(towerBridgeKit);
@@ -125,8 +125,8 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         carsSet = new SetOfKits();
         carsSet.setDescription("Set of the fastest cars on the planet.");
         carsSet.setPrice(new BigDecimal("189"));
-        carsSet.addCategory(carsCategory);
-        carsSet.addCategory(boysCategory);
+        carsSet.setCategory(carsCategory);
+        carsSet.setCategory(boysCategory);
         carsSet.addKit(porscheKit);
         carsSet.addKit(ferrariKit);
         setOfKitsDao.create(carsSet);
@@ -139,7 +139,7 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         SetOfKits sportsSet = new SetOfKits();
         sportsSet.setDescription("Set of the sportsmen.");
         sportsSet.setPrice(new BigDecimal("309"));
-        sportsSet.addCategory(boysCategory);
+        sportsSet.setCategory(boysCategory);
         sportsSet.addKit(footballerKit);
         setOfKitsDao.create(sportsSet);
 

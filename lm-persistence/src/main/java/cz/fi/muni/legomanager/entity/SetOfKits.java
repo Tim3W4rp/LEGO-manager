@@ -28,14 +28,12 @@ public class SetOfKits {
     private BigDecimal price;
 
     @NotNull
-    @ManyToMany(mappedBy = "setsOfKits")
-    private Set<Category> categories = new HashSet<>();
+    @ManyToOne
+    private Category category;
 
     @NotNull
     @OneToMany(mappedBy = "setOfKits")
     private Set<Kit> kits = new HashSet<>();
-
-
 
     public String getDescription() {
         return description;
@@ -57,16 +55,12 @@ public class SetOfKits {
         return id;
     }
 
-    public Set<Category> getCategories() {
-        return Collections.unmodifiableSet(categories);
+    public Category getCategory() {
+        return category;
     }
 
-    public void addCategory(Category category) {
-        this.categories.add(category);
-    }
-
-    public void removeCategory(Category category) {
-        this.categories.remove(category);
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Set<Kit> getKits() {

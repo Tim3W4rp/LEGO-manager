@@ -81,17 +81,6 @@ public class CategoryFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void addSet() {
-        Long id = categoryFacade.createCategory(newCategory);
-        setOfKitsService.create(newSet);
-        Long setId = newSet.getId();
-
-        categoryFacade.addSet(id, setId);
-
-        Assert.assertEquals(categoryFacade.getSets(id).size(), 1);
-    }
-
-    @Test
     public void removeCategory() {
         Long id = categoryFacade.createCategory(newCategory);
 

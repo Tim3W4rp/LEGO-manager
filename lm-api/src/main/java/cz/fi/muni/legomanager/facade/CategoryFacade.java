@@ -17,13 +17,5 @@ public interface CategoryFacade {
 
     List<KitDTO> getKits(Long categoryId);
 
-    void addSet(Long categoryId, Long setId);
-
-    void removeSet(Long categoryId, Long setId);
-
-    void addKit(Long categoryId, Long kitId);
-
-    void removeKit(Long categoryId, Long kitId);
-
     void removeCategory(Long categoryId);
 }
