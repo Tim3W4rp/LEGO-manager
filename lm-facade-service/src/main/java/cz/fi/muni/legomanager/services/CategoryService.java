@@ -21,11 +21,4 @@ public interface CategoryService {
 
     void update(Category category);
 
-    void addKit(Category category, Kit kit);
-
-    void removeKit(Category category, Kit kit);
-
-    void addSetOfKits(Category category, SetOfKits setOfKits);
-
-    void removeSetOfKits(Category category, SetOfKits setOfKits);
 }

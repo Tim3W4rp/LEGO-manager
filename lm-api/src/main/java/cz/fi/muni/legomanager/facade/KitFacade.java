@@ -19,12 +19,9 @@ public interface KitFacade {
     public void changeAgeLimit(Long kitId, Integer newAgeLimit);
     public List<KitDTO> findAllKits();
     public List<KitDTO> getKitsByCategoryId(Long categoryId);
-    public void addCategory(Long kitId, Long categoryId);
-    public void removeCategory(Long kitId, Long categoryId);
-    public List<CategoryDTO> getKitCategories(Long kitId);
     public void addBrickToKit(Long kitId, Long brickId);
     public void removeOneBrickFromKitById(Long kitId, Long brickId);
     public void removeAllBricksOfThisTypeFromKitById(Long kitId, Long brickId);
-    public KitDTO findOneRandomSimilarKit(KitDTO kitDTO);
-    public List<KitDTO> findSimilarKits(KitDTO kitDTO);
+    // public KitDTO findOneRandomSimilarKit(KitDTO kitDTO);
+    // public List<KitDTO> findSimilarKits(KitDTO kitDTO);
 }
