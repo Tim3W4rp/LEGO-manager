@@ -26,39 +26,39 @@ import javax.sql.DataSource;
 @ComponentScan(basePackages = "cz.fi.muni.legomanager")
 public class PersistenceSampleApplicationContext {
 
-	/**
-	 * Enables automatic translation of exceptions to DataAccessExceptions.
-	 */
-	@Bean
-	public PersistenceExceptionTranslationPostProcessor postProcessor() {
-		return new PersistenceExceptionTranslationPostProcessor();
-	}
+    /**
+     * Enables automatic translation of exceptions to DataAccessExceptions.
+     */
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor postProcessor() {
+        return new PersistenceExceptionTranslationPostProcessor();
+    }
 
-	@Bean
-	public JpaTransactionManager transactionManager() {
-		return new JpaTransactionManager(entityManagerFactory().getObject());
-	}
+    @Bean
+    public JpaTransactionManager transactionManager() {
+        return new JpaTransactionManager(entityManagerFactory().getObject());
+    }
 
-	/**
-	 * Starts up a container that emulates behavior prescribed in JPA spec for container-managed EntityManager
-	 */
-	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		LocalContainerEntityManagerFactoryBean jpaFactoryBean = new LocalContainerEntityManagerFactoryBean();
-		jpaFactoryBean.setDataSource(db());
-		jpaFactoryBean.setLoadTimeWeaver(instrumentationLoadTimeWeaver());
-		jpaFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-		return jpaFactoryBean;
-	}
+    /**
+     * Starts up a container that emulates behavior prescribed in JPA spec for container-managed EntityManager
+     */
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean jpaFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        jpaFactoryBean.setDataSource(db());
+        jpaFactoryBean.setLoadTimeWeaver(instrumentationLoadTimeWeaver());
+        jpaFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+        return jpaFactoryBean;
+    }
 
-	@Bean
-	public LoadTimeWeaver instrumentationLoadTimeWeaver() {
-		return new InstrumentationLoadTimeWeaver();
-	}
+    @Bean
+    public LoadTimeWeaver instrumentationLoadTimeWeaver() {
+        return new InstrumentationLoadTimeWeaver();
+    }
 
-	@Bean
-	public DataSource db() {
-		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-		return builder.setType(EmbeddedDatabaseType.DERBY).build();
-	}
+    @Bean
+    public DataSource db() {
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        return builder.setType(EmbeddedDatabaseType.DERBY).build();
+    }
 }

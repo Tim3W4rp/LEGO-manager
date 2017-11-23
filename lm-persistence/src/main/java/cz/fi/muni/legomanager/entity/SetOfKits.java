@@ -90,10 +90,7 @@ public class SetOfKits {
         }
         SetOfKits otherObject = (SetOfKits) obj;
 
-        if (this.price.equals(otherObject.price)
-                && this.description.equals(otherObject.description)) {
-            return true;
-        }
-        return false;
+        return this.price.equals(otherObject.price)
+                && this.description.equals(otherObject.description);
     }
 }

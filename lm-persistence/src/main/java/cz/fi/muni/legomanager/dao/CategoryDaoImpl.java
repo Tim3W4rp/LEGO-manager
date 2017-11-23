@@ -52,7 +52,7 @@ public class CategoryDaoImpl implements CategoryDao {
             throw new InvalidDataAccessApiUsageException("Argument cannot be null");
         }
 
-        if (!em.contains(category)){
+        if (!em.contains(category)) {
             throw new InvalidDataAccessApiUsageException("Such category does not exist");
         }
         em.remove(category);

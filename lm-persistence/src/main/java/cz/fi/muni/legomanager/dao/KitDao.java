@@ -16,7 +16,6 @@ public interface KitDao {
     public Kit create(Kit kit);
 
     /**
-     *
      * @param id of a kit to be found
      * @return kit found with specified ID
      */

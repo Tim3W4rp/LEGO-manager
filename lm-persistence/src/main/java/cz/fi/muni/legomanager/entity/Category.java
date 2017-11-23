@@ -61,7 +61,7 @@ public class Category {
     }
 
     public Set<Kit> getKits() {
-        return kits;
+        return Collections.unmodifiableSet(kits);
     }
 
     public void setKits(Set<Kit> kits) {

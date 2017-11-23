@@ -22,7 +22,7 @@ import javax.persistence.PersistenceContext;
  *
  * @author Stepan Granat
  */
-@ContextConfiguration(classes=PersistenceSampleApplicationContext.class)
+@ContextConfiguration(classes = PersistenceSampleApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
 public class KitDaoTest extends AbstractTestNGSpringContextTests {
