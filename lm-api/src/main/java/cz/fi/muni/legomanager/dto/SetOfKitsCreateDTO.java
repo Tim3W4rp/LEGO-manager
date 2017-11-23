@@ -2,7 +2,7 @@ package cz.fi.muni.legomanager.dto;
 
 import java.math.BigDecimal;
 
-public class SetOfKitsDTO {
+public class SetOfKitsCreateDTO {
     private Long id;
     private String description;
     private BigDecimal price;
@@ -38,7 +38,7 @@ public class SetOfKitsDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SetOfKitsDTO that = (SetOfKitsDTO) o;
+        SetOfKitsCreateDTO that = (SetOfKitsCreateDTO) o;
 
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (price != null ? !price.equals(that.price) : that.price != null) return false;
@@ -55,7 +55,7 @@ public class SetOfKitsDTO {
 
     @Override
     public String toString() {
-        return "SetOfKitsDTO{" +
+        return "SetOfKitsCreateDTO{" +
                 "description='" + description + '\'' +
                 ", price=" + price +
                 '}';
