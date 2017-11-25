@@ -28,11 +28,8 @@ public class SetOfKitsFacadeImpl implements SetOfKitsFacade {
     @Autowired
     private SetOfKitsService setService;
 
-/*    @Autowired
-    private KitService kitService;
-
     @Autowired
-    SetOfKitsService setOfKitsService;*/
+    private CategoryService categoryService;
 
     @Autowired
     private DozerService dozerService;
@@ -76,71 +73,20 @@ public class SetOfKitsFacadeImpl implements SetOfKitsFacade {
         return dozerService.mapTo(setService.getAllSets(), SetOfKitsDTO.class);
     }
 
+
     @Override
-    public List<SetOfKitsDTO> getSetsByCategoryId(Long categoryId) {
-
-
+    public void addKitToSet(Long setId, Long kitId) {
+        setService.addKitToSet(setId, kitId);
     }
 
     @Override
-    public void addKitToSet(Long kitId, Long brickId) {
-
-
-    }
-
-    @Override
-    public void removeKitFromSet(Long kitId, Long brickId) {
-        //categoryService.delete(categoryId);
-        setService.
+    public void removeKitFromSet(Long setId, Long kitId) {
+        setService.removeKitFromSet(setId, kitId);
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    @Override
-    public Long createCategory(CategoryDTO category) {
-        Category mappedCategory = dozerService.mapTo(category, Category.class);
-        categoryService.create(mappedCategory);
-        return mappedCategory.getId();
+    public List<CategoryDTO> getSetCategories(long setId) {
+        return dozerService.mapTo(setService.getSetCategories(setId), CategoryDTO.class);
     }
 
-    @Override
-    public void updateCategory(CategoryDTO category) {
-        Category mappedCategory = dozerService.mapTo(category, Category.class);
-        categoryService.update(mappedCategory);
-    }
-
-    @Override
-    public List<CategoryDTO> getAllCategories() {
-        return dozerService.mapTo(categoryService.getAllCategories(), CategoryDTO.class);
-    }
-
-    @Override
-    public CategoryDTO getCategoryById(Long categoryId) {
-        return dozerService.mapTo(categoryService.getCategory(categoryId), CategoryDTO.class);
-    }
-
-    @Override
-    public List<KitDTO> getKits(Long categoryId) {
-        Category c = categoryService.getCategory(categoryId);
-        if (c == null) {
-            throw new RuntimeException("Category doesn't exist.");
-        }
-        return dozerService.mapTo(c.getKits(), KitDTO.class);
-    }
-
-    @Override
-    public void removeCategory(Long categoryId) {
-        categoryService.delete(categoryId);
-    }
 }

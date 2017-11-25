@@ -2,7 +2,9 @@ package cz.fi.muni.legomanager.facade;
 
 import cz.fi.muni.legomanager.dto.SetOfKitsCreateDTO;
 import cz.fi.muni.legomanager.dto.SetOfKitsDTO;
+import cz.fi.muni.legomanager.dto.CategoryDTO;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -14,10 +16,11 @@ public interface SetOfKitsFacade {
     public void updateSet(SetOfKitsDTO setDTO);
     public void deleteSetById(Long setId);
     public void changeDescription(Long setId, String newDescription);
-    public void changePrice(Long setId, Integer newPrice);
+    public void changePrice(Long setId, BigDecimal newPrice);
     public List<SetOfKitsDTO> getAllSets();
-    public List<SetOfKitsDTO> getSetsByCategoryId(Long categoryId);
     public void addKitToSet(Long setId, Long kitId);
     public void removeKitFromSet(Long setId, Long kitId);
+    public List<CategoryDTO> getSetCategories(long setId);
+
 
 }
