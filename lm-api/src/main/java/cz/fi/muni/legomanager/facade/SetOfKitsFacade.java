@@ -10,15 +10,14 @@ import java.util.List;
  */
 public interface SetOfKitsFacade {
     public Long createSet(SetOfKitsCreateDTO setCreateDTO);
-    public SetOfKitsDTO findSetById(Long kitId);
-    public void updateSet(SetOfKitsDTO kitDTO);
-    public void deleteSetById(Long kitId);
-    public void changeDescription(Long kitId, String newDescription);
-    public void changePrice(Long kitId, Integer newPrice);
-    public void changeAgeLimit(Long kitId, Integer newAgeLimit);
+    public SetOfKitsDTO findSetById(Long setId);
+    public void updateSet(SetOfKitsDTO setDTO);
+    public void deleteSetById(Long setId);
+    public void changeDescription(Long setId, String newDescription);
+    public void changePrice(Long setId, Integer newPrice);
     public List<SetOfKitsDTO> getAllSets();
     public List<SetOfKitsDTO> getSetsByCategoryId(Long categoryId);
-    public void addKitToSet(Long kitId, Long brickId);
-    public void removeOneKitFromSetById(Long kitId, Long brickId);
+    public void addKitToSet(Long setId, Long kitId);
+    public void removeKitFromSet(Long setId, Long kitId);
 
 }
