@@ -124,7 +124,7 @@ public class Kit {
         return setOfKits;
     }
 
-    public void setSetOfKits(SetOfKits shape) {
+    public void setSetOfKits(SetOfKits setOfKits) {
         this.setOfKits = setOfKits;
     }
 

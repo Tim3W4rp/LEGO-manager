@@ -23,49 +23,49 @@ import java.util.List;
 
 /**
  * Test of {@link ShapeDao} methods.
- * 
+ *
  * @author Michal Peška
  */
-@ContextConfiguration(classes=PersistenceSampleApplicationContext.class)
+@ContextConfiguration(classes = PersistenceSampleApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
 public class ShapeDaoTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private ShapeDao shapeDao;
-    
+
     @PersistenceContext
     private EntityManager em;
-    
-    Shape vaderShape;
-    Shape blockShape;
-    Shape gandalfShape;
-    List<Shape> shapeList;
-    
-    
+
+    private Shape vaderShape;
+    private Shape blockShape;
+    private Shape gandalfShape;
+    private List<Shape> shapeList;
+
+
     @BeforeMethod
     public void setUp() {
         vaderShape = new Shape();
         vaderShape.setName("Darth Vader");
         shapeDao.create(vaderShape);
-        
+
         blockShape = new Shape();
         blockShape.setName("Block");
         shapeDao.create(blockShape);
-        
+
         gandalfShape = new Shape();
         gandalfShape.setName("Gandalf");
         shapeDao.create(gandalfShape);
-        
+
     }
-    
+
     @Test
     public void create() throws Exception {
         Session session = (Session) em.getDelegate();
         Shape shape = (Shape) session.createQuery("FROM Shape").list().get(0);
-        Assert.assertEquals(shape.getName(), "Darth Vader");        
+        Assert.assertEquals(shape.getName(), "Darth Vader");
     }
-    
+
     @Test
     public void delete() throws Exception {
         shapeDao.delete(vaderShape);
@@ -73,33 +73,30 @@ public class ShapeDaoTest extends AbstractTestNGSpringContextTests {
         int tableSize = session.createQuery("FROM Shape").list().size();
         Assert.assertEquals(2, tableSize);
     }
-    
+
     @Test
     public void update() throws Exception {
         Session session = (Session) em.getDelegate();
         blockShape.setName("Tower block");
         shapeDao.update(blockShape);
         Shape foundShape = (Shape) session.createQuery("FROM Shape ").list().get(1);
-        Assert.assertEquals(foundShape.getName(), "Tower block");        
-        
+        Assert.assertEquals(foundShape.getName(), "Tower block");
+
     }
-    
+
     @Test
     public void findById() throws Exception {
         Shape shape = shapeDao.findById(gandalfShape.getId());
-        Assert.assertEquals(shape.getName(), "Gandalf");        
-        
+        Assert.assertEquals(shape.getName(), "Gandalf");
+
     }
-    
+
     @Test
     public void findAll() throws Exception {
         shapeList = shapeDao.findAll();
         Assert.assertEquals(3, shapeList.size());
-        
+
     }
-    
-    
-    
-   
+
 
 }

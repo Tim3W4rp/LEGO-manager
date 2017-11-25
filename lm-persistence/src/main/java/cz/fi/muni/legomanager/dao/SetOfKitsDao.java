@@ -9,8 +9,12 @@ import java.util.List;
  */
 public interface SetOfKitsDao {
     public void create(SetOfKits set);
+
     public SetOfKits findById(Long id);
+
     public void update(SetOfKits set);
+
     public void delete(SetOfKits set);
+
     public List<SetOfKits> findAll();
 }

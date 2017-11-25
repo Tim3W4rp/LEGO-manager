@@ -1,23 +1,17 @@
 package cz.fi.muni.legomanager.facade;
 
+import cz.fi.muni.legomanager.dto.CategoryDTO;
+import cz.fi.muni.legomanager.dto.KitDTO;
 import cz.fi.muni.legomanager.entity.Category;
-import cz.fi.muni.legomanager.entity.Kit;
-import cz.fi.muni.legomanager.entity.SetOfKits;
+import cz.fi.muni.legomanager.services.CategoryService;
 import cz.fi.muni.legomanager.services.DozerService;
 import cz.fi.muni.legomanager.services.KitService;
 import cz.fi.muni.legomanager.services.SetOfKitsService;
-import org.dozer.Mapper;
-
-import cz.fi.muni.legomanager.dto.CategoryDTO;
-import cz.fi.muni.legomanager.dto.KitDTO;
-import cz.fi.muni.legomanager.dto.SetOfKitsDTO;
-import cz.fi.muni.legomanager.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -33,7 +27,6 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
     @Autowired
     private DozerService dozerService;
-
 
 
     @Override

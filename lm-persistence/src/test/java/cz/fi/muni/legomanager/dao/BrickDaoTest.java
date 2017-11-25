@@ -24,11 +24,11 @@ import java.util.List;
 
 /**
  * Test of {@link BrickDao} methods.
- * 
+ *
  * @author Michal Peška
  */
 
-@ContextConfiguration(classes=PersistenceSampleApplicationContext.class)
+@ContextConfiguration(classes = PersistenceSampleApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
 public class BrickDaoTest extends AbstractTestNGSpringContextTests {
@@ -38,17 +38,17 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private ShapeDao shapeDao;
-    
+
     @PersistenceContext
     private EntityManager em;
-    
+
     Brick greenBlockBrick;
     Brick redBlockBrick;
     Brick blueBlockBrick;
     Shape blockShape;
     List<Brick> brickList;
-    
-    
+
+
     @BeforeMethod
     public void setUp() {
         blockShape = new Shape();
@@ -68,23 +68,23 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
         greenBlockBrick.setBlue(0);
         greenBlockBrick.setShape(blockShape);
         brickDao.create(greenBlockBrick);
-        
+
         blueBlockBrick = new Brick();
         blueBlockBrick.setRed(0);
         blueBlockBrick.setGreen(0);
         blueBlockBrick.setBlue(255);
         blueBlockBrick.setShape(blockShape);
         brickDao.create(blueBlockBrick);
-        
+
     }
-    
+
     @Test
     public void create() throws Exception {
         Session session = (Session) em.getDelegate();
         Brick brick = (Brick) session.createQuery("FROM Brick").list().get(0);
         Assert.assertEquals(255, brick.getRed());
     }
-    
+
     @Test
     public void delete() throws Exception {
         brickDao.delete(greenBlockBrick);
@@ -92,7 +92,7 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
         int tableSize = session.createQuery("FROM Brick").list().size();
         Assert.assertEquals(2, tableSize);
     }
-    
+
     @Test
     public void update() throws Exception {
         Session session = (Session) em.getDelegate();
@@ -105,24 +105,24 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(255, foundBrick.getGreen());
         Assert.assertEquals(0, foundBrick.getBlue());
     }
-    
+
     @Test
     public void findById() throws Exception {
         Brick brick = brickDao.findById(blueBlockBrick.getId());
         Assert.assertEquals(blueBlockBrick.getId(), brick.getId());
     }
-    
+
     @Test
     public void findAll() throws Exception {
         brickList = brickDao.findAll();
         Assert.assertEquals(3, brickList.size());
-        
+
     }
-     
+
     @Test
-    public void testBrickShapeRelationship() throws Exception{
+    public void testBrickShapeRelationship() throws Exception {
         Assert.assertEquals("Block", blueBlockBrick.getShape().getName());
-       
-    }   
-    
+
+    }
+
 }

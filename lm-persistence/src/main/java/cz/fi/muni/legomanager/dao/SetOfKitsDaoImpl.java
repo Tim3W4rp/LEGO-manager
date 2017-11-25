@@ -19,17 +19,42 @@ public class SetOfKitsDaoImpl implements SetOfKitsDao {
 
     @Override
     public void create(SetOfKits set) {
+        if (set == null) {
+            throw new IllegalArgumentException("Argument cannot be null.");
+        }
+
+        if (em.contains(set)) {
+            throw new IllegalArgumentException("Such set already exists.");
+        }
+
         em.persist(set);
     }
 
     @Override
     public SetOfKits findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Argument cannot be null.");
+        }
+
+        if (em.find(SetOfKits.class, id) == null) {
+            throw new IllegalArgumentException("Set with such ID does not exist.");
+        }
+
         return em.find(SetOfKits.class, id);
     }
 
     @Override
     public void update(SetOfKits set) {
+        if (set == null) {
+            throw new IllegalArgumentException("Argument cannot be null.");
+        }
+
+        if (!em.contains(set)) {
+            throw new IllegalArgumentException("Such set does not exist.");
+        }
+
         em.merge(set);
+        em.flush();
     }
 
     @Override
@@ -40,6 +65,14 @@ public class SetOfKitsDaoImpl implements SetOfKitsDao {
 
     @Override
     public void delete(SetOfKits set) {
+        if (set == null) {
+            throw new IllegalArgumentException("Argument cannot be null.");
+        }
+
+        if (!em.contains(set)) {
+            throw new IllegalArgumentException("Such set does not exist.");
+        }
+
         em.remove(set);
     }
 

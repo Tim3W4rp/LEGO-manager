@@ -57,9 +57,7 @@ public class KitBrick implements Serializable {
 
         KitBrick kitBrick = (KitBrick) o;
 
-        if (count != kitBrick.count) return false;
-        if (!brick.equals(kitBrick.brick)) return false;
-        return kit.equals(kitBrick.kit);
+        return count == kitBrick.count && brick.equals(kitBrick.brick) && kit.equals(kitBrick.kit);
     }
 
     @Override
