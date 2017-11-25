@@ -14,5 +14,7 @@ public interface SetOfKitsService {
     void create(SetOfKits set);
     void delete(long id);
     void update(SetOfKits set);
-
+    void removeKitFromSet(long setId, long kitId);
+    void addKitToSet(Long setId, Long kitId);
+    }
 }

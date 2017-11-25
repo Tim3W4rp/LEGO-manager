@@ -1,7 +1,9 @@
 package cz.fi.muni.legomanager.services;
 
 import cz.fi.muni.legomanager.dao.SetOfKitsDao;
+import cz.fi.muni.legomanager.dao.KitDao;
 import cz.fi.muni.legomanager.entity.SetOfKits;
+import cz.fi.muni.legomanager.entity.Kit;
 import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import java.util.List;
@@ -11,12 +13,12 @@ import java.util.List;
  */
 @Service
 public class SetOfKitsServiceImpl implements SetOfKitsService {
+
+    @Inject
     private SetOfKitsDao setDao;
 
     @Inject
-    public SetOfKitsServiceImpl(SetOfKitsDao setDao) {
-        this.setDao = setDao;
-    }
+    private KitDao kitDao;
 
     @Override
     public SetOfKits getSet(long id) {
@@ -45,6 +47,18 @@ public class SetOfKitsServiceImpl implements SetOfKitsService {
     @Override
     public void update(SetOfKits set) {
         setDao.update(set);
+    }
+
+    @Override
+    public void removeKitFromSet(long setId, long kitId) {
+        SetOfKits set = setDao.findById(setId);
+        Kit kit = kitDao.findById(kitId);
+        set.removeKit(kit);
+    }
+
+    @Override
+    public void addKitToSet(Long setId, Long kitId) {
+        setDao.findById(setId).addKit(kitDao.findById(kitId));
     }
 
 }
