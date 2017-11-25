@@ -63,6 +63,7 @@ public class KitDaoImpl implements KitDao {
             throw new InvalidDataAccessApiUsageException("Argument cannot be null");
         }
         em.merge(kit);
+        em.flush();
     }
 
     @Override

@@ -5,9 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 /**
@@ -23,21 +20,54 @@ public class BrickDaoImpl implements BrickDao {
 
     @Override
     public void create(Brick brick) {
+        if (brick == null) {
+            throw new IllegalArgumentException("Argument cannot be null.");
+        }
+
+        if (em.contains(brick)) {
+            throw new IllegalArgumentException("Such brick already exists.");
+        }
+
         em.persist(brick);
     }
 
     @Override
     public void update(Brick brick) {
+        if (brick == null) {
+            throw new IllegalArgumentException("Argument cannot be null.");
+        }
+
+        if (!em.contains(brick)) {
+            throw new IllegalArgumentException("Such brick does not exist.");
+        }
+
         em.merge(brick);
+        em.flush();
     }
 
     @Override
     public void delete(Brick brick) {
+        if (brick == null) {
+            throw new IllegalArgumentException("Argument cannot be null.");
+        }
+
+        if (!em.contains(brick)) {
+            throw new IllegalArgumentException("Such brick does not exist.");
+        }
+
         em.remove(brick);
     }
 
     @Override
     public Brick findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Argument cannot be null.");
+        }
+
+        if (em.find(Brick.class, id) == null) {
+            throw new IllegalArgumentException("Brick with such ID does not exist.");
+        }
+
         return em.find(Brick.class, id);
     }
 

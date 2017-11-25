@@ -43,7 +43,10 @@ public class CategoryDaoImpl implements CategoryDao {
         if (category == null) {
             throw new InvalidDataAccessApiUsageException("Argument cannot be null");
         }
+        em.merge(category);
+        em.flush();
         return em.merge(category);
+
     }
 
     @Override

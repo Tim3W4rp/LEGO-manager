@@ -4,6 +4,7 @@ import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
 import cz.fi.muni.legomanager.entity.Category;
 import org.hibernate.Session;
 import org.junit.Assert;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -92,13 +93,13 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         categoryDao.update(null);
     }
 
-    @Test
+    @Test(expectedExceptions = DataAccessException.class)
     public void updateWithNullDescription() {
         testCategory.setDescription(null);
         categoryDao.update(testCategory);
     }
 
-    @Test
+    @Test(expectedExceptions = DataAccessException.class)
     public void updateWithNullName() {
         testCategory.setName(null);
         categoryDao.update(testCategory);
