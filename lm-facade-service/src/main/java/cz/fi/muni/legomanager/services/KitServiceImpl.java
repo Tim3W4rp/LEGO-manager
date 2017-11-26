@@ -9,10 +9,8 @@ import cz.fi.muni.legomanager.entity.Kit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * @author Martin Jordán
@@ -153,5 +151,35 @@ public class KitServiceImpl implements KitService {
     @Override
     public void addBrickToKit(Long kitId, Long brickId) {
         kitDao.findById(kitId).addBrick(brickDao.findById(brickId));
+    }
+
+
+
+    // TODO: see comments, Color maybe
+    @Override
+    public Kit createRandomKitByRules(BigDecimal minPrice, BigDecimal maxPrice, long minBrickCount, long maxBrickCount, long differentShapesCount) {
+        Kit randomKit = new Kit();
+
+        // Get possible brick count
+        Map<Long, Brick> peopleByForename = getPossibleBrickCounts(minPrice, maxPrice, minBrickCount, maxBrickCount);
+
+        // Remove those with too low count (count < differentShapesCount)
+
+        // Now according to the count of shapes try to select randomly bricks from hashmap
+
+
+        Kit createdKit = kitDao.create(randomKit);
+        return createdKit;
+
+    }
+
+    private Map<Long, Brick> getPossibleBrickCounts( BigDecimal minPrice, BigDecimal maxPrice, long minBrickCount, long maxBrickCount) {
+        List<Brick> allBricks = brickDao.findAll();
+        HashMap<Long, Brick> countBricksInRanges = new HashMap<>();
+
+        // Calculate possible count of every brick in future kit
+
+
+        return  countBricksInRanges;
     }
 }
