@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Michal Peška
  */
-@Service
+
 public interface SetOfKitsService {
     SetOfKits getSet(long id);
     List<SetOfKits> getAllSets();
