@@ -1,6 +1,7 @@
 package cz.fi.muni.legomanager.dao;
 
 import cz.fi.muni.legomanager.entity.Brick;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -21,11 +22,11 @@ public class BrickDaoImpl implements BrickDao {
     @Override
     public void create(Brick brick) {
         if (brick == null) {
-            throw new IllegalArgumentException("Argument cannot be null.");
+            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
         }
 
         if (em.contains(brick)) {
-            throw new IllegalArgumentException("Such brick already exists.");
+            throw new InvalidDataAccessApiUsageException("Such brick already exists.");
         }
 
         em.persist(brick);
@@ -34,11 +35,11 @@ public class BrickDaoImpl implements BrickDao {
     @Override
     public void update(Brick brick) {
         if (brick == null) {
-            throw new IllegalArgumentException("Argument cannot be null.");
+            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
         }
 
         if (!em.contains(brick)) {
-            throw new IllegalArgumentException("Such brick does not exist.");
+            throw new InvalidDataAccessApiUsageException("Such brick does not exist.");
         }
 
         em.merge(brick);
@@ -48,11 +49,11 @@ public class BrickDaoImpl implements BrickDao {
     @Override
     public void delete(Brick brick) {
         if (brick == null) {
-            throw new IllegalArgumentException("Argument cannot be null.");
+            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
         }
 
         if (!em.contains(brick)) {
-            throw new IllegalArgumentException("Such brick does not exist.");
+            throw new InvalidDataAccessApiUsageException("Such brick does not exist.");
         }
 
         em.remove(brick);
@@ -61,11 +62,11 @@ public class BrickDaoImpl implements BrickDao {
     @Override
     public Brick findById(Long id) {
         if (id == null) {
-            throw new IllegalArgumentException("Argument cannot be null.");
+            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
         }
 
         if (em.find(Brick.class, id) == null) {
-            throw new IllegalArgumentException("Brick with such ID does not exist.");
+            throw new InvalidDataAccessApiUsageException("Brick with such ID does not exist.");
         }
 
         return em.find(Brick.class, id);
