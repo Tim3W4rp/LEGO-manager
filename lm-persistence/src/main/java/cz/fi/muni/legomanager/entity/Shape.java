@@ -54,8 +54,7 @@ public class Shape {
         }
 
         Shape other = (Shape) obj;
-        return this.getId() != null && Objects.equals(id, other.id) &&
-                Objects.equals(name, other.name);
+        return Objects.equals(name, other.name);
     }
 
     @Override

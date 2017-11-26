@@ -55,8 +55,12 @@ public class BrickDTO {
         return Collections.unmodifiableList(kitBricks);
     }
 
-    public void setKitBricks(List<KitBrickDTO> kitBricks) {
-        this.kitBricks = kitBricks;
+    public void addKitBrick(KitBrickDTO kitBrick) {
+        kitBricks.add(kitBrick);
+    }
+
+    public void removeKitBrick(KitBrickDTO kitBrick) {
+        kitBricks.remove(kitBrick);
     }
 
     public ShapeDTO getShape() {

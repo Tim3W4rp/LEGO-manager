@@ -1,6 +1,8 @@
 package cz.fi.muni.legomanager.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 
@@ -17,12 +19,21 @@ public class Brick {
     private Long id;
 
     @NotNull
+    @Min(0)
+    @Max(255)
+    @Column(nullable = false)
     private int red;
 
     @NotNull
+    @Min(0)
+    @Max(255)
+    @Column(nullable = false)
     private int green;
 
     @NotNull
+    @Min(0)
+    @Max(255)
+    @Column(nullable = false)
     private int blue;
 
     @NotNull
@@ -73,8 +84,12 @@ public class Brick {
         return Collections.unmodifiableList(kitBricks);
     }
 
-    public void setKitBricks(List<KitBrick> kitBricks) {
-        this.kitBricks = kitBricks;
+    public void addKitBrick(KitBrick kitBrick) {
+        kitBricks.add(kitBrick);
+    }
+
+    public void removeKitBrick(KitBrick kitBrick) {
+        kitBricks.remove(kitBrick);
     }
 
     @Override
@@ -92,9 +107,7 @@ public class Brick {
         }
 
         Brick other = (Brick) obj;
-        return getId() != null &&
-                Objects.equals(id, other.id) &&
-                Objects.equals(shape, other.shape) &&
+        return Objects.equals(shape, other.shape) &&
                 Objects.equals(red, other.red) &&
                 Objects.equals(green, other.green) &&
                 Objects.equals(blue, other.blue);

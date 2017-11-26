@@ -36,8 +36,12 @@ public class ShapeDTO {
         return Collections.unmodifiableList(bricks);
     }
 
-    public void setBricks(List<BrickDTO> bricks) {
-        this.bricks = bricks;
+    public void addBrick(BrickDTO brick) {
+        bricks.add(brick);
+    }
+
+    public void removeBrick(BrickDTO brick) {
+        bricks.remove(brick);
     }
 
     @Override
