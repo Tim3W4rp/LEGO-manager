@@ -6,6 +6,7 @@ import cz.fi.muni.legomanager.entity.Shape;
 
 import org.hibernate.Session;
 import org.junit.Assert;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -79,22 +80,43 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void create() throws Exception {
+    public void create() {
         Session session = (Session) em.getDelegate();
         Brick brick = (Brick) session.createQuery("FROM Brick").list().get(0);
         Assert.assertEquals(255, brick.getRed());
     }
 
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void createWithNull() {
+        brickDao.create(null);
+    }
+
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void createDuplicate() {
+        brickDao.create(greenBlockBrick);
+    }
+
     @Test
-    public void delete() throws Exception {
+    public void delete() {
         brickDao.delete(greenBlockBrick);
         Session session = (Session) em.getDelegate();
         int tableSize = session.createQuery("FROM Brick").list().size();
         Assert.assertEquals(2, tableSize);
     }
 
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void deleteWithNull() {
+        brickDao.delete(null);
+    }
+
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void deleteDuplicate() {
+        brickDao.delete(greenBlockBrick);
+        brickDao.delete(greenBlockBrick);
+    }
+
     @Test
-    public void update() throws Exception {
+    public void update() {
         Session session = (Session) em.getDelegate();
         redBlockBrick.setRed(0);
         redBlockBrick.setGreen(255);
@@ -106,23 +128,36 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(0, foundBrick.getBlue());
     }
 
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void updateWithNull() {
+        brickDao.update(null);
+    }
+
     @Test
-    public void findById() throws Exception {
+    public void findById() {
         Brick brick = brickDao.findById(blueBlockBrick.getId());
         Assert.assertEquals(blueBlockBrick.getId(), brick.getId());
     }
 
-    @Test
-    public void findAll() throws Exception {
-        brickList = brickDao.findAll();
-        Assert.assertEquals(3, brickList.size());
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void findByIdWithNull() {
+        brickDao.findById(null);
+    }
 
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void findByIdNotExists() {
+        brickDao.findById(-1L);
     }
 
     @Test
-    public void testBrickShapeRelationship() throws Exception {
-        Assert.assertEquals("Block", blueBlockBrick.getShape().getName());
+    public void findAll() {
+        brickList = brickDao.findAll();
+        Assert.assertEquals(3, brickList.size());
+    }
 
+    @Test
+    public void testBrickShapeRelationship() {
+        Assert.assertEquals("Block", blueBlockBrick.getShape().getName());
     }
 
 }

@@ -7,12 +7,14 @@ import cz.fi.muni.legomanager.entity.Kit;
 import cz.fi.muni.legomanager.services.DozerService;
 import cz.fi.muni.legomanager.services.KitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * @author Martin Jordán
  */
+@Service
 public class KitFacadeImpl implements KitFacade {
 
     @Autowired
