@@ -51,6 +51,10 @@ public class SetOfKits {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Set<Kit> getKits() {
         return Collections.unmodifiableSet(kits);
     }

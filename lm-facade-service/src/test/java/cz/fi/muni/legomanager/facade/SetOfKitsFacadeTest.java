@@ -160,17 +160,17 @@ public class SetOfKitsFacadeTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(set.getKits().size(), 1);
 
         setFacade.removeKitFromSet(setId, xWingKitId);
-        Assert.assertEquals(set.getKits().size(), 0);
+        SetOfKitsDTO setUpdated = setFacade.findSetById(setId);
+        Assert.assertEquals(setUpdated.getKits().size(), 0);
 
     }
 
     @Test
     public void getSetCategoriesTest() {
         Long setId = setFacade.createSet(newSet);
-        setFacade.addKitToSet(setId, xWingKitId);
         setFacade.addKitToSet(setId, deathStarKitId);
 
-        Assert.assertEquals(setFacade.getSetCategories(setId).size(), 2);
+        Assert.assertEquals(setFacade.getSetCategories(setId).size(), 1);
 
     }
 
