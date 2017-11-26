@@ -69,6 +69,14 @@ public class Brick {
         this.shape = shape;
     }
 
+    public List<KitBrick> getKitBricks() {
+        return Collections.unmodifiableList(kitBricks);
+    }
+
+    public void setKitBricks(List<KitBrick> kitBricks) {
+        this.kitBricks = kitBricks;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
