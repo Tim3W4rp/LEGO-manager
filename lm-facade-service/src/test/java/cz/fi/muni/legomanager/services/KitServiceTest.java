@@ -159,7 +159,7 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testFindSimilarKits() 
+    public void testFindSimilarKits() {
     }
 
     @Test
