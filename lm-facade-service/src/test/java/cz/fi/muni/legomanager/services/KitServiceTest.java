@@ -134,11 +134,6 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testGetKitsByCategoryId() {
-
-    }
-
-    @Test
     public void testAddBrickToKitById() {
         kitService.addBrickToKitById(1L, 1L);
         Kit kit = kitDao.findById(1L);
