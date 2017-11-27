@@ -19,7 +19,7 @@ public class KitDaoImpl implements KitDao {
     private EntityManager em;
 
     @Override
-    public void create(Kit kit) {
+    public Kit create(Kit kit) {
         if (kit == null) {
             throw new InvalidDataAccessApiUsageException("Argument cannot be null");
         }
@@ -41,6 +41,7 @@ public class KitDaoImpl implements KitDao {
         }
 
         em.persist(kit);
+        return kit;
     }
 
     @Override
