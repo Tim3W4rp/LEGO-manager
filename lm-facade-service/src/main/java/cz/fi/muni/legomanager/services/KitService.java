@@ -17,7 +17,7 @@ public interface KitService {
     public Long updateKit(Kit kit);
     public void deleteKitById(long id);
     public List<Kit> findAllKits();
-    public Set<Kit> getKitsByCategoryId(Long categoryId);
+    public Set<Kit> getKitsByCategoryId(long categoryId);
     public void addBrickToKitById(Long kitId, Long brickId);
     public void removeOneBrickFromKitById(long kitId, long brickId);
     public void removeAllBricksOfThisTypeFromKitById(long kitId, long brickId);
