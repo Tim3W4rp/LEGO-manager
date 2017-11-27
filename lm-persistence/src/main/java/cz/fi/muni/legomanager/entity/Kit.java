@@ -44,12 +44,15 @@ public class Kit {
     public Kit() {
     }
 
-    public Kit(Long id, String description, Integer price, Integer ageLimit) {
-        this.id = id;
+    public Kit(String description, Integer price, Integer ageLimit, Category category, List<KitBrick> kitBricks, SetOfKits setOfKits) {
         this.description = description;
         this.price = price;
         this.ageLimit = ageLimit;
+        this.category = category;
+        this.kitBricks = kitBricks;
+        this.setOfKits = setOfKits;
     }
+
 
     public Long getId() {
         return id;
@@ -141,41 +144,30 @@ public class Kit {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result +
-                (description == null ? 0 : description.hashCode()) +
-                (price == null ? 0 : price.hashCode()) +
-                (ageLimit == null ? 0 : ageLimit.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Kit kit = (Kit) o;
+
+        if (id != null ? !id.equals(kit.id) : kit.id != null) return false;
+        if (description != null ? !description.equals(kit.description) : kit.description != null) return false;
+        if (price != null ? !price.equals(kit.price) : kit.price != null) return false;
+        if (ageLimit != null ? !ageLimit.equals(kit.ageLimit) : kit.ageLimit != null) return false;
+        if (category != null ? !category.equals(kit.category) : kit.category != null) return false;
+        if (kitBricks != null ? !kitBricks.equals(kit.kitBricks) : kit.kitBricks != null) return false;
+        return setOfKits != null ? setOfKits.equals(kit.setOfKits) : kit.setOfKits == null;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-
-        if (obj == null) {
-            return false;
-        }
-
-        if (!(obj instanceof Kit)) {
-            return false;
-        }
-
-        Kit other = (Kit) obj;
-        if (description == null || price == null || ageLimit == null) {
-            if (other.getDescription() != null || other.getPrice() != null || other.getAgeLimit() != null) {
-                return false;
-            }
-        } else if (!description.equals(other.getDescription()) ||
-                !price.equals(other.getPrice()) ||
-                !ageLimit.equals(other.getAgeLimit())) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (ageLimit != null ? ageLimit.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        result = 31 * result + (kitBricks != null ? kitBricks.hashCode() : 0);
+        result = 31 * result + (setOfKits != null ? setOfKits.hashCode() : 0);
+        return result;
     }
-
 }

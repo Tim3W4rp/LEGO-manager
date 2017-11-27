@@ -1,5 +1,9 @@
 package cz.fi.muni.legomanager.facade;
 
+import cz.fi.muni.legomanager.dto.CategoryDTO;
+import cz.fi.muni.legomanager.dto.KitCreateDTO;
+import cz.fi.muni.legomanager.dto.KitDTO;
+import cz.fi.muni.legomanager.entity.Category;
 
 import cz.fi.muni.legomanager.dto.BrickDTO;
 import cz.fi.muni.legomanager.dto.CategoryDTO;
@@ -93,27 +97,22 @@ public class KitFacadeImpl implements KitFacade {
         kitService.removeAllBricksOfThisTypeFromKitById(kitId, brickId);
     }
 
-    /*
     @Override
-    public KitDTO findOneRandomSimilarKit(KitDTO kitDTO) {
+    public List<KitDTO> findSimilarKits(KitDTO kitDTO, int priceRange, int ageLimitRange, CategoryDTO categoryDTO) {
         Kit mappedKit = dozerService.mapTo(kitDTO, Kit.class);
-        return dozerService.mapTo(kitService.findOneRandomSimilarKit(mappedKit), KitDTO.class);
+        Category mappedCategory = dozerService.mapTo(categoryDTO, Category.class);
+        return dozerService.mapTo(kitService.findSimilarKits(mappedKit, priceRange, ageLimitRange, mappedCategory), KitDTO.class);
     }
 
     @Override
-    public List<KitDTO> findSimilarKits(KitDTO kitDTO) {
-        Kit mappedKit = dozerService.mapTo(kitDTO, Kit.class);
-        return dozerService.mapTo(kitService.findSimilarKits(mappedKit), KitDTO.class);
-    }
-    */
-
     public long createRandomKitByRules(long minBrickCount, long maxBrickCount, Map<BrickDTO, Long> bricksCounts) {
         Map<Brick, Long> brickEntitiesCounts = new HashMap<Brick, Long>();
+
         for (Map.Entry<BrickDTO, Long> entry : bricksCounts.entrySet()) {
             Brick mappedBrick = dozerService.mapTo(entry.getKey(), Brick.class);
             brickEntitiesCounts.put(mappedBrick, entry.getValue());
         }
-
+        
         return kitService.createRandomKitByRules(minBrickCount, maxBrickCount, brickEntitiesCounts);
     }
 }

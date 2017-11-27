@@ -1,11 +1,12 @@
 package cz.fi.muni.legomanager.services;
 
 import cz.fi.muni.legomanager.config.ServiceConfigurationContext;
+import cz.fi.muni.legomanager.dao.BrickDao;
+import cz.fi.muni.legomanager.dao.CategoryDao;
 import cz.fi.muni.legomanager.dao.KitDao;
 import cz.fi.muni.legomanager.entity.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -16,10 +17,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Random;
 
 import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.*;
 import static org.testng.Assert.assertEquals;
 
 
@@ -32,6 +36,12 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private KitDao kitDao;
+
+    @Mock
+    private BrickDao brickDao;
+
+    @Mock
+    private CategoryDao categoryDao;
 
     @Mock
     private SetOfKits setOfKits;
@@ -56,11 +66,15 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void setUp() {
-
-        MockitoAnnotations.initMocks(this);
+        initMocks(this);
 
         List<Kit> allKits = new ArrayList<>();
+        Set<Kit> kitsInSet = new HashSet<>();
+        Set<Kit> kitsInCategory = new HashSet<>();
+
+        kitsInCategory.add(kit);
         allKits.add(kit);
+        kitsInSet.add(kit);
 
         when(kit.getId()).thenReturn(1L);
         when(kit.getPrice()).thenReturn(0);
@@ -69,10 +83,15 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
         when(kit.getSetOfKits()).thenReturn(setOfKits);
         when(kit.getCategory()).thenReturn(category);
         when(kit.getKitBricks()).thenReturn(kitBricks);
+        when(brick.getId()).thenReturn(1L);
         when(brick.getKitBricks()).thenReturn(kitBricks);
+        when(category.getId()).thenReturn(1L);
+        when(category.getKits()).thenReturn(kitsInCategory);
         when(kitBrick.getBrick()).thenReturn(brick);
         when(kitBrick.getKit()).thenReturn(kit);
+        when(setOfKits.getKits()).thenReturn(kitsInSet);
 
+        when(brickDao.findById(1L)).thenReturn(brick);
         when(kitDao.findById(1L)).thenReturn(kit);
         when(kitDao.findAll()).thenReturn(allKits);
     }
@@ -92,7 +111,8 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testUpdateKit() {
-
+        kitService.updateKit(kit);
+        verify(kitDao).update(kit);
     }
 
     @Test
@@ -103,36 +123,41 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindAllKits() {
+        List<Kit> foundKits = kitService.findAllKits();
+        verify(kitDao).findAll();
 
+        List<Kit> expectedKits = new ArrayList<>();
+        expectedKits.add(kit);
+
+        assertEquals(expectedKits, foundKits);
     }
 
     @Test
-    public void testGetKitsByCategory() {
-
+    public void testGetKitsByCategoryId() {
     }
 
     @Test
-    public void testAddCategory() {
-    }
-
-    @Test
-    public void testRemoveCategory() {
-    }
-
-    @Test
-    public void testGetKitCategories() {
-    }
-
-    @Test
-    public void testAddBrickToKit() {
+    public void testAddBrickToKitById() {
+        kitService.addBrickToKitById(1L, 1L);
+        Kit kit = kitDao.findById(1L);
+        Brick brick = brickDao.findById(1L);
+        verify(kit).addBrick(brick);
     }
 
     @Test
     public void testRemoveOneBrickFromKitById() {
+        kitService.removeOneBrickFromKitById(1L, 1L);
+        Kit kit = kitDao.findById(1L);
+        Brick brick = brickDao.findById(1L);
+        verify(kit).removeBrick(brick);
     }
 
     @Test
     public void testRemoveAllBricksOfThisTypeFromKitById() {
+        kitService.removeAllBricksOfThisTypeFromKitById(1L, 1L);
+        Kit kit = kitDao.findById(1L);
+        Brick brick = brickDao.findById(1L);
+        verify(kit).removeAllBricksOfThisType(brick);
     }
 
     @Test
@@ -201,10 +226,15 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindBrickById() {
+        kitService.findBrickById(1L);
+        Brick brick = brickDao.findById(1L);
+        assertEquals(brick.getId().longValue(), 1L);
     }
 
     @Test
-    public void addKitToSet() {
+    public void testAddKitToSet() {
+        kitService.addKitToSet(kit, setOfKits);
+        verify(setOfKits).addKit(kit);
     }
 
     private Kit generateKitInRange(Integer priceMin, Integer priceMax, Integer ageMin, Integer ageMax, Category category) {
