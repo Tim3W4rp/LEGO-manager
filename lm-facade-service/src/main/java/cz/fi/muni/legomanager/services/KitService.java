@@ -6,6 +6,7 @@ import cz.fi.muni.legomanager.entity.Brick;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -24,5 +25,5 @@ public interface KitService {
     // public Kit findOneRandomSimilarKit(Kit kit);
     // public List<Kit> findSimilarKits(Kit kit);
     public Brick findBrickById(long id);
-    Kit createRandomKitByRules(BigDecimal minPrice, BigDecimal maxPrice, long minBrickCount, long maxBrickCount, long differentShapesCount);
+    Long createRandomKitByRules(Long minBrickCount, Long maxBrickCount, Map<Brick, Long> bricksCounts);
 }

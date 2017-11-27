@@ -155,31 +155,60 @@ public class KitServiceImpl implements KitService {
 
 
 
-    // TODO: see comments, Color maybe
+    // Important note: BrickCounts contains counts and bricks that must appear in kit (count>0) and those that can appear(count=0)
+    // TODO make it use even other bricks than specified
     @Override
-    public Kit createRandomKitByRules(BigDecimal minPrice, BigDecimal maxPrice, long minBrickCount, long maxBrickCount, long differentShapesCount) {
+    public Long createRandomKitByRules(Long minBrickCount, Long maxBrickCount, Map<Brick, Long> bricksCounts) {
         Kit randomKit = new Kit();
+        Long piecesTotal = countPieces(bricksCounts);
+        Map<Brick, Long> canBeBricksCounts = getPossibleBrickCounts(bricksCounts);
 
-        // Get possible brick count
-        Map<Long, Brick> peopleByForename = getPossibleBrickCounts(minPrice, maxPrice, minBrickCount, maxBrickCount);
+//        Long bricksMin = minBrickCount - piecesTotal;
+        Long bricksDifference = (maxBrickCount - minBrickCount);
+        int countOfBricksToAdd = getRandomNumberUpTo(bricksDifference.intValue());
 
-        // Remove those with too low count (count < differentShapesCount)
+        //Brick[] arrayBricks = canBeBricksCounts.keySet().toArray();
 
-        // Now according to the count of shapes try to select randomly bricks from hashmap
+        // Add random number of bricks
+        while(countOfBricksToAdd > 0) {
+            int brickIndex = getRandomNumberUpTo(canBeBricksCounts.size());
+            int addCount = getRandomNumberUpTo(countOfBricksToAdd);
 
+            //arrayBricks[brickIndex]
+            countOfBricksToAdd -= addCount;
+        }
+
+        for (Map.Entry<Brick, Long> entry : bricksCounts.entrySet()) {
+            if (entry.getValue() > 0L) {
+                randomKit.addBrick(entry.getKey());
+            }
+        }
 
         Kit createdKit = kitDao.create(randomKit);
-        return createdKit;
+        return createdKit.getId();
 
     }
 
-    private Map<Long, Brick> getPossibleBrickCounts( BigDecimal minPrice, BigDecimal maxPrice, long minBrickCount, long maxBrickCount) {
-        List<Brick> allBricks = brickDao.findAll();
-        HashMap<Long, Brick> countBricksInRanges = new HashMap<>();
+    private Long countPieces(Map<Brick, Long> mappedBrickCount) {
+        Long count = 0L;
+        for (Map.Entry<Brick, Long> entry : mappedBrickCount.entrySet()) {
+            count += entry.getValue();
+        }
+        return count;
+    }
 
-        // Calculate possible count of every brick in future kit
+    private Map<Brick, Long> getPossibleBrickCounts(Map<Brick, Long> mappedBrickCount) {
+        Map<Brick, Long> possibleBrickCounts = new LinkedHashMap<>();
+        for (Map.Entry<Brick, Long> entry : mappedBrickCount.entrySet()) {
+            if (entry.getValue() == 0L) {
+                possibleBrickCounts.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return possibleBrickCounts;
+    }
 
-
-        return  countBricksInRanges;
+    private int getRandomNumberUpTo(int max) {
+        Random randomGenerator = new Random();
+        return randomGenerator.nextInt(max);
     }
 }
