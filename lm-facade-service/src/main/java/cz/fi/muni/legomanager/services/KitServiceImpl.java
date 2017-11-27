@@ -10,10 +10,8 @@ import cz.fi.muni.legomanager.entity.SetOfKits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * @author Martin Jordán
@@ -144,5 +142,64 @@ public class KitServiceImpl implements KitService {
     @Override
     public void addKitToSet(Kit kit, SetOfKits setOfKits) {
         setOfKits.addKit(kit);
+    }
+
+
+
+    // Important note: BrickCounts contains counts and bricks that must appear in kit (count>0) and those that can appear(count=0)
+    // TODO make it use even other bricks than specified
+    @Override
+    public Long createRandomKitByRules(Long minBrickCount, Long maxBrickCount, Map<Brick, Long> bricksCounts) {
+        Kit randomKit = new Kit();
+        Long piecesTotal = countPieces(bricksCounts);
+        Map<Brick, Long> canBeBricksCounts = getPossibleBrickCounts(bricksCounts);
+
+//        Long bricksMin = minBrickCount - piecesTotal;
+        Long bricksDifference = (maxBrickCount - minBrickCount);
+        int countOfBricksToAdd = getRandomNumberUpTo(bricksDifference.intValue());
+
+        //Brick[] arrayBricks = canBeBricksCounts.keySet().toArray();
+
+        // Add random number of bricks
+        while(countOfBricksToAdd > 0) {
+            int brickIndex = getRandomNumberUpTo(canBeBricksCounts.size());
+            int addCount = getRandomNumberUpTo(countOfBricksToAdd);
+
+            //arrayBricks[brickIndex]
+            countOfBricksToAdd -= addCount;
+        }
+
+        for (Map.Entry<Brick, Long> entry : bricksCounts.entrySet()) {
+            if (entry.getValue() > 0L) {
+                randomKit.addBrick(entry.getKey());
+            }
+        }
+
+        Kit createdKit = kitDao.create(randomKit);
+        return createdKit.getId();
+
+    }
+
+    private Long countPieces(Map<Brick, Long> mappedBrickCount) {
+        Long count = 0L;
+        for (Map.Entry<Brick, Long> entry : mappedBrickCount.entrySet()) {
+            count += entry.getValue();
+        }
+        return count;
+    }
+
+    private Map<Brick, Long> getPossibleBrickCounts(Map<Brick, Long> mappedBrickCount) {
+        Map<Brick, Long> possibleBrickCounts = new LinkedHashMap<>();
+        for (Map.Entry<Brick, Long> entry : mappedBrickCount.entrySet()) {
+            if (entry.getValue() == 0L) {
+                possibleBrickCounts.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return possibleBrickCounts;
+    }
+
+    private int getRandomNumberUpTo(int max) {
+        Random randomGenerator = new Random();
+        return randomGenerator.nextInt(max);
     }
 }

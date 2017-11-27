@@ -1,14 +1,22 @@
 package cz.fi.muni.legomanager.facade;
 
+
+import cz.fi.muni.legomanager.dto.BrickDTO;
+import cz.fi.muni.legomanager.dto.CategoryDTO;
 import cz.fi.muni.legomanager.dto.KitCreateDTO;
 import cz.fi.muni.legomanager.dto.KitDTO;
+import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Kit;
 import cz.fi.muni.legomanager.services.DozerService;
 import cz.fi.muni.legomanager.services.KitService;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Martin Jordán
@@ -98,4 +106,14 @@ public class KitFacadeImpl implements KitFacade {
         return dozerService.mapTo(kitService.findSimilarKits(mappedKit), KitDTO.class);
     }
     */
+
+    public long createRandomKitByRules(long minBrickCount, long maxBrickCount, Map<BrickDTO, Long> bricksCounts) {
+        Map<Brick, Long> brickEntitiesCounts = new HashMap<Brick, Long>();
+        for (Map.Entry<BrickDTO, Long> entry : bricksCounts.entrySet()) {
+            Brick mappedBrick = dozerService.mapTo(entry.getKey(), Brick.class);
+            brickEntitiesCounts.put(mappedBrick, entry.getValue());
+        }
+
+        return kitService.createRandomKitByRules(minBrickCount, maxBrickCount, brickEntitiesCounts);
+    }
 }
