@@ -1,6 +1,7 @@
 package cz.fi.muni.legomanager.facade;
 
 import cz.fi.muni.legomanager.config.ServiceConfigurationContext;
+import cz.fi.muni.legomanager.dto.ShapeCreateDTO;
 import cz.fi.muni.legomanager.dto.ShapeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,7 +32,7 @@ public class ShapeFacadeTest extends AbstractTestNGSpringContextTests {
     @BeforeMethod
     public void setUp() {
 
-        ShapeDTO newShape = new ShapeDTO();
+        ShapeCreateDTO newShape = new ShapeCreateDTO();
         newShape.setName("Cube");
 
         shapeId = shapeFacade.create(newShape);

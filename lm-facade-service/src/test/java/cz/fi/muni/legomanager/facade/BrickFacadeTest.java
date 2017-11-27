@@ -1,6 +1,7 @@
 package cz.fi.muni.legomanager.facade;
 
 import cz.fi.muni.legomanager.config.ServiceConfigurationContext;
+import cz.fi.muni.legomanager.dto.BrickCreateDTO;
 import cz.fi.muni.legomanager.dto.BrickDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,7 +32,7 @@ public class BrickFacadeTest extends AbstractTestNGSpringContextTests {
     @BeforeMethod
     public void setUp() {
 
-        BrickDTO newBrick = new BrickDTO();
+        BrickCreateDTO newBrick = new BrickCreateDTO();
         newBrick.setRed(0);
         newBrick.setGreen(255);
         newBrick.setBlue(0);

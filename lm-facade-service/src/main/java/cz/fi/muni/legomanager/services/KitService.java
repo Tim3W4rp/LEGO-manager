@@ -5,7 +5,9 @@ import cz.fi.muni.legomanager.entity.Kit;
 import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.SetOfKits;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -23,5 +25,7 @@ public interface KitService {
     public void removeAllBricksOfThisTypeFromKitById(long kitId, long brickId);
     public List<Kit> findSimilarKits(Kit similarKit, int priceRange, int ageLimitRange, Category category);
     public Brick findBrickById(long id);
+    Long createRandomKitByRules(Long minBrickCount, Long maxBrickCount, Map<Brick, Long> bricksCounts);
     public void addKitToSet(Kit kit, SetOfKits setOfKits);
+
 }

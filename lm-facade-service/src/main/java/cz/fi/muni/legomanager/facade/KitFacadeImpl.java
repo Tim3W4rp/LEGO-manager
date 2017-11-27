@@ -4,13 +4,23 @@ import cz.fi.muni.legomanager.dto.CategoryDTO;
 import cz.fi.muni.legomanager.dto.KitCreateDTO;
 import cz.fi.muni.legomanager.dto.KitDTO;
 import cz.fi.muni.legomanager.entity.Category;
+
+import cz.fi.muni.legomanager.dto.BrickDTO;
+import cz.fi.muni.legomanager.dto.CategoryDTO;
+import cz.fi.muni.legomanager.dto.KitCreateDTO;
+import cz.fi.muni.legomanager.dto.KitDTO;
+import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Kit;
 import cz.fi.muni.legomanager.services.DozerService;
 import cz.fi.muni.legomanager.services.KitService;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Martin Jordán
@@ -93,5 +103,4 @@ public class KitFacadeImpl implements KitFacade {
         Category mappedCategory = dozerService.mapTo(categoryDTO, Category.class);
         return dozerService.mapTo(kitService.findSimilarKits(mappedKit, priceRange, ageLimitRange, mappedCategory), KitDTO.class);
     }
-
 }

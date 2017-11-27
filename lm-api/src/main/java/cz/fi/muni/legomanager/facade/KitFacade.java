@@ -3,8 +3,10 @@ package cz.fi.muni.legomanager.facade;
 import cz.fi.muni.legomanager.dto.CategoryDTO;
 import cz.fi.muni.legomanager.dto.KitCreateDTO;
 import cz.fi.muni.legomanager.dto.KitDTO;
-
+import cz.fi.muni.legomanager.dto.BrickDTO;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Martin Jordán
@@ -23,4 +25,5 @@ public interface KitFacade {
     public void removeOneBrickFromKitById(Long kitId, Long brickId);
     public void removeAllBricksOfThisTypeFromKitById(Long kitId, Long brickId);
     public List<KitDTO> findSimilarKits(KitDTO kitDTO, int priceRange, int ageLimitRange, CategoryDTO category);
+    public long createRandomKitByRules(long minBrickCount, long maxBrickCount, Map<BrickDTO, Long> bricksCounts);
 }
