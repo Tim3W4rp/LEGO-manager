@@ -64,8 +64,12 @@ public class Category {
         return Collections.unmodifiableSet(kits);
     }
 
-    public void setKits(Set<Kit> kits) {
-        this.kits = kits;
+    public void addKit(Kit kit) {
+        kits.add(kit);
+    }
+
+    public void removeKit(Kit kit) {
+        kits.remove(kit);
     }
 
     @Override
