@@ -68,9 +68,9 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
         Set<Kit> kitsInSet = new HashSet<>();
         Set<Kit> kitsInCategory = new HashSet<>();
 
-        kitsInCategory.add(kit);
         allKits.add(kit);
         kitsInSet.add(kit);
+        kitsInCategory.add(kit);
 
         when(kit.getId()).thenReturn(1L);
         when(kit.getPrice()).thenReturn(0);
@@ -88,6 +88,7 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
         when(setOfKits.getKits()).thenReturn(kitsInSet);
 
         when(brickDao.findById(1L)).thenReturn(brick);
+        when(categoryDao.findById(1L)).thenReturn(category);
         when(kitDao.findById(1L)).thenReturn(kit);
         when(kitDao.findAll()).thenReturn(allKits);
     }
@@ -130,6 +131,7 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testGetKitsByCategoryId() {
+
     }
 
     @Test
@@ -157,7 +159,7 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testFindSimilarKits() {
+    public void testFindSimilarKits() 
     }
 
     @Test

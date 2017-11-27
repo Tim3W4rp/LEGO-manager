@@ -91,15 +91,15 @@ public class KitServiceImpl implements KitService {
 
     @Override
     public void removeAllBricksOfThisTypeFromKitById(long kitId, long brickId) {
-        Kit kit = findKitById(kitId);
-        Brick brick = findBrickById(brickId);
-        findKitById(kitId).removeAllBricksOfThisType(brick);
+        Kit kit = kitDao.findById(kitId);
+        Brick brick = brickDao.findById(brickId);
+        kit.removeAllBricksOfThisType(brick);
     }
 
     @Override
     public void removeOneBrickFromKitById(long kitId, long brickId){
         Kit kit = kitDao.findById(kitId);
-        Brick brick = findBrickById(brickId);
+        Brick brick = brickDao.findById(brickId);
         kit.removeBrick(brick);
     }
 
@@ -142,7 +142,6 @@ public class KitServiceImpl implements KitService {
     public void addKitToSet(Kit kit, SetOfKits setOfKits) {
         setOfKits.addKit(kit);
     }
-
 
 
     // Important note: BrickCounts contains counts and bricks that must appear in kit (count>0) and those that can appear(count=0)
