@@ -74,12 +74,9 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
-    public Set<Kit> getKitsByCategoryId(Long categoryId) {
-        if (categoryId == null) {
-            throw new IllegalArgumentException("Category ID cannot be null.");
-        }
-
-        return categoryDao.findById(categoryId).getKits();
+    public Set<Kit> getKitsByCategoryId(long categoryId) {
+        Category category = categoryDao.findById(categoryId);
+        return category.getKits();
     }
 
     @Override
@@ -136,7 +133,9 @@ public class KitServiceImpl implements KitService {
 
     @Override
     public void addBrickToKitById(Long kitId, Long brickId) {
-        kitDao.findById(kitId).addBrick(brickDao.findById(brickId));
+        Kit kit = kitDao.findById(kitId);
+        Brick brick = brickDao.findById(brickId);
+        kit.addBrick(brick);
     }
 
     @Override

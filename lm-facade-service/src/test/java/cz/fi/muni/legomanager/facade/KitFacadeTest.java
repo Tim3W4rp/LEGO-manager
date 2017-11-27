@@ -27,11 +27,6 @@ public class KitFacadeTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void setUp() {
-
-        KitCreateDTO newKit = new KitCreateDTO();
-        newKitId = kitFacade.createKit(newKit);
-
-        KitDTO existingKit = new KitDTO();
     }
 
     @Test

@@ -1,9 +1,6 @@
 package cz.fi.muni.legomanager.dto;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Martin Jordán
@@ -57,7 +54,7 @@ public class KitDTO {
     }
 
     public List<KitBrickDTO> getKitBricks() {
-        return kitBricks;
+        return Collections.unmodifiableList(kitBricks);
     }
 
     public void setKitBricks(List<KitBrickDTO> kitBricks) {
