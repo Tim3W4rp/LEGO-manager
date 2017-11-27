@@ -1,5 +1,6 @@
 package cz.fi.muni.legomanager.facade;
 
+import cz.fi.muni.legomanager.dto.ShapeCreateDTO;
 import cz.fi.muni.legomanager.dto.ShapeDTO;
 import cz.fi.muni.legomanager.entity.Shape;
 import cz.fi.muni.legomanager.services.DozerService;
@@ -26,7 +27,7 @@ public class ShapeFacadeImpl implements ShapeFacade {
     private DozerService dozerService;
 
     @Override
-    public Long create(ShapeDTO shapeDTO) {
+    public Long create(ShapeCreateDTO shapeDTO) {
         Shape shape = dozerService.mapTo(shapeDTO, Shape.class);
         shapeService.create(shape);
         return shape.getId();
