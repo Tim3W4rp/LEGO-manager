@@ -60,6 +60,10 @@ public class Brick {
         return blue;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setRed(int red) {
         this.red = red;
     }

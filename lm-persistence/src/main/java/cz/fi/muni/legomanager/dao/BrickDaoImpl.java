@@ -38,10 +38,6 @@ public class BrickDaoImpl implements BrickDao {
             throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
         }
 
-        if (!em.contains(brick)) {
-            throw new InvalidDataAccessApiUsageException("Such brick does not exist.");
-        }
-
         em.merge(brick);
         em.flush();
     }
