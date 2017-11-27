@@ -103,4 +103,16 @@ public class KitFacadeImpl implements KitFacade {
         Category mappedCategory = dozerService.mapTo(categoryDTO, Category.class);
         return dozerService.mapTo(kitService.findSimilarKits(mappedKit, priceRange, ageLimitRange, mappedCategory), KitDTO.class);
     }
+
+    @Override
+    public long createRandomKitByRules(long minBrickCount, long maxBrickCount, Map<BrickDTO, Long> bricksCounts) {
+        Map<Brick, Long> brickEntitiesCounts = new HashMap<Brick, Long>();
+
+        for (Map.Entry<BrickDTO, Long> entry : bricksCounts.entrySet()) {
+            Brick mappedBrick = dozerService.mapTo(entry.getKey(), Brick.class);
+            brickEntitiesCounts.put(mappedBrick, entry.getValue());
+        }
+        
+        return kitService.createRandomKitByRules(minBrickCount, maxBrickCount, brickEntitiesCounts);
+    }
 }
