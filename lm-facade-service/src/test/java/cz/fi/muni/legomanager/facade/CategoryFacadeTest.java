@@ -3,6 +3,7 @@ package cz.fi.muni.legomanager.facade;
 import cz.fi.muni.legomanager.config.ServiceConfigurationContext;
 import cz.fi.muni.legomanager.dto.CategoryDTO;
 import cz.fi.muni.legomanager.dto.KitCreateDTO;
+import cz.fi.muni.legomanager.dto.KitDTO;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -68,8 +69,27 @@ public class CategoryFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void getKits() {
-        // TODO: waiting for correct KitDTO
-    }
+
+        KitCreateDTO newKit = new KitCreateDTO();
+
+        newKit.setDescription("A");
+        newKit.setPrice(10);
+        newKit.setAgeLimit(10);
+
+        Long kitId = kitFacade.createKit(newKit);
+
+        KitDTO kit = kitFacade.findKitById(kitId);
+
+        kit.setCategory(categoryFacade.getCategoryById(categoryId));
+
+        kitFacade.updateKit(kit);
+
+        Session session = (Session) em.getDelegate();
+
+        session.flush();
+        session.clear();
+
+        Assert.assertEquals(categoryFacade.getKits(categoryId).size(), 1);    }
 
     @Test
     public void removeCategory() {
