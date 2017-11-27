@@ -1,5 +1,6 @@
 package cz.fi.muni.legomanager.facade;
 
+import cz.fi.muni.legomanager.dto.BrickCreateDTO;
 import cz.fi.muni.legomanager.dto.BrickDTO;
 import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.services.BrickService;
@@ -26,7 +27,7 @@ public class BrickFacadeImpl implements BrickFacade {
     private DozerService dozerService;
 
     @Override
-    public Long create(BrickDTO brickDTO) {
+    public Long create(BrickCreateDTO brickDTO) {
         Brick brick = dozerService.mapTo(brickDTO, Brick.class);
         brickService.create(brick);
         return brick.getId();

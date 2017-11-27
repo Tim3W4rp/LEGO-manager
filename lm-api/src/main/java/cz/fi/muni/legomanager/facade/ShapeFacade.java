@@ -1,5 +1,6 @@
 package cz.fi.muni.legomanager.facade;
 
+import cz.fi.muni.legomanager.dto.ShapeCreateDTO;
 import cz.fi.muni.legomanager.dto.ShapeDTO;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface ShapeFacade {
      * @param shapeDTO shape to be created
      * @return created shape id
      */
-    Long create(ShapeDTO shapeDTO);
+    Long create(ShapeCreateDTO shapeDTO);
 
     /**
      * Update the given shape.

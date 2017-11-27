@@ -1,5 +1,6 @@
 package cz.fi.muni.legomanager.facade;
 
+import cz.fi.muni.legomanager.dto.BrickCreateDTO;
 import cz.fi.muni.legomanager.dto.BrickDTO;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface BrickFacade {
      * @param brickDTO brick to be created
      * @return created brick id
      */
-    Long create(BrickDTO brickDTO);
+    Long create(BrickCreateDTO brickDTO);
 
     /**
      * Update the given brick.

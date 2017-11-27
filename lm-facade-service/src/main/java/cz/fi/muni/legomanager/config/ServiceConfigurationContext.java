@@ -1,6 +1,7 @@
 package cz.fi.muni.legomanager.config;
 
 import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
+import cz.fi.muni.legomanager.dto.BrickCreateDTO;
 import cz.fi.muni.legomanager.dto.BrickDTO;
 import cz.fi.muni.legomanager.dto.CategoryDTO;
 import cz.fi.muni.legomanager.dto.KitBrickDTO;
@@ -8,6 +9,7 @@ import cz.fi.muni.legomanager.dto.KitCreateDTO;
 import cz.fi.muni.legomanager.dto.KitDTO;
 import cz.fi.muni.legomanager.dto.SetOfKitsCreateDTO;
 import cz.fi.muni.legomanager.dto.SetOfKitsDTO;
+import cz.fi.muni.legomanager.dto.ShapeCreateDTO;
 import cz.fi.muni.legomanager.dto.ShapeDTO;
 import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Category;
@@ -46,6 +48,7 @@ public class ServiceConfigurationContext {
         @Override
         protected void configure() {
             mapping(Brick.class, BrickDTO.class);
+            mapping(Brick.class, BrickCreateDTO.class);
             mapping(Category.class, CategoryDTO.class);
             mapping(Kit.class, KitDTO.class);
             mapping(Kit.class, KitCreateDTO.class);
@@ -53,6 +56,7 @@ public class ServiceConfigurationContext {
             mapping(SetOfKits.class, SetOfKitsDTO.class);
             mapping(SetOfKits.class, SetOfKitsCreateDTO.class);
             mapping(Shape.class, ShapeDTO.class);
+            mapping(Shape.class, ShapeCreateDTO.class);
         }
     }
 }
