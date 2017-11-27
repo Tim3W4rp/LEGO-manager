@@ -1,16 +1,11 @@
 package cz.fi.muni.legomanager.dto;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-public class SetOfKitsDTO {
+public class SetOfKitsCreateDTO {
     private Long id;
     private String description;
     private BigDecimal price;
-    private List<KitDTO> kits = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -37,21 +32,13 @@ public class SetOfKitsDTO {
     }
 
 
-    public List<KitDTO> getKits() {
-        return kits;
-    }
-
-    public void setKits(List<KitDTO> kits) {
-        this.kits = kits;
-    }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SetOfKitsDTO that = (SetOfKitsDTO) o;
+        SetOfKitsCreateDTO that = (SetOfKitsCreateDTO) o;
 
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (price != null ? !price.equals(that.price) : that.price != null) return false;
@@ -68,7 +55,7 @@ public class SetOfKitsDTO {
 
     @Override
     public String toString() {
-        return "SetOfKitsDTO{" +
+        return "SetOfKitsCreateDTO{" +
                 "description='" + description + '\'' +
                 ", price=" + price +
                 '}';

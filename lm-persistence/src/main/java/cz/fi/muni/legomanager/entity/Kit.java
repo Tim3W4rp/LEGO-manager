@@ -30,8 +30,8 @@ public class Kit {
     private Integer ageLimit;
 
     @NotNull
-    @ManyToMany(mappedBy = "kits")
-    private Set<Category> categories = new HashSet<>();
+    @ManyToOne
+    private Category category;
 
     @NotNull
     @OneToMany(mappedBy = "kit")
@@ -81,41 +81,10 @@ public class Kit {
         this.ageLimit = ageLimit;
     }
 
-    public Set<Category> getCategories() {
-        return Collections.unmodifiableSet(categories);
+    public Category getCategory() {
+        return category;
     }
-
-    public void addCategory(Category category) {
-        this.categories.add(category);
-    }
-
-    public void removeCategory(Category category) {
-        this.categories.remove(category);
-    }
-
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
-    }
-
-    public List<KitBrick> getKitBricks() {
-        return kitBricks;
-    }
-
-    public void setKitBricks(List<KitBrick> kitBricks) {
-        this.kitBricks = kitBricks;
-    }
-
-    //todo test
-    public void removeCategoryById(Long id) {
-        for (Category category : categories){
-            if (category.getId().equals(id)){
-                categories.remove(category);
-                return;
-            }
-        }
-        throw new RuntimeException("Such category does not exist");
-    }
-
+  
     //todo test
     public void addBrick(Brick brick) {
         for (KitBrick kitBrick : kitBricks) {

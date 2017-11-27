@@ -25,12 +25,8 @@ public class Category {
     private String description;
 
     @NotNull
-    @ManyToMany
+    @OneToMany(mappedBy = "category")
     private Set<Kit> kits = new HashSet<>();
-
-    @NotNull
-    @ManyToMany
-    private Set<SetOfKits> setsOfKits = new HashSet<>();
 
     public Category() {
     }
@@ -70,28 +66,11 @@ public class Category {
 
     public void addKit(Kit kit) {
         kits.add(kit);
-        kit.addCategory(this);
     }
 
     public void removeKit(Kit kit) {
         kits.remove(kit);
-        kit.removeCategory(this);
     }
-
-    public Set<SetOfKits> getSetsOfKits() {
-        return Collections.unmodifiableSet(setsOfKits);
-    }
-
-    public void addSetOfKits(SetOfKits setOfKits) {
-        setsOfKits.add(setOfKits);
-        setOfKits.addCategory(this);
-    }
-
-    public void removeSetOfKits(SetOfKits setOfKits) {
-        setsOfKits.remove(setOfKits);
-        setOfKits.removeCategory(this);
-    }
-
 
     @Override
     public int hashCode() {
@@ -122,6 +101,4 @@ public class Category {
         }
         return true;
     }
-
-
 }

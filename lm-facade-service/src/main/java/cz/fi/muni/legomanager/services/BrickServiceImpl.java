@@ -20,21 +20,37 @@ public class BrickServiceImpl implements BrickService {
 
     @Override
     public void create(Brick brick) {
+        if (brick == null) {
+            throw new IllegalArgumentException("Brick cannot be null.");
+        }
+
         brickDao.create(brick);
     }
 
     @Override
     public void update(Brick brick) {
+        if (brick == null) {
+            throw new IllegalArgumentException("Brick cannot be null.");
+        }
+
         brickDao.update(brick);
     }
 
     @Override
     public void delete(Brick brick) {
+        if (brick == null) {
+            throw new IllegalArgumentException("Brick cannot be null.");
+        }
+
         brickDao.delete(brick);
     }
 
     @Override
     public Brick findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Brick id cannot be null.");
+        }
+
         return brickDao.findById(id);
     }
 

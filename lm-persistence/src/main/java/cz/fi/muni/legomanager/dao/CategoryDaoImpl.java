@@ -43,7 +43,10 @@ public class CategoryDaoImpl implements CategoryDao {
         if (category == null) {
             throw new InvalidDataAccessApiUsageException("Argument cannot be null");
         }
+        em.merge(category);
+        em.flush();
         return em.merge(category);
+
     }
 
     @Override
@@ -52,7 +55,7 @@ public class CategoryDaoImpl implements CategoryDao {
             throw new InvalidDataAccessApiUsageException("Argument cannot be null");
         }
 
-        if (!em.contains(category)){
+        if (!em.contains(category)) {
             throw new InvalidDataAccessApiUsageException("Such category does not exist");
         }
         em.remove(category);

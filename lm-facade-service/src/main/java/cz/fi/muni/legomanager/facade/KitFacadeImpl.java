@@ -7,12 +7,14 @@ import cz.fi.muni.legomanager.entity.Kit;
 import cz.fi.muni.legomanager.services.DozerService;
 import cz.fi.muni.legomanager.services.KitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * @author Martin Jordán
  */
+@Service
 public class KitFacadeImpl implements KitFacade {
 
     @Autowired
@@ -70,21 +72,6 @@ public class KitFacadeImpl implements KitFacade {
     }
 
     @Override
-    public void addCategory(Long kitId, Long categoryId) {
-        kitService.addCategory(kitId, categoryId);
-    }
-
-    @Override
-    public void removeCategory(Long kitId, Long categoryId) {
-        kitService.removeCategory(kitId, categoryId);
-    }
-
-    @Override
-    public List<CategoryDTO> getKitCategories(Long kitId) {
-        return dozerService.mapTo(kitService.getKitCategories(kitId), CategoryDTO.class);
-    }
-
-    @Override
     public void addBrickToKit(Long kitId, Long brickId) {
         kitService.addBrickToKit(kitId, brickId);
     }
@@ -99,6 +86,7 @@ public class KitFacadeImpl implements KitFacade {
         kitService.removeAllBricksOfThisTypeFromKitById(kitId, brickId);
     }
 
+    /*
     @Override
     public KitDTO findOneRandomSimilarKit(KitDTO kitDTO) {
         Kit mappedKit = dozerService.mapTo(kitDTO, Kit.class);
@@ -110,4 +98,5 @@ public class KitFacadeImpl implements KitFacade {
         Kit mappedKit = dozerService.mapTo(kitDTO, Kit.class);
         return dozerService.mapTo(kitService.findSimilarKits(mappedKit), KitDTO.class);
     }
+    */
 }

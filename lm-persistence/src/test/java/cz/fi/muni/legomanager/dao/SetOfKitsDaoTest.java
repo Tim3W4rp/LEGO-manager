@@ -1,10 +1,10 @@
 package cz.fi.muni.legomanager.dao;
 
 import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
-import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.entity.Kit;
 import cz.fi.muni.legomanager.entity.SetOfKits;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -36,9 +36,6 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
     private SetOfKitsDao setOfKitsDao;
 
     @Autowired
-    private CategoryDao categoryDao;
-
-    @Autowired
     private KitDao kitDao;
 
     @PersistenceContext
@@ -46,10 +43,6 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
 
     private SetOfKits buildingsSet;
     private SetOfKits carsSet;
-
-    private Category buildingsCategory;
-    private Category carsCategory;
-    private Category boysCategory;
 
     private Kit eiffelTowerKit;
     private Kit statueOfLibertyKit;
@@ -61,21 +54,6 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void setUp() {
-
-        buildingsCategory = new Category();
-        buildingsCategory.setName("Buildings");
-        buildingsCategory.setDescription("For all architecture fans.");
-        categoryDao.create(buildingsCategory);
-
-        carsCategory = new Category();
-        carsCategory.setName("Cars");
-        carsCategory.setDescription("For all motor sport fans.");
-        categoryDao.create(carsCategory);
-
-        boysCategory = new Category();
-        boysCategory.setName("Boys");
-        boysCategory.setDescription("Suitable for boys.");
-        categoryDao.create(boysCategory);
 
         eiffelTowerKit = new Kit();
         eiffelTowerKit.setDescription("France - Paris");
@@ -116,7 +94,6 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         buildingsSet = new SetOfKits();
         buildingsSet.setDescription("Set of the most famous buildings.");
         buildingsSet.setPrice(new BigDecimal("429"));
-        buildingsSet.addCategory(buildingsCategory);
         buildingsSet.addKit(eiffelTowerKit);
         buildingsSet.addKit(statueOfLibertyKit);
         buildingsSet.addKit(towerBridgeKit);
@@ -125,8 +102,6 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         carsSet = new SetOfKits();
         carsSet.setDescription("Set of the fastest cars on the planet.");
         carsSet.setPrice(new BigDecimal("189"));
-        carsSet.addCategory(carsCategory);
-        carsSet.addCategory(boysCategory);
         carsSet.addKit(porscheKit);
         carsSet.addKit(ferrariKit);
         setOfKitsDao.create(carsSet);
@@ -139,7 +114,6 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         SetOfKits sportsSet = new SetOfKits();
         sportsSet.setDescription("Set of the sportsmen.");
         sportsSet.setPrice(new BigDecimal("309"));
-        sportsSet.addCategory(boysCategory);
         sportsSet.addKit(footballerKit);
         setOfKitsDao.create(sportsSet);
 
@@ -148,6 +122,66 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
 
         SetOfKits actual = setOfKitsDao.findById(sportsSetId);
         assertEquals(sportsSet, actual);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testCreateNullSet() {
+        setOfKitsDao.create(null);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testCreateAlreadyExists() {
+        setOfKitsDao.create(carsSet);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testCreateSetWithNullDescription() {
+        SetOfKits wrongSet = new SetOfKits();
+        wrongSet.setDescription(null);
+        wrongSet.setPrice(new BigDecimal("189"));
+        wrongSet.addKit(porscheKit);
+
+        setOfKitsDao.create(wrongSet);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testCreateSetWithNullPrice() {
+        SetOfKits wrongSet = new SetOfKits();
+        wrongSet.setDescription("Set of the fastest cars on the planet.");
+        wrongSet.setPrice(null);
+        wrongSet.addKit(porscheKit);
+
+        setOfKitsDao.create(wrongSet);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testCreateSetWithNegativePrice() {
+        SetOfKits wrongSet = new SetOfKits();
+        wrongSet.setDescription("Set of the fastest cars on the planet.");
+        wrongSet.setPrice(new BigDecimal("-189"));
+        wrongSet.addKit(porscheKit);
+
+        setOfKitsDao.create(wrongSet);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testCreateSetWithNullCategory() {
+        SetOfKits wrongSet = new SetOfKits();
+        wrongSet.setDescription("Set of the fastest cars on the planet.");
+        wrongSet.setPrice(new BigDecimal("189"));
+        wrongSet.addKit(porscheKit);
+
+        setOfKitsDao.create(wrongSet);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testCreateSetWithNullKits() {
+        SetOfKits wrongSet = new SetOfKits();
+        wrongSet.setDescription("Set of the fastest cars on the planet.");
+        wrongSet.setPrice(new BigDecimal("189"));
+        wrongSet.addKit(null);
+
+        setOfKitsDao.create(wrongSet);
     }
 
     @Test
@@ -159,6 +193,25 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         SetOfKits actual = setOfKitsDao.findById(buildingsSet.getId());
 
         assertEquals(buildingsSet, actual);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testUpdateNullSet() {
+        setOfKitsDao.update(null);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testUpdateSetWithNullDescription() {
+        buildingsSet.setDescription(null);
+
+        setOfKitsDao.update(buildingsSet);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testUpdateSetWithNullPrice() {
+        buildingsSet.setPrice(null);
+
+        setOfKitsDao.update(buildingsSet);
     }
 
     @Test
@@ -173,10 +226,43 @@ public class SetOfKitsDaoTest extends AbstractTestNGSpringContextTests {
         assertEquals(expectedSets, existingSets);
     }
 
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testDeleteNotExist() {
+        SetOfKits wrongSet = new SetOfKits();
+        wrongSet.setDescription("Wrong set.");
+        wrongSet.setPrice(new BigDecimal("500"));
+        wrongSet.addKit(eiffelTowerKit);
+
+        setOfKitsDao.delete(wrongSet);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testDeleteAlreadyRemoved() {
+        setOfKitsDao.delete(buildingsSet);
+        em.flush();
+
+        setOfKitsDao.delete(buildingsSet);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testDeleteNullSet() {
+        setOfKitsDao.delete(null);
+    }
+
     @Test
     public void testFindSetById() {
         SetOfKits foundSet = setOfKitsDao.findById(carsSet.getId());
         assertEquals(foundSet, carsSet);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testFindSetByIdWithNonExistingId() {
+        setOfKitsDao.findById(20L);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testFindSetByIdNull() {
+        setOfKitsDao.findById(null);
     }
 
     @Test

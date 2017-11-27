@@ -89,6 +89,7 @@ public class KitServiceImpl implements KitService {
         kit.removeBrick(brick);
     }
 
+    /*
     @Override
     public Kit findOneRandomSimilarKit(Kit similarKit) {
         Random random = new Random();
@@ -141,25 +142,11 @@ public class KitServiceImpl implements KitService {
 
         return similarKits;
     }
+    */
 
     @Override
     public Set<Kit> getKitsByCategory(Long categoryId) {
         return categoryDao.findById(categoryId).getKits();
-    }
-
-    @Override
-    public void addCategory(Long kitId, Long categoryId) {
-        categoryDao.findById(categoryId).addKit(kitDao.findById(kitId));
-    }
-
-    @Override
-    public void removeCategory(Long kitId, Long categoryId) {
-        categoryDao.findById(categoryId).removeKit(kitDao.findById(kitId));
-    }
-
-    @Override
-    public Set<Category> getKitCategories(Long kitId) {
-        return kitDao.findById(kitId).getCategories();
     }
 
     @Override
