@@ -55,6 +55,18 @@ public class Kit {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<KitBrick> getKitBricks() {
+        return kitBricks;
+    }
+
+    public void setKitBricks(List<KitBrick> kitBricks) {
+        this.kitBricks = kitBricks;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -91,7 +103,7 @@ public class Kit {
     public void addBrick(Brick brick) {
         for (KitBrick kitBrick : kitBricks) {
             if (kitBrick.getBrick().equals(brick)) {
-                kitBrick.increaseCountByOne();
+                kitBrick.increaseBrickCountByOne();
                 return;
             }
         }
@@ -102,7 +114,7 @@ public class Kit {
     public void removeBrick(Brick brick) {
         for (KitBrick kitBrick : kitBricks) {
             if (kitBrick.getBrick().equals(brick)) {
-                kitBrick.decreaseCountByOne();
+                kitBrick.decreaseBrickCountByOne();
                 return;
             }
         }

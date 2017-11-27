@@ -1,6 +1,5 @@
 package cz.fi.muni.legomanager.facade;
 
-import cz.fi.muni.legomanager.dto.CategoryDTO;
 import cz.fi.muni.legomanager.dto.KitCreateDTO;
 import cz.fi.muni.legomanager.dto.KitDTO;
 import cz.fi.muni.legomanager.entity.Kit;
@@ -68,12 +67,12 @@ public class KitFacadeImpl implements KitFacade {
 
     @Override
     public List<KitDTO> getKitsByCategoryId(Long categoryId) {
-        return dozerService.mapTo(kitService.getKitsByCategory(categoryId), KitDTO.class);
+        return dozerService.mapTo(kitService.getKitsByCategoryId(categoryId), KitDTO.class);
     }
 
     @Override
     public void addBrickToKit(Long kitId, Long brickId) {
-        kitService.addBrickToKit(kitId, brickId);
+        kitService.addBrickToKitById(kitId, brickId);
     }
 
     @Override

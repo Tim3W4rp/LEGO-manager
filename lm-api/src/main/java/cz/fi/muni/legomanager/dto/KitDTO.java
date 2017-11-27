@@ -13,7 +13,7 @@ public class KitDTO {
     private String description;
     private Integer price;
     private Integer ageLimit;
-    private Set<CategoryDTO> categories = new HashSet<>();
+    private CategoryDTO category;
     private List<KitBrickDTO> kitBricks = new ArrayList<>();
 
     public Long getId() {
@@ -48,12 +48,12 @@ public class KitDTO {
         this.ageLimit = ageLimit;
     }
 
-    public Set<CategoryDTO> getCategories() {
-        return categories;
+    public CategoryDTO getCategory() {
+        return category;
     }
 
-    public void setCategories(Set<CategoryDTO> categories) {
-        this.categories = categories;
+    public void setCategory(CategoryDTO category) {
+        this.category = category;
     }
 
     public List<KitBrickDTO> getKitBricks() {
@@ -75,7 +75,7 @@ public class KitDTO {
         if (description != null ? !description.equals(kitDTO.description) : kitDTO.description != null) return false;
         if (price != null ? !price.equals(kitDTO.price) : kitDTO.price != null) return false;
         if (ageLimit != null ? !ageLimit.equals(kitDTO.ageLimit) : kitDTO.ageLimit != null) return false;
-        if (categories != null ? !categories.equals(kitDTO.categories) : kitDTO.categories != null) return false;
+        if (category != null ? !category.equals(kitDTO.category) : kitDTO.category != null) return false;
         return kitBricks != null ? kitBricks.equals(kitDTO.kitBricks) : kitDTO.kitBricks == null;
     }
 
@@ -85,7 +85,7 @@ public class KitDTO {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (ageLimit != null ? ageLimit.hashCode() : 0);
-        result = 31 * result + (categories != null ? categories.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
         result = 31 * result + (kitBricks != null ? kitBricks.hashCode() : 0);
         return result;
     }
@@ -97,7 +97,7 @@ public class KitDTO {
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", ageLimit=" + ageLimit +
-                ", categories=" + categories +
+                ", categories=" + category +
                 ", kitBricks=" + kitBricks +
                 '}';
     }
