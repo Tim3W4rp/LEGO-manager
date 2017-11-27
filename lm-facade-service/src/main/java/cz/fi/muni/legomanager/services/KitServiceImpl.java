@@ -3,10 +3,7 @@ package cz.fi.muni.legomanager.services;
 import cz.fi.muni.legomanager.dao.BrickDao;
 import cz.fi.muni.legomanager.dao.CategoryDao;
 import cz.fi.muni.legomanager.dao.KitDao;
-import cz.fi.muni.legomanager.entity.Brick;
-import cz.fi.muni.legomanager.entity.Category;
-import cz.fi.muni.legomanager.entity.Kit;
-import cz.fi.muni.legomanager.entity.SetOfKits;
+import cz.fi.muni.legomanager.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -147,31 +144,39 @@ public class KitServiceImpl implements KitService {
 
 
     // Important note: BrickCounts contains counts and bricks that must appear in kit (count>0) and those that can appear(count=0)
-    // TODO make it use even other bricks than specified
+    // Note: check M:N if it works
     @Override
     public Long createRandomKitByRules(Long minBrickCount, Long maxBrickCount, Map<Brick, Long> bricksCounts) {
         Kit randomKit = new Kit();
         Long piecesTotal = countPieces(bricksCounts);
         Map<Brick, Long> canBeBricksCounts = getPossibleBrickCounts(bricksCounts);
 
-//        Long bricksMin = minBrickCount - piecesTotal;
+        int bricksMin = minBrickCount.intValue() - piecesTotal.intValue();
         Long bricksDifference = (maxBrickCount - minBrickCount);
-        int countOfBricksToAdd = getRandomNumberUpTo(bricksDifference.intValue());
+        int countOfBricksToAdd = bricksMin + getRandomNumberUpTo(bricksDifference.intValue());
 
-        //Brick[] arrayBricks = canBeBricksCounts.keySet().toArray();
+        Brick[] arrayBricks = (Brick[])canBeBricksCounts.keySet().toArray();
 
         // Add random number of bricks
         while(countOfBricksToAdd > 0) {
+            Long lastValue;
             int brickIndex = getRandomNumberUpTo(canBeBricksCounts.size());
             int addCount = getRandomNumberUpTo(countOfBricksToAdd);
 
-            //arrayBricks[brickIndex]
+            Brick selectedBrick = arrayBricks[brickIndex];
+            lastValue = bricksCounts.get(selectedBrick);
+            bricksCounts.put(selectedBrick, Long.valueOf(addCount) + lastValue);
+
             countOfBricksToAdd -= addCount;
         }
 
         for (Map.Entry<Brick, Long> entry : bricksCounts.entrySet()) {
             if (entry.getValue() > 0L) {
                 randomKit.addBrick(entry.getKey());
+                KitBrick kitBrick = new KitBrick();
+                kitBrick.setBrick(entry.getKey());
+                kitBrick.setCount(entry.getValue());
+
             }
         }
 
