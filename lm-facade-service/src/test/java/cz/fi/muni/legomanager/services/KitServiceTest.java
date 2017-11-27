@@ -7,8 +7,6 @@ import cz.fi.muni.legomanager.dao.KitDao;
 import cz.fi.muni.legomanager.entity.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -22,9 +20,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.*;
 import static org.testng.Assert.assertEquals;
 
 
@@ -65,7 +62,7 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        initMocks(this);
 
         List<Kit> allKits = new ArrayList<>();
         Set<Kit> kitsInSet = new HashSet<>();
@@ -145,10 +142,18 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testRemoveOneBrickFromKitById() {
+        kitService.removeOneBrickFromKitById(1L, 1L);
+        Kit kit = kitDao.findById(1L);
+        Brick brick = brickDao.findById(1L);
+        verify(kit).removeBrick(brick);
     }
 
     @Test
     public void testRemoveAllBricksOfThisTypeFromKitById() {
+        kitService.removeAllBricksOfThisTypeFromKitById(1L, 1L);
+        Kit kit = kitDao.findById(1L);
+        Brick brick = brickDao.findById(1L);
+        verify(kit).removeAllBricksOfThisType(brick);
     }
 
     @Test
@@ -157,6 +162,9 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindBrickById() {
+        kitService.findBrickById(1L);
+        Brick brick = brickDao.findById(1L);
+        assertEquals(brick.getId().longValue(), 1L);
     }
 
     @Test

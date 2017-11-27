@@ -1,7 +1,9 @@
 package cz.fi.muni.legomanager.facade;
 
+import cz.fi.muni.legomanager.dto.CategoryDTO;
 import cz.fi.muni.legomanager.dto.KitCreateDTO;
 import cz.fi.muni.legomanager.dto.KitDTO;
+import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.entity.Kit;
 import cz.fi.muni.legomanager.services.DozerService;
 import cz.fi.muni.legomanager.services.KitService;
@@ -85,17 +87,11 @@ public class KitFacadeImpl implements KitFacade {
         kitService.removeAllBricksOfThisTypeFromKitById(kitId, brickId);
     }
 
-    /*
     @Override
-    public KitDTO findOneRandomSimilarKit(KitDTO kitDTO) {
+    public List<KitDTO> findSimilarKits(KitDTO kitDTO, int priceRange, int ageLimitRange, CategoryDTO categoryDTO) {
         Kit mappedKit = dozerService.mapTo(kitDTO, Kit.class);
-        return dozerService.mapTo(kitService.findOneRandomSimilarKit(mappedKit), KitDTO.class);
+        Category mappedCategory = dozerService.mapTo(categoryDTO, Category.class);
+        return dozerService.mapTo(kitService.findSimilarKits(mappedKit, priceRange, ageLimitRange, mappedCategory), KitDTO.class);
     }
 
-    @Override
-    public List<KitDTO> findSimilarKits(KitDTO kitDTO) {
-        Kit mappedKit = dozerService.mapTo(kitDTO, Kit.class);
-        return dozerService.mapTo(kitService.findSimilarKits(mappedKit), KitDTO.class);
-    }
-    */
 }
