@@ -50,10 +50,6 @@ public class SetOfKitsDaoImpl implements SetOfKitsDao {
             throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
         }
 
-        if (!em.contains(set)) {
-            throw new InvalidDataAccessApiUsageException("Such set does not exist.");
-        }
-
         em.merge(set);
         em.flush();
     }

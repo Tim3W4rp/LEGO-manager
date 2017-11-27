@@ -6,6 +6,7 @@ import cz.fi.muni.legomanager.dto.CategoryDTO;
 import cz.fi.muni.legomanager.dto.KitBrickDTO;
 import cz.fi.muni.legomanager.dto.KitCreateDTO;
 import cz.fi.muni.legomanager.dto.KitDTO;
+import cz.fi.muni.legomanager.dto.SetOfKitsCreateDTO;
 import cz.fi.muni.legomanager.dto.SetOfKitsDTO;
 import cz.fi.muni.legomanager.dto.ShapeDTO;
 import cz.fi.muni.legomanager.entity.Brick;
@@ -50,6 +51,7 @@ public class ServiceConfigurationContext {
             mapping(Kit.class, KitCreateDTO.class);
             mapping(KitBrick.class, KitBrickDTO.class);
             mapping(SetOfKits.class, SetOfKitsDTO.class);
+            mapping(SetOfKits.class, SetOfKitsCreateDTO.class);
             mapping(Shape.class, ShapeDTO.class);
         }
     }
