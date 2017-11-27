@@ -3,9 +3,7 @@ package cz.fi.muni.legomanager.services;
 import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.entity.Kit;
 import cz.fi.muni.legomanager.entity.Brick;
-import org.springframework.stereotype.Service;
 
-import javax.persistence.SqlResultSetMapping;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +13,7 @@ import java.util.Set;
 public interface KitService {
     public Long createKit(Kit kit);
     public Kit findKitById(long id);
-    public void updateKit(Kit kit);
+    public Long updateKit(Kit kit);
     public void deleteKitById(long id);
     public List<Kit> findAllKits();
     public Set<Kit> getKitsByCategory(Long categoryId);
