@@ -118,9 +118,9 @@ public class KitServiceImpl implements KitService {
         Integer highAge = similarKit.getAgeLimit() + ageLimitRange;
 
         for (Kit kit : allKits) {
-            if ((kit.getPrice() >= lowPrice && kit.getPrice() <= highPrice) &&
+            if (((kit.getPrice() >= lowPrice && kit.getPrice() <= highPrice) &&
                     (kit.getAgeLimit() >= lowAge && kit.getAgeLimit() <= highAge) &&
-                        kit.getCategory().equals(category) && !similarKits.contains(kit)) {
+                        kit.getCategory().equals(category)) && !similarKits.contains(kit)) {
                 similarKits.add(kit);
             }
         }

@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Random;
 
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.*;
@@ -59,6 +61,8 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
     @Autowired
     @InjectMocks
     private KitService kitService;
+
+    private Random predictableRandom = new Random();
 
     @BeforeMethod
     public void setUp() {
@@ -158,7 +162,67 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindSimilarKits() {
+        Category c1 = new Category("category1", "desc1");
+        Category c2 = new Category("category2", "desc2");
+
+
+        predictableRandom.setSeed(42);
+
+        List<Kit> kits = new ArrayList<>();
+        for(int i = 0; i < 100; i++) {
+            kits.add(generateKitInRange(10, 20, 0, 10, c1));
+        }
+        for(int i = 0; i < 100; i++) {
+            kits.add(generateKitInRange(21, 30, 0, 10, c1));
+        }
+        for(int i = 0; i < 100; i++) {
+            kits.add(generateKitInRange(10, 20, 11, 20, c1));
+        }
+        for(int i = 0; i < 100; i++) {
+            kits.add(generateKitInRange(10, 20, 11, 20, c1));
+        }
+        for(int i = 0; i < 100; i++) {
+            kits.add(generateKitInRange(10, 20, 0, 10, c2));
+        }
+
+        when(kitDao.findAll()).thenReturn(kits);
+
+        // similar kits of category 1 within some range
+        Assert.assertEquals(100, kitService.findSimilarKits(
+                generateKitInRange(15, 15, 5, 5, c1),
+                5,
+                5,
+                c1
+        ).size());
+
+        // filter all kits with category c2
+        Assert.assertEquals(100, kitService.findSimilarKits(
+                generateKitInRange(15, 15, 5, 5, c1),
+                100,
+                100,
+                c2
+        ).size());
+
+        // filter all kits in price range and category c1
+        Assert.assertEquals(200, kitService.findSimilarKits(
+                generateKitInRange(15, 15, 5, 5, c1),
+                100,
+                5,
+                c1
+        ).size());
     }
+
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testFindSimilarKitsEmpty() {
+        when(kitDao.findAll()).thenReturn(new ArrayList<>());
+        kitService.findSimilarKits(kit, 5, 5, category);
+    }
+
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testFindSimilarKitsNull() {
+        kitService.findSimilarKits(null, 5, 5, category);
+    }
+
 
     @Test
     public void testFindBrickById() {
@@ -171,6 +235,19 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
     public void testAddKitToSet() {
         kitService.addKitToSet(kit, setOfKits);
         verify(setOfKits).addKit(kit);
+    }
+
+    private Kit generateKitInRange(Integer priceMin, Integer priceMax, Integer ageMin, Integer ageMax, Category category) {
+        Kit kit = mock(Kit.class);
+        when(kit.getPrice()).thenReturn(randomInRange(priceMin, priceMax));
+        when(kit.getAgeLimit()).thenReturn(randomInRange(ageMin, ageMax));
+        when(kit.getCategory()).thenReturn(category);
+        return kit;
+    }
+
+    private int randomInRange(Integer min, Integer max) {
+        return min + (int)(Math.random() * ((max - min) + 1));
+
     }
 
 }
