@@ -23,58 +23,54 @@ public class KitFacadeTest extends AbstractTestNGSpringContextTests {
     private KitFacade kitFacade;
 
     private Long newKitId;
-    private Long existingKitId;
 
     @BeforeMethod
     public void setUp() {
+        KitCreateDTO newKit = new KitCreateDTO();
+        newKit.setAgeLimit(0);
+        newKit.setDescription("");
+        newKit.setPrice(0);
+
+        newKitId = kitFacade.createKit(newKit);
     }
 
     @Test
-    public void testCreateKit() throws Exception {
+    public void testCreateKit() {
+        KitDTO returnedKitDTO = kitFacade.findKitById(newKitId);
+        assertEquals(returnedKitDTO.getId(), newKitId);
     }
 
     @Test
-    public void testFindKitById() throws Exception {
+    public void testFindKitById() {
+        KitDTO found = kitFacade.findKitById(newKitId);
+        assertEquals(found.getId(), newKitId);
     }
 
     @Test
-    public void testUpdateKit() throws Exception {
+    public void testUpdateKit() {
+        KitDTO kitDTO = kitFacade.findKitById(newKitId);
+
+        kitDTO.setPrice(100);
+        kitFacade.updateKit(kitDTO);
+
+        KitDTO changedKit = kitFacade.findKitById(newKitId);
+
+        assertEquals(changedKit.getPrice().longValue(), 100L);
     }
 
     @Test
-    public void testDeleteKitById() throws Exception {
+    public void testDeleteKitById() {
+        assertEquals(kitFacade.findAllKits().size(), 1);
+
+        kitFacade.deleteKitById(newKitId);
+
+        assertEquals(kitFacade.findAllKits().size(), 0);
     }
 
     @Test
-    public void testChangeDescription() throws Exception {
+    public void testFindAllKits() {
+        assertEquals(kitFacade.findAllKits().size(), 1);
     }
 
-    @Test
-    public void testChangePrice() throws Exception {
-    }
-
-    @Test
-    public void testChangeAgeLimit() throws Exception {
-    }
-
-    @Test
-    public void testFindAllKits() throws Exception {
-    }
-
-    @Test
-    public void testGetKitsByCategoryId() throws Exception {
-    }
-
-    @Test
-    public void testAddBrickToKit() throws Exception {
-    }
-
-    @Test
-    public void testRemoveOneBrickFromKitById() throws Exception {
-    }
-
-    @Test
-    public void testRemoveAllBricksOfThisTypeFromKitById() throws Exception {
-    }
 
 }
