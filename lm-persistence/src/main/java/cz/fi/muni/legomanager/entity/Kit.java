@@ -44,11 +44,13 @@ public class Kit {
     public Kit() {
     }
 
-    public Kit(Long id, String description, Integer price, Integer ageLimit) {
-        this.id = id;
+    public Kit(String description, Integer price, Integer ageLimit, Set<Category> categories, List<KitBrick> kitBricks, SetOfKits setOfKits) {
         this.description = description;
         this.price = price;
         this.ageLimit = ageLimit;
+        this.categories = categories;
+        this.kitBricks = kitBricks;
+        this.setOfKits = setOfKits;
     }
 
     public Long getId() {
@@ -89,6 +91,18 @@ public class Kit {
 
     public void removeCategory(Category category) {
         this.categories.remove(category);
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public List<KitBrick> getKitBricks() {
+        return kitBricks;
+    }
+
+    public void setKitBricks(List<KitBrick> kitBricks) {
+        this.kitBricks = kitBricks;
     }
 
     //todo test
@@ -136,10 +150,10 @@ public class Kit {
     }
 
     public SetOfKits getSetOfKits() {
-        return setOfKits;
+        return this.setOfKits;
     }
 
-    public void setSetOfKits(SetOfKits shape) {
+    public void setSetOfKits(SetOfKits setOfKits) {
         this.setOfKits = setOfKits;
     }
 

@@ -46,9 +46,8 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
-    public Long updateKit(Kit kit) {
+    public void updateKit(Kit kit) {
         kitDao.update(kit);
-        return kit.getId();
     }
 
     @Override
