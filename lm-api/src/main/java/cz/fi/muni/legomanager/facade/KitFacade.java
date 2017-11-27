@@ -24,8 +24,6 @@ public interface KitFacade {
     public void addBrickToKit(Long kitId, Long brickId);
     public void removeOneBrickFromKitById(Long kitId, Long brickId);
     public void removeAllBricksOfThisTypeFromKitById(Long kitId, Long brickId);
-    // public KitDTO findOneRandomSimilarKit(KitDTO kitDTO);
-    // public List<KitDTO> findSimilarKits(KitDTO kitDTO);
-
+    public List<KitDTO> findSimilarKits(KitDTO kitDTO, int priceRange, int ageLimitRange, CategoryDTO category);
     public long createRandomKitByRules(long minBrickCount, long maxBrickCount, Map<BrickDTO, Long> bricksCounts);
 }

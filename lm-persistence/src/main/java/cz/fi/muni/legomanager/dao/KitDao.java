@@ -13,7 +13,7 @@ public interface KitDao {
      *
      * @param kit to be added to DB
      */
-    public void create(Kit kit);
+    public Kit create(Kit kit);
 
     /**
      * @param id of a kit to be found
