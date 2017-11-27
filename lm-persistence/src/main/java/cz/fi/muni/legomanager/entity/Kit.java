@@ -87,6 +87,14 @@ public class Kit {
         this.category = category;
     }
 
+    public List<KitBrick> getKitBricks() {
+        return kitBricks;
+    }
+
+    public void setKitBricks(List<KitBrick> kitBricks) {
+        this.kitBricks = kitBricks;
+    }
+
     //todo test
     public void addBrick(Brick brick) {
         for (KitBrick kitBrick : kitBricks) {

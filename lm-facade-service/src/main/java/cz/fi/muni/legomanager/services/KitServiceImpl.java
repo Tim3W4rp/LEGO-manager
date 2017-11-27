@@ -67,6 +67,11 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
+    public Set<Kit> getKitsByCategory(Long categoryId) {
+        return categoryDao.findById(categoryId).getKits();
+    }
+
+    @Override
     public Brick findBrickById(long id) {
         Brick brick = brickDao.findById(id);
         if (brick == null) {
@@ -90,17 +95,8 @@ public class KitServiceImpl implements KitService {
         kit.removeBrick(brick);
     }
 
-    /*
     @Override
-    public Kit findOneRandomSimilarKit(Kit similarKit) {
-        Random random = new Random();
-        List<Kit> similarKits = findSimilarKits(similarKit);
-        int index = random.nextInt(similarKits.size());
-        return similarKits.get(index);
-    }
-
-    @Override
-    public List<Kit> findSimilarKits(Kit similarKit) {
+    public List<Kit> findSimilarKits(Kit similarKit, int priceRange, int ageLimitRange, Category category) {
         if (similarKit == null) {
             throw new RuntimeException("Kit is null");
         }
@@ -111,43 +107,20 @@ public class KitServiceImpl implements KitService {
         }
 
         List<Kit> similarKits = new ArrayList<>();
-        Integer priceInterval = 200;
-        Integer lowPrice = similarKit.getPrice() - priceInterval;
-        Integer highPrice = similarKit.getPrice() + priceInterval;
-        Integer ageInterval = 2;
-        Integer lowAge = similarKit.getAgeLimit() - ageInterval;
-        Integer highAge = similarKit.getAgeLimit() + ageInterval;
-        Set<Category> similarKitCategories = similarKit.getCategories();
+        Integer lowPrice = similarKit.getPrice() - priceRange;
+        Integer highPrice = similarKit.getPrice() + priceRange;
+        Integer lowAge = similarKit.getAgeLimit() - ageLimitRange;
+        Integer highAge = similarKit.getAgeLimit() + ageLimitRange;
 
         for (Kit kit : allKits) {
             if ((kit.getPrice() >= lowPrice && kit.getPrice() <= highPrice) &&
-                    (kit.getAgeLimit() >= lowAge && kit.getAgeLimit() <= highAge)){
+                    (kit.getAgeLimit() >= lowAge && kit.getAgeLimit() <= highAge) &&
+                        kit.getCategory().equals(category) && !similarKits.contains(kit)) {
                 similarKits.add(kit);
             }
-
-            Set<Category> currentKitCategories = kit.getCategories();
-            for (Category currentKitCategory : currentKitCategories) {
-                for (Category similarKitCategory : similarKitCategories) {
-                    if (currentKitCategory.getName().equals(similarKitCategory.getName())){
-                        if (!similarKits.contains(kit)){
-                            similarKits.add(kit);
-                        }
-                    }
-                }
-            }
-        }
-
-        if (similarKits.contains(similarKit)) {
-            similarKits.remove(similarKit);
         }
 
         return similarKits;
-    }
-    */
-
-    @Override
-    public Set<Kit> getKitsByCategory(Long categoryId) {
-        return categoryDao.findById(categoryId).getKits();
     }
 
     @Override
