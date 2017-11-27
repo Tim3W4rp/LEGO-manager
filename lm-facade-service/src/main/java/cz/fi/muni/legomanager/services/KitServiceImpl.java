@@ -6,6 +6,7 @@ import cz.fi.muni.legomanager.dao.KitDao;
 import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.entity.Kit;
+import cz.fi.muni.legomanager.entity.SetOfKits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,10 @@ public class KitServiceImpl implements KitService {
 
     @Override
     public Long createKit(Kit kit) {
+        if (kit == null) {
+            throw new IllegalArgumentException("Kit cannot be null.");
+        }
+
         kitDao.create(kit);
         return kit.getId();
     }
@@ -45,6 +50,10 @@ public class KitServiceImpl implements KitService {
 
     @Override
     public Long updateKit(Kit kit) {
+        if (kit == null) {
+            throw new IllegalArgumentException("Kit cannot be null.");
+        }
+
         kitDao.update(kit);
         return kit.getId();
     }
@@ -65,6 +74,15 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
+    public Set<Kit> getKitsByCategoryId(Long categoryId) {
+        if (categoryId == null) {
+            throw new IllegalArgumentException("Category ID cannot be null.");
+        }
+
+        return categoryDao.findById(categoryId).getKits();
+    }
+
+    @Override
     public Brick findBrickById(long id) {
         Brick brick = brickDao.findById(id);
         if (brick == null) {
@@ -78,7 +96,7 @@ public class KitServiceImpl implements KitService {
     public void removeAllBricksOfThisTypeFromKitById(long kitId, long brickId) {
         Kit kit = findKitById(kitId);
         Brick brick = findBrickById(brickId);
-        kit.removeAllBricksOfThisType(brick);
+        findKitById(kitId).removeAllBricksOfThisType(brick);
     }
 
     @Override
@@ -88,17 +106,8 @@ public class KitServiceImpl implements KitService {
         kit.removeBrick(brick);
     }
 
-    /*
     @Override
-    public Kit findOneRandomSimilarKit(Kit similarKit) {
-        Random random = new Random();
-        List<Kit> similarKits = findSimilarKits(similarKit);
-        int index = random.nextInt(similarKits.size());
-        return similarKits.get(index);
-    }
-
-    @Override
-    public List<Kit> findSimilarKits(Kit similarKit) {
+    public List<Kit> findSimilarKits(Kit similarKit, int priceRange, int ageLimitRange, Category category) {
         if (similarKit == null) {
             throw new RuntimeException("Kit is null");
         }
@@ -109,48 +118,30 @@ public class KitServiceImpl implements KitService {
         }
 
         List<Kit> similarKits = new ArrayList<>();
-        Integer priceInterval = 200;
-        Integer lowPrice = similarKit.getPrice() - priceInterval;
-        Integer highPrice = similarKit.getPrice() + priceInterval;
-        Integer ageInterval = 2;
-        Integer lowAge = similarKit.getAgeLimit() - ageInterval;
-        Integer highAge = similarKit.getAgeLimit() + ageInterval;
-        Set<Category> similarKitCategories = similarKit.getCategories();
+        Integer lowPrice = similarKit.getPrice() - priceRange;
+        Integer highPrice = similarKit.getPrice() + priceRange;
+        Integer lowAge = similarKit.getAgeLimit() - ageLimitRange;
+        Integer highAge = similarKit.getAgeLimit() + ageLimitRange;
 
         for (Kit kit : allKits) {
             if ((kit.getPrice() >= lowPrice && kit.getPrice() <= highPrice) &&
-                    (kit.getAgeLimit() >= lowAge && kit.getAgeLimit() <= highAge)){
+                    (kit.getAgeLimit() >= lowAge && kit.getAgeLimit() <= highAge) &&
+                        kit.getCategory().equals(category) && !similarKits.contains(kit)) {
                 similarKits.add(kit);
             }
-
-            Set<Category> currentKitCategories = kit.getCategories();
-            for (Category currentKitCategory : currentKitCategories) {
-                for (Category similarKitCategory : similarKitCategories) {
-                    if (currentKitCategory.getName().equals(similarKitCategory.getName())){
-                        if (!similarKits.contains(kit)){
-                            similarKits.add(kit);
-                        }
-                    }
-                }
-            }
-        }
-
-        if (similarKits.contains(similarKit)) {
-            similarKits.remove(similarKit);
         }
 
         return similarKits;
     }
-    */
 
     @Override
-    public Set<Kit> getKitsByCategory(Long categoryId) {
-        return categoryDao.findById(categoryId).getKits();
+    public void addBrickToKitById(Long kitId, Long brickId) {
+        kitDao.findById(kitId).addBrick(brickDao.findById(brickId));
     }
 
     @Override
-    public void addBrickToKit(Long kitId, Long brickId) {
-        kitDao.findById(kitId).addBrick(brickDao.findById(brickId));
+    public void addKitToSet(Kit kit, SetOfKits setOfKits) {
+        setOfKits.addKit(kit);
     }
 
 

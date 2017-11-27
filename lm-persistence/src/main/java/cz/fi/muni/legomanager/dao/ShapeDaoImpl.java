@@ -38,11 +38,8 @@ public class ShapeDaoImpl implements ShapeDao {
             throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
         }
 
-        if (!em.contains(shape)) {
-            throw new InvalidDataAccessApiUsageException("Such shape does not exist.");
-        }
-
         em.merge(shape);
+        em.flush();
     }
 
     @Override
@@ -56,7 +53,6 @@ public class ShapeDaoImpl implements ShapeDao {
         }
 
         em.remove(shape);
-        em.flush();
     }
 
     @Override

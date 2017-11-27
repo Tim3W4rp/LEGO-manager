@@ -20,21 +20,37 @@ public class ShapeServiceImpl implements ShapeService {
 
     @Override
     public void create(Shape shape) {
+        if (shape == null) {
+            throw new IllegalArgumentException("Shape cannot be null.");
+        }
+
         shapeDao.create(shape);
     }
 
     @Override
     public void update(Shape shape) {
+        if (shape == null) {
+            throw new IllegalArgumentException("Shape cannot be null.");
+        }
+
         shapeDao.update(shape);
     }
 
     @Override
     public void delete(Shape shape) {
+        if (shape == null) {
+            throw new IllegalArgumentException("Shape cannot be null.");
+        }
+
         shapeDao.delete(shape);
     }
 
     @Override
     public Shape findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Shape id cannot be null.");
+        }
+
         return shapeDao.findById(id);
     }
 

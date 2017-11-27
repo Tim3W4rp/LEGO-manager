@@ -2,6 +2,7 @@ package cz.fi.muni.legomanager.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -24,10 +25,14 @@ public class Shape {
 
     @NotNull
     @OneToMany(mappedBy = "shape")
-    private List<Brick> bricks;
+    private List<Brick> bricks = new ArrayList<>();
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -53,8 +58,7 @@ public class Shape {
         }
 
         Shape other = (Shape) obj;
-        return this.getId() != null && Objects.equals(id, other.id) &&
-                Objects.equals(name, other.name);
+        return Objects.equals(name, other.name);
     }
 
     @Override

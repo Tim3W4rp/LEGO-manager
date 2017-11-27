@@ -43,11 +43,11 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
     @PersistenceContext
     private EntityManager em;
 
-    Brick greenBlockBrick;
-    Brick redBlockBrick;
-    Brick blueBlockBrick;
-    Shape blockShape;
-    List<Brick> brickList;
+    private Brick greenBlockBrick;
+    private Brick redBlockBrick;
+    private Brick blueBlockBrick;
+    private Shape blockShape;
+    private List<Brick> brickList;
 
 
     @BeforeMethod
