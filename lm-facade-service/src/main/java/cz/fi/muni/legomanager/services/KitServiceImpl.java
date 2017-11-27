@@ -6,6 +6,7 @@ import cz.fi.muni.legomanager.dao.KitDao;
 import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.entity.Kit;
+import cz.fi.muni.legomanager.entity.SetOfKits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,10 @@ public class KitServiceImpl implements KitService {
 
     @Override
     public Long createKit(Kit kit) {
+        if (kit == null) {
+            throw new IllegalArgumentException("Kit cannot be null.");
+        }
+
         kitDao.create(kit);
         return kit.getId();
     }
@@ -47,6 +52,10 @@ public class KitServiceImpl implements KitService {
 
     @Override
     public Long updateKit(Kit kit) {
+        if (kit == null) {
+            throw new IllegalArgumentException("Kit cannot be null.");
+        }
+
         kitDao.update(kit);
         return kit.getId();
     }
@@ -67,7 +76,11 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
-    public Set<Kit> getKitsByCategory(Long categoryId) {
+    public Set<Kit> getKitsByCategoryId(Long categoryId) {
+        if (categoryId == null) {
+            throw new IllegalArgumentException("Category ID cannot be null.");
+        }
+
         return categoryDao.findById(categoryId).getKits();
     }
 
@@ -85,7 +98,7 @@ public class KitServiceImpl implements KitService {
     public void removeAllBricksOfThisTypeFromKitById(long kitId, long brickId) {
         Kit kit = findKitById(kitId);
         Brick brick = findBrickById(brickId);
-        kit.removeAllBricksOfThisType(brick);
+        findKitById(kitId).removeAllBricksOfThisType(brick);
     }
 
     @Override
@@ -124,7 +137,12 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
-    public void addBrickToKit(Long kitId, Long brickId) {
+    public void addBrickToKitById(Long kitId, Long brickId) {
         kitDao.findById(kitId).addBrick(brickDao.findById(brickId));
+    }
+
+    @Override
+    public void addKitToSet(Kit kit, SetOfKits setOfKits) {
+        setOfKits.addKit(kit);
     }
 }

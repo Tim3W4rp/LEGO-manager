@@ -1,10 +1,39 @@
 package cz.fi.muni.legomanager.facade;
 
+import cz.fi.muni.legomanager.config.ServiceConfigurationContext;
+import cz.fi.muni.legomanager.dto.KitCreateDTO;
+import cz.fi.muni.legomanager.dto.KitDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-public class KitFacadeTest {
+@ContextConfiguration(classes = ServiceConfigurationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
+public class KitFacadeTest extends AbstractTestNGSpringContextTests {
+
+    @Autowired
+    private KitFacade kitFacade;
+
+    private Long newKitId;
+    private Long existingKitId;
+
+    @BeforeMethod
+    public void setUp() {
+
+        KitCreateDTO newKit = new KitCreateDTO();
+        newKitId = kitFacade.createKit(newKit);
+
+        KitDTO existingKit = new KitDTO();
+    }
+
     @Test
     public void testCreateKit() throws Exception {
     }

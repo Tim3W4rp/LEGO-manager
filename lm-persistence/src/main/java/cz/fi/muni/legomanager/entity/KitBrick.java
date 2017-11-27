@@ -42,12 +42,28 @@ public class KitBrick implements Serializable {
         return kit;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setBrick(Brick brick) {
+        this.brick = brick;
+    }
+
+    public void setKit(Kit kit) {
+        this.kit = kit;
+    }
+
     public long getCount() {
         return count;
     }
 
-    public Long getId() {
-        return id;
+    public void setCount(long count) {
+        this.count = count;
     }
 
     @Override
@@ -68,11 +84,11 @@ public class KitBrick implements Serializable {
         return result;
     }
 
-    public void increaseCountByOne() {
+    public void increaseBrickCountByOne() {
         count++;
     }
 
-    public void decreaseCountByOne() {
+    public void decreaseBrickCountByOne() {
         if (count == 0) {
             throw new RuntimeException("Count is zero");
         }

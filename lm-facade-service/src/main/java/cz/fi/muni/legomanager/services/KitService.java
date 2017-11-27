@@ -3,6 +3,7 @@ package cz.fi.muni.legomanager.services;
 import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.entity.Kit;
 import cz.fi.muni.legomanager.entity.Brick;
+import cz.fi.muni.legomanager.entity.SetOfKits;
 
 import java.util.List;
 import java.util.Set;
@@ -16,10 +17,11 @@ public interface KitService {
     public Long updateKit(Kit kit);
     public void deleteKitById(long id);
     public List<Kit> findAllKits();
-    public Set<Kit> getKitsByCategory(Long categoryId);
-    public void addBrickToKit(Long kitId, Long brickId);
+    public Set<Kit> getKitsByCategoryId(Long categoryId);
+    public void addBrickToKitById(Long kitId, Long brickId);
     public void removeOneBrickFromKitById(long kitId, long brickId);
     public void removeAllBricksOfThisTypeFromKitById(long kitId, long brickId);
     public List<Kit> findSimilarKits(Kit similarKit, int priceRange, int ageLimitRange, Category category);
     public Brick findBrickById(long id);
+    public void addKitToSet(Kit kit, SetOfKits setOfKits);
 }

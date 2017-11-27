@@ -1,128 +1,150 @@
 package cz.fi.muni.legomanager.services;
 
 import cz.fi.muni.legomanager.config.ServiceConfigurationContext;
+import cz.fi.muni.legomanager.dao.CategoryDao;
 import cz.fi.muni.legomanager.dao.KitDao;
-import cz.fi.muni.legomanager.entity.Kit;
-import org.hibernate.service.spi.ServiceException;
+import cz.fi.muni.legomanager.entity.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
 
 
 @ContextConfiguration(classes = ServiceConfigurationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
 public class KitServiceTest extends AbstractTestNGSpringContextTests {
 
-    private Kit milleniumFalcon;
-
-    private Kit darthVaderStatue;
+    @Mock
+    private Kit kit;
 
     @Mock
     private KitDao kitDao;
+
+    @Mock
+    private SetOfKits setOfKits;
+
+    @Mock
+    private List<KitBrick> kitBricks;
+
+    @Mock
+    private KitBrick kitBrick;
+
+    @Mock
+    private Category category;
+
+    @Mock
+    private Brick brick;
 
     @Autowired
     @InjectMocks
     private KitService kitService;
 
-    @BeforeClass
-    public void beforeClass() throws ServiceException {
+    @BeforeMethod
+    public void setUp() {
+
         MockitoAnnotations.initMocks(this);
         kitService = mock(KitService.class);
-    }
 
-    @BeforeMethod
-    public void setUp() throws Exception {
+        List<Kit> allKits = new ArrayList<>();
+        allKits.add(kit);
 
-        milleniumFalcon = new Kit ();
-        milleniumFalcon.setDescription("Epic Han Solo's ship");
-        milleniumFalcon.setPrice(1599);
-        milleniumFalcon.setAgeLimit(12);
-        milleniumFalcon.setCategory(null);
-        milleniumFalcon.setSetOfKits(null);
+        when(kit.getId()).thenReturn(1L);
+        when(kit.getPrice()).thenReturn(0);
+        when(kit.getAgeLimit()).thenReturn(12);
+        when(kit.getDescription()).thenReturn("");
+        when(kit.getSetOfKits()).thenReturn(setOfKits);
+        when(kit.getCategory()).thenReturn(category);
+        when(kit.getKitBricks()).thenReturn(kitBricks);
+        when(brick.getKitBricks()).thenReturn(kitBricks);
+        when(kitBrick.getBrick()).thenReturn(brick);
+        when(kitBrick.getKit()).thenReturn(kit);
 
-        darthVaderStatue = new Kit ();
-        darthVaderStatue.setDescription("A Darth Vader statue with red lightsaber");
-        darthVaderStatue.setPrice(699);
-        darthVaderStatue.setAgeLimit(13);
-        darthVaderStatue.setCategory(null);
-        darthVaderStatue.setSetOfKits(null);
-    }
-
-    @Test
-    public void testCreateKit() throws Exception {
-        when(kitService.createKit(milleniumFalcon)).thenReturn(1L);
-        when(kitService.createKit(darthVaderStatue)).thenReturn(2L);
-
-        Long id = kitService.createKit(milleniumFalcon);
-        Long id2 = kitService.createKit(darthVaderStatue);
-
-        Assert.assertEquals(id.longValue(), 1L);
-        Assert.assertEquals(id2.longValue(), 2L);
+        when(kitDao.findById(1L)).thenReturn(kit);
+        when(kitDao.findAll()).thenReturn(allKits);
     }
 
     @Test
-    public void testFindKitById() throws Exception {
-        when(kitService.findKitById(1)).thenReturn(milleniumFalcon);
-        Assert.assertEquals(kitService.findKitById(1), milleniumFalcon);
+    public void testCreateKit() {
+        kitService.createKit(kit);
+        verify(kitDao).create(kit);
     }
 
     @Test
-    public void testUpdateKit() throws Exception {
+    public void testFindKitById() {
+        Kit foundKit = kitService.findKitById(1L);
+        verify(kitDao).findById(1L);
+        assertEquals(foundKit, kit);
+    }
+
+    @Test
+    public void testUpdateKit() {
 
     }
 
     @Test
-    public void testDeleteKitById() throws Exception {
+    public void testDeleteKitById() {
+        kitService.deleteKitById(1L);
+        verify(kitDao).delete(kit);
+    }
+
+    @Test
+    public void testFindAllKits() {
 
     }
 
     @Test
-    public void testFindAllKits() throws Exception {
+    public void testGetKitsByCategory() {
+
     }
 
     @Test
-    public void testGetKitsByCategory() throws Exception {
+    public void testAddCategory() {
     }
 
     @Test
-    public void testAddCategory() throws Exception {
+    public void testRemoveCategory() {
     }
 
     @Test
-    public void testRemoveCategory() throws Exception {
+    public void testGetKitCategories() {
     }
 
     @Test
-    public void testGetKitCategories() throws Exception {
+    public void testAddBrickToKit() {
     }
 
     @Test
-    public void testAddBrickToKit() throws Exception {
+    public void testRemoveOneBrickFromKitById() {
     }
 
     @Test
-    public void testRemoveOneBrickFromKitById() throws Exception {
+    public void testRemoveAllBricksOfThisTypeFromKitById() {
     }
 
     @Test
-    public void testRemoveAllBricksOfThisTypeFromKitById() throws Exception {
+    public void testFindSimilarKits() {
     }
 
     @Test
-    public void testFindSimilarKits() throws Exception {
+    public void testFindBrickById() {
     }
 
     @Test
-    public void testFindBrickById() throws Exception {
+    public void addKitToSet() {
     }
 
 }
