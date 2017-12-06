@@ -8,6 +8,7 @@
         <module>lm-persistence</module>
         <module>lm-api</module>
         <module>lm-facade-service</module>
+        <module>web</module>
     </modules>
 
     <parent>
