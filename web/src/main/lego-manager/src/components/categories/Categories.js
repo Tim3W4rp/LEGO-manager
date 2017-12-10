@@ -4,12 +4,13 @@ import Link from '../../elements/link/Link'
 import {
   Table,
   TableBody,
-  TableFooter,
   TableHeader,
   TableHeaderColumn,
   TableRow,
   TableRowColumn
 } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import './Categories.css';
 
@@ -48,6 +49,11 @@ class Categories extends Component {
           )}
         </TableBody>
       </Table>
+      <Link to="/category/create">
+        <FloatingActionButton className="Categories-floating-button">
+          <ContentAdd />
+        </FloatingActionButton>
+      </Link>
     </div>);
   }
 }
