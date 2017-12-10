@@ -16,18 +16,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
- * SpringMVC controller for managing REST requests for the category resources. Conforms to HATEOAS principles.
  *
- * @author Martin Kuba makub@ics.muni.cz
+ * @author Štěpán Granát
  */
 @RestController
 @ExposesResourceFor(CategoryDTO.class)
 @RequestMapping("/categories")
+@CrossOrigin(origins = "localhost:3000")
 public class CategoriesRestController {
 
     private final static Logger log = LoggerFactory.getLogger(CategoriesRestController.class);
@@ -36,11 +37,26 @@ public class CategoriesRestController {
             @Autowired CategoryResourceAssembler categoryResourceAssembler,
             @SuppressWarnings("SpringJavaAutowiringInspection")
             @Autowired EntityLinks entityLinks
+            //@Autowired CategoryFacade categoryFacade
     ) {
         this.categoryFacade = categoryFacade;
         this.categoryResourceAssembler = categoryResourceAssembler;
         this.entityLinks = entityLinks;
+
+        CategoryDTO exmpl1 = new CategoryDTO();
+        exmpl1.setId(1L);
+        exmpl1.setName("Star wars");
+        exmpl1.setDescription("Test testosteron");
+        this.allCategories.add(exmpl1);
+
+        CategoryDTO exmpl2 = new CategoryDTO();
+        exmpl2.setId(2L);
+        exmpl2.setName("Harry potter");
+        exmpl2.setDescription("Harry je nejlepší");
+        this.allCategories.add(exmpl2);
     }
+
+    private List<CategoryDTO> allCategories = new ArrayList<>();
 
     private CategoryFacade categoryFacade;
 
@@ -56,7 +72,7 @@ public class CategoriesRestController {
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<CategoryResource>> categories() {
         log.debug("rest categories()");
-        List<CategoryDTO> allCategories = categoryFacade.getAllCategories();
+
         Resources<CategoryResource> productsResources = new Resources<>(
                 categoryResourceAssembler.toResources(allCategories),
                 linkTo(CategoriesRestController.class).withSelfRel(),
@@ -74,7 +90,7 @@ public class CategoriesRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<CategoryResource> category(@PathVariable("id") long id) throws Exception {
         log.debug("rest category({})", id);
-        CategoryDTO categoryDTO = categoryFacade.getCategoryById(id);
+        CategoryDTO categoryDTO = allCategories.get((int)(id - 1));
         if (categoryDTO == null) throw new ResourceNotFoundException("category " + id + " not found");
         CategoryResource categoryResource = categoryResourceAssembler.toResource(categoryDTO);
         return new HttpEntity<>(categoryResource);

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Converts exceptions to REST responses.
  *
- * @author Martin Kuba makub@ics.muni.cz
+ * @author Štěpán Granát
  */
 @ControllerAdvice
 public class MyExceptionHandler {

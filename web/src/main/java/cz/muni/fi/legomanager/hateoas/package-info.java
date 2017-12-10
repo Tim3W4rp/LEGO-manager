@@ -9,6 +9,6 @@
  *     <li><a href="https://en.wikipedia.org/wiki/Hypertext_Application_Language">Hypertext Application Language (Wikipedia)</a></li>
  * </ul>
  *
- * @author Martin Kuba makub@ics.muni.cz
+ * @author Štěpán Granát
  */
 package cz.muni.fi.legomanager.hateoas;

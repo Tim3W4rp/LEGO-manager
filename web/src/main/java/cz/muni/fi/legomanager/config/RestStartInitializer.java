@@ -11,7 +11,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  * <li>maps dispatcher servlet to URL pattern returned by {@link #getServletMappings()}</li>
  * </ul>
  *
- * @author Martin Kuba makub@ics.muni.cz
+ * @author Štěpán Granát
  */
 public class RestStartInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 

@@ -34,7 +34,7 @@ import static org.springframework.hateoas.config.EnableHypermediaSupport.Hyperme
  * Controllers responses use the content-type "application/hal+json", the response is a JSON object
  * with "_links" property for entities, or with "_links" and "_embedded" properties for collections.
  *
- * @author Martin Kuba makub@ics.muni.cz
+ * @author Štěpán Granát
  */
 
 @EnableHypermediaSupport(type = HypermediaType.HAL)

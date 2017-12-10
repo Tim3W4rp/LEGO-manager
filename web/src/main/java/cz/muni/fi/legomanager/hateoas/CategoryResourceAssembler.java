@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 /**
  * Assembles a HATEOS-compliant representation of a category from a CategoryDTO.
  *
- * @author Martin Kuba makub@ics.muni.cz
+ * @author Štěpán Granát
  */
 @Component
 public class CategoryResourceAssembler extends ResourceAssemblerSupport<CategoryDTO, CategoryResource> {
@@ -36,10 +36,6 @@ public class CategoryResourceAssembler extends ResourceAssemblerSupport<Category
         try {
             Link catLink = entityLinks.linkForSingleResource(CategoryDTO.class, id).withSelfRel();
             categoryResource.add(catLink);
-
-            Link productsLink = entityLinks.linkForSingleResource(CategoryDTO.class, id).slash("/products").withRel("products");
-            categoryResource.add(productsLink);
-
         } catch (Exception ex) {
             log.error("cannot link HATEOAS", ex);
         }

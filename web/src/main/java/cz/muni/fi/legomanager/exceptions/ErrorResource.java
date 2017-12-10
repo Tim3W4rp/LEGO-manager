@@ -3,7 +3,7 @@ package cz.muni.fi.legomanager.exceptions;
 /**
  * Represents JSON message with error.
  *
- * @author Martin Kuba makub@ics.muni.cz
+ * @author Štěpán Granát
  */
 public class ErrorResource {
 

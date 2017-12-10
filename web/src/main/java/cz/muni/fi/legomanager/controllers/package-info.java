@@ -1,6 +1,6 @@
 /**
  * This package contains classes which are SpringMVC controllers, and specifically REST controllers.
  *
- * @author Martin Kuba makub@ics.muni.cz
+ * @author Štěpán Granát
  */
 package cz.muni.fi.legomanager.controllers;
