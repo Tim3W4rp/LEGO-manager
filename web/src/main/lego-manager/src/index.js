@@ -26,6 +26,9 @@ import category from './components/category/reducer'
 import loadCategories from './components/categories/loader'
 import loadCategory from './components/category/loader'
 
+// elements
+import NotFound from './elements/notFound/NotFound'
+
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
@@ -65,6 +68,9 @@ render(
         <IndexRoute component={Index}  />
         <Route path="categories" onEnter={loadCategories} component={Categories}/>
         <Route path="category/:id" onEnter={loadCategory} component={Category}/>
+      </Route>
+      <Route path="/" component={App}>
+        <Route path="*" component={NotFound}/>
       </Route>
     </Router>
   </Provider>,
