@@ -25,6 +25,8 @@ import Category from './components/category/Category'
 // reducers
 import categories from './components/categories/reducer'
 import category from './components/category/reducer'
+import loading from './components/loading/reducer'
+import errorToast from './components/errorToast/reducer'
 
 // data loaders
 import loadCategories from './components/categories/loader'
@@ -45,6 +47,8 @@ export const store = createStore(
     responsiveDrawer: responsiveDrawer,
     routing: routerReducer,
     form: reduxFormReducer,
+    loading: loading,
+    error: errorToast,
     categoriesPage: combineReducers({
       categories,
     }),

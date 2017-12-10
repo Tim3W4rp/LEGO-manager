@@ -5,9 +5,8 @@ import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import * as Colors from 'material-ui/styles/colors';
 import { fade } from 'material-ui/utils/colorManipulator'
 import { ResponsiveDrawer,  BodyContainer, ResponsiveAppBar } from 'material-ui-responsive-drawer'
-import IconButton from 'material-ui/IconButton'
 
-
+import ErrorToast from './components/errorToast/ErrorToast'
 import Menu from './elements/menu/Menu'
 import Brick from './elements/brick/Brick'
 import Link from './elements/link/Link'
@@ -52,6 +51,7 @@ class App extends Component {
                 {this.props.children}
               </div>
             </BodyContainer>
+            <ErrorToast />
           </div>
         </MuiThemeProvider>
       </div>
