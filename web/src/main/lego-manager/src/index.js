@@ -52,7 +52,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={App}>
+      <Route path="/pa165/" component={App}>
         <Route path="categories" component={Categories}/>
         <Route path="category/:id" component={Category}/>
       </Route>
