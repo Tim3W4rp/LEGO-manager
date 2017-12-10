@@ -4,8 +4,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { blue500 } from 'material-ui/styles/colors';
 import { ResponsiveDrawer,  BodyContainer, ResponsiveAppBar } from 'material-ui-responsive-drawer'
 
-import AppBar from 'material-ui/AppBar'
-import MenuItem from 'material-ui/MenuItem';
+import Menu from './elements/menu/Menu'
 import './App.css';
 
 const muiTheme = getMuiTheme({
@@ -21,17 +20,11 @@ class App extends Component {
         <MuiThemeProvider muiTheme={muiTheme}>
           <div>
             <ResponsiveDrawer>
-              <div>
-                <AppBar
-                  showMenuIconButton={false}
-                  title="Menu"/>
-                <MenuItem>Categories</MenuItem>
-              </div>
+              <Menu />
             </ResponsiveDrawer>
             <BodyContainer>
               <ResponsiveAppBar
-                  title={'Lego Manager'}
-                />
+                  title={'Lego Manager'} />
               <div className="App-content">
                 {this.props.children}
               </div>

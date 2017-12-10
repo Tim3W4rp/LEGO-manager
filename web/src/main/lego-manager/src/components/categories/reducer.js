@@ -1,8 +1,18 @@
-const categories = (state = [], action) => {
+const reducer = (state = {
+  data: [],
+  links: {}
+}, action) => {
   switch (action.type) {
+    case 'FETCH_CATEGORIES_FULFILLED':
+      return {
+        ...state,
+        data: action.payload.data._embedded.categories,
+        links: action.payload.data._links
+      }
+
     default:
       return state
   }
 }
 
-export default categories
+export default reducer

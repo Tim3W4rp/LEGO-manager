@@ -28,7 +28,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @RestController
 @ExposesResourceFor(CategoryDTO.class)
 @RequestMapping("/categories")
-@CrossOrigin(origins = "localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CategoriesRestController {
 
     private final static Logger log = LoggerFactory.getLogger(CategoriesRestController.class);
