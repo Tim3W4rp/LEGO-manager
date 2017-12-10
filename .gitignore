@@ -7,3 +7,4 @@ test-output
 *~
 target
 .DS_Store
+web/src/main/webapp/
