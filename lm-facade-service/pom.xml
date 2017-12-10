@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lm-service-facade</artifactId>
+    <artifactId>lm-facade-service</artifactId>
 
     <dependencies>
         <dependency>

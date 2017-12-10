@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import { Link as NativeLink } from 'react-router'
+import { Link as NativeLink, browserHistory} from 'react-router'
 
 class Link extends Component {
-  removeTrailingSlash(url) {
+
+  static redirect(url) {
+    browserHistory.push(this.removeTrailingSlash(process.env.PUBLIC_URL) + url)
+  }
+
+  static removeTrailingSlash(url) {
     return url.replace(/\/+$/, "")
   }
 
@@ -14,7 +19,7 @@ class Link extends Component {
     return <NativeLink
       {...this.props}
       {...underline}
-      to={this.removeTrailingSlash(process.env.PUBLIC_URL) + this.props.to} />
+      to={Link.removeTrailingSlash(process.env.PUBLIC_URL) + this.props.to} />
   }
 }
 
