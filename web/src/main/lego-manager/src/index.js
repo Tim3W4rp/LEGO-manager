@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers, compose } from 'redux'
 import { responsiveStoreEnhancer, responsiveStateReducer } from 'redux-responsive';
-import {responsiveDrawer} from 'material-ui-responsive-drawer';
+import { responsiveDrawer } from 'material-ui-responsive-drawer';
 // material ui plugin needed
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -12,13 +12,16 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import App from './App'
 
-//pages
-import Categories from './pages/categories/Categories'
-import Category from './pages/category/Category'
+//components
+import Categories from './components/categories/Categories'
+import Category from './components/category/Category'
 
 // reducers
-import categories from './pages/categories/reducer.js'
-import category from './pages/category/reducer.js'
+import categories from './components/categories/reducer'
+import category from './components/category/reducer'
+
+// data loader
+import loadData from './dataLoader'
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -51,7 +54,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 // init react with store and router
 render(
   <Provider store={store}>
-    <Router history={history}>
+    <Router history={history} onChange={loadData}>
       <Route path="/pa165/" component={App}>
         <Route path="categories" component={Categories}/>
         <Route path="category/:id" component={Category}/>
