@@ -8,3 +8,13 @@ body {
   margin: 10px;
   margin-top: 80px;
 }
+
+.App-header {
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+.App-logo {
+  margin: 10px;
+}
