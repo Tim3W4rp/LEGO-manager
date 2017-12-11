@@ -2,15 +2,16 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux'
-import { responsiveStoreEnhancer, responsiveStateReducer } from 'redux-responsive';
+import { responsiveStoreEnhancer, responsiveStateReducer } from 'redux-responsive'
 import promiseMiddleware from 'redux-promise-middleware'
-import { responsiveDrawer } from 'material-ui-responsive-drawer';
+import { responsiveDrawer } from 'material-ui-responsive-drawer'
+import env from './env'
 
 // material ui plugin needed
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import injectTapEventPlugin from 'react-tap-event-plugin'
 
 // redux forms
-import { reducer as reduxFormReducer } from 'redux-form';
+import { reducer as reduxFormReducer } from 'redux-form'
 
 // router
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
@@ -38,7 +39,7 @@ import App from './App'
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
+injectTapEventPlugin()
 
 // create store
 export const store = createStore(
@@ -74,7 +75,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path={process.env.PUBLIC_URL} component={App}>
+      <Route path={env.PUBLIC_URL} component={App}>
         <IndexRoute component={Index}  />
         <Route path="categories" onEnter={loadCategories} component={Categories}/>
         <Route path="category/create" component={CategoryCreate}/>

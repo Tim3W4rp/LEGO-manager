@@ -1,7 +1,7 @@
 const reducer = (state = {
   text: "",
   buttonText: "",
-  opened: false,
+  opened: false
 }, action) => {
   switch (action.type) {
     case 'FETCH_ERROR':
@@ -9,10 +9,10 @@ const reducer = (state = {
         ...state,
         text: action.error.message + " " + (
           action.error.response
-          ? "Status: " + action.error.response.status
-          : ""),
+            ? "Status: " + action.error.response.status
+            : ""),
         buttonText: 'close',
-        opened: true,
+        opened: true
       }
 
     case 'ERROR_OPENED':

@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
-import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper'
+import Divider from 'material-ui/Divider'
+import RaisedButton from 'material-ui/RaisedButton'
 
 import { TextField } from 'redux-form-material-ui'
 import { Field, reduxForm } from 'redux-form'
 
-import './CategoryCreate.css';
+import './CategoryCreate.css'
 import { addCategory } from './actions'
 
-import Link from '../../elements/link/Link';
+import Link from '../../elements/link/Link'
 
 
 class CategoryCreate extends Component {
@@ -49,20 +49,20 @@ class CategoryCreate extends Component {
           <RaisedButton type="submit" label="Add category" primary={true} />
         </form>
       </Paper>
-    );
+    )
   }
 }
 
 const required = value => value ? undefined : 'Required'
 
-CategoryCreate = connect(store => ({
+let component = connect(store => ({
 
 }), dispatch => ({
   dispatch,
 }))(CategoryCreate)
 
-CategoryCreate = reduxForm({
+component = reduxForm({
   form: 'categoryCreate'
-})(CategoryCreate)
+})(component)
 
-export default CategoryCreate
+export default component

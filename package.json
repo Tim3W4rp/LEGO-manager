@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "eslint-plugin-jsx": "^0.0.2",
+    "eslint-plugin-react": "^7.5.1"
+  }
+}

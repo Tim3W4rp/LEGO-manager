@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import Link from '../../elements/link/Link'
 import {
   Table,
@@ -8,18 +8,16 @@ import {
   TableHeaderColumn,
   TableRow,
   TableRowColumn
-} from 'material-ui/Table';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+} from 'material-ui/Table'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
 
-import './Categories.css';
+import './Categories.css'
 
 class Categories extends Component {
   render() {
     return (<div className="Categories">
-      <Table
-        selectable={false}
-        onRowClick={this.handleClick}>
+      <Table selectable={false} onRowClick={this.handleClick}>
         <TableHeader displaySelectAll={false}>
           <TableRow>
             <TableHeaderColumn>ID</TableHeaderColumn>
@@ -28,8 +26,8 @@ class Categories extends Component {
           </TableRow>
         </TableHeader>
         <TableBody displayRowCheckbox={false} showRowHover={true}>
-          {this.props.categories.data.map((category) =>
-            <TableRow key={category.id}>
+          {
+            this.props.categories.data.map((category) => <TableRow key={category.id}>
               <TableRowColumn>
                 <Link to={'/category/' + category.id}>
                   {category.id}
@@ -45,16 +43,16 @@ class Categories extends Component {
                   {category.description}
                 </Link>
               </TableRowColumn>
-            </TableRow>
-          )}
+            </TableRow>)
+          }
         </TableBody>
       </Table>
       <Link to="/category/create">
         <FloatingActionButton className="Categories-floating-button">
-          <ContentAdd />
+          <ContentAdd/>
         </FloatingActionButton>
       </Link>
-    </div>);
+    </div>)
   }
 }
 
