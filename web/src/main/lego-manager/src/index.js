@@ -41,6 +41,9 @@ import App from './App'
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin()
 
+const composeEnhancers =
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 // create store
 export const store = createStore(
   combineReducers({
@@ -58,13 +61,11 @@ export const store = createStore(
     })
   }),
 
-  compose(
+  composeEnhancers(
     applyMiddleware(
       promiseMiddleware()
     ),
-    responsiveStoreEnhancer,
-    // redux browser web extension support
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    responsiveStoreEnhancer
   )
 )
 
