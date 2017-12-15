@@ -2,15 +2,16 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux'
-import { responsiveStoreEnhancer, responsiveStateReducer } from 'redux-responsive';
+import { responsiveStoreEnhancer, responsiveStateReducer } from 'redux-responsive'
 import promiseMiddleware from 'redux-promise-middleware'
-import { responsiveDrawer } from 'material-ui-responsive-drawer';
+import { responsiveDrawer } from 'material-ui-responsive-drawer'
+import env from './env'
 
 // material ui plugin needed
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import injectTapEventPlugin from 'react-tap-event-plugin'
 
 // redux forms
-import { reducer as reduxFormReducer } from 'redux-form';
+import { reducer as reduxFormReducer } from 'redux-form'
 
 // router
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
@@ -25,6 +26,8 @@ import Category from './components/category/Category'
 // reducers
 import categories from './components/categories/reducer'
 import category from './components/category/reducer'
+import loading from './components/loading/reducer'
+import errorToast from './components/errorToast/reducer'
 
 // data loaders
 import loadCategories from './components/categories/loader'
@@ -36,7 +39,10 @@ import App from './App'
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
+injectTapEventPlugin()
+
+const composeEnhancers =
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 // create store
 export const store = createStore(
@@ -45,6 +51,8 @@ export const store = createStore(
     responsiveDrawer: responsiveDrawer,
     routing: routerReducer,
     form: reduxFormReducer,
+    loading: loading,
+    error: errorToast,
     categoriesPage: combineReducers({
       categories,
     }),
@@ -53,13 +61,11 @@ export const store = createStore(
     })
   }),
 
-  compose(
+  composeEnhancers(
     applyMiddleware(
       promiseMiddleware()
     ),
-    responsiveStoreEnhancer,
-    // redux browser web extension support
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    responsiveStoreEnhancer
   )
 )
 
@@ -70,7 +76,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path={process.env.PUBLIC_URL} component={App}>
+      <Route path={env.PUBLIC_URL} component={App}>
         <IndexRoute component={Index}  />
         <Route path="categories" onEnter={loadCategories} component={Categories}/>
         <Route path="category/create" component={CategoryCreate}/>

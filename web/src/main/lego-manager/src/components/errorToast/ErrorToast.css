@@ -1,18 +1,19 @@
-.CategoryCreate {
+.ErrorToast {
   display: block;
   margin: 10px;
   padding: 15px;
   min-height: 200px;
 }
 
-.CategoryCreate-title {
+.ErrorToast-title {
   margin-top: 10px;
   font-size: 25px;
   margin-bottom: 20px;
 }
 
-.CategoryCreate-item {
-  display: block !important;
-  margin-top: 10px;
-  margin-bottom: 10px;
+.ErrorToast-label {
+  margin-top: 0px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 13px;
 }

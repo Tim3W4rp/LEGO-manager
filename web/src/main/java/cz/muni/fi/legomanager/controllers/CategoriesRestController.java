@@ -2,6 +2,7 @@ package cz.muni.fi.legomanager.controllers;
 
 import cz.fi.muni.legomanager.dto.CategoryDTO;
 import cz.fi.muni.legomanager.facade.CategoryFacade;
+import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.CategoryResource;
 import cz.muni.fi.legomanager.hateoas.CategoryResourceAssembler;
@@ -13,9 +14,12 @@ import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +32,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @RestController
 @ExposesResourceFor(CategoryDTO.class)
 @RequestMapping("/categories")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000") // for development mode
 public class CategoriesRestController {
 
     private final static Logger log = LoggerFactory.getLogger(CategoriesRestController.class);
@@ -94,6 +98,19 @@ public class CategoriesRestController {
         if (categoryDTO == null) throw new ResourceNotFoundException("category " + id + " not found");
         CategoryResource categoryResource = categoryResourceAssembler.toResource(categoryDTO);
         return new HttpEntity<>(categoryResource);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+    public HttpEntity<CategoryResource> createCategory(@RequestBody @Valid CategoryDTO categoryDTO, BindingResult bindingResult) throws Exception {
+        log.debug("rest createCategory()");
+        if (bindingResult.hasErrors()) {
+            log.error("failed validation {}", bindingResult.toString());
+            throw new InvalidRequestException("Failed validation");
+        }
+        categoryDTO.setId(allCategories.get(allCategories.size() - 1).getId() + 1);
+        this.allCategories.add(categoryDTO);
+        CategoryResource resource = categoryResourceAssembler.toResource(categoryDTO);
+        return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 }
 
