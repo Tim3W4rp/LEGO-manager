@@ -1,6 +1,7 @@
 package cz.muni.fi.legomanager.controllers;
 
-import cz.fi.muni.legomanager.dto.SetOfKitsDTO;
+import cz.fi.muni.legomanager.dto.*;
+
 import cz.fi.muni.legomanager.facade.SetOfKitsFacade;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  *
  * @author Michal Peška, partly
  */
+
 @RestController
 @ExposesResourceFor(SetOfKitsDTO.class)
 @RequestMapping("/sets")
@@ -37,16 +40,21 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 public class SetsRestController {
 
     private final static Logger log = LoggerFactory.getLogger(SetsRestController.class);
+    private SetOfKitsFacade setFacade;
+    private SetResourceAssembler setResourceAssembler;
+    private EntityLinks entityLinks;
 
+
+    @Autowired
     public SetsRestController(
-            @Autowired SetResourceAssembler setResourceAssembler,
+             SetResourceAssembler setResourceAssembler,
             @SuppressWarnings("SpringJavaAutowiringInspection")
-            @Autowired EntityLinks entityLinks
-            //@Autowired CategoryFacade categoryFacade
-    ) {
+            EntityLinks entityLinks,
+            SetOfKitsFacade setFacade) {
 
         this.setResourceAssembler = setResourceAssembler;
         this.entityLinks = entityLinks;
+        this.setFacade = setFacade;
 
         SetOfKitsDTO exmpl1 = new SetOfKitsDTO();
         exmpl1.setId(1L);
@@ -63,12 +71,7 @@ public class SetsRestController {
 
     private List<SetOfKitsDTO> allSets = new ArrayList<>();
 
-    @Autowired
-    private SetOfKitsFacade setFacade;
 
-    private SetResourceAssembler setResourceAssembler;
-
-    private EntityLinks entityLinks;
 
     /**
      * Produces list of all categories in JSON.
@@ -80,7 +83,7 @@ public class SetsRestController {
         log.debug("rest sets()");
 
         Resources<SetResource> setsResources = new Resources<>(
-                setResourceAssembler.toResources(allSets),
+                setResourceAssembler.toResources(setFacade.getAllSets()),
                 linkTo(SetsRestController.class).withSelfRel(),
                 linkTo(SetsRestController.class).slash("/create").withRel("create"));
         return new ResponseEntity<>(setsResources, HttpStatus.OK);
@@ -93,7 +96,7 @@ public class SetsRestController {
      * @return category detail
      * @throws Exception if category not found
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<SetResource> set(@PathVariable("id") long id) throws Exception {
         log.debug("rest set({})", id);
         SetOfKitsDTO setDTO = allSets.get((int)(id - 1));
@@ -113,7 +116,10 @@ public class SetsRestController {
         this.allSets.add(setDTO);
         SetResource resource = setResourceAssembler.toResource(setDTO);
         return new ResponseEntity<>(resource, HttpStatus.OK);
-    }
+    }*/
 }
+
+
+
 
 
