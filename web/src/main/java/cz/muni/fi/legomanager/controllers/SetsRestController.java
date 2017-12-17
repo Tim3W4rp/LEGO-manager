@@ -44,7 +44,7 @@ public class SetsRestController {
             @Autowired EntityLinks entityLinks
             //@Autowired CategoryFacade categoryFacade
     ) {
-        this.setFacade = setFacade;
+
         this.setResourceAssembler = setResourceAssembler;
         this.entityLinks = entityLinks;
 
@@ -63,6 +63,7 @@ public class SetsRestController {
 
     private List<SetOfKitsDTO> allSets = new ArrayList<>();
 
+    @Autowired
     private SetOfKitsFacade setFacade;
 
     private SetResourceAssembler setResourceAssembler;
