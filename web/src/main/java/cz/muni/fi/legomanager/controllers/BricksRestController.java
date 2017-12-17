@@ -80,7 +80,7 @@ public class BricksRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<BrickResource> brick(@PathVariable("id") long id) throws Exception {
         log.debug("rest set({})", id);
-        BrickDTO foundDTO = facade.findById((id - 1));
+        BrickDTO foundDTO = facade.findById(id);
         if (foundDTO == null) throw new ResourceNotFoundException("brick " + id + " not found");
         BrickResource resource = resourceAssembler.toResource(foundDTO);
         return new HttpEntity<>(resource);

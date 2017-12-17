@@ -80,7 +80,7 @@ public class CategoriesRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<CategoryResource> category(@PathVariable("id") long id) throws Exception {
         log.debug("rest cat({})", id);
-        CategoryDTO foundDTO = facade.getCategoryById((id - 1));
+        CategoryDTO foundDTO = facade.getCategoryById(id);
         if (foundDTO == null) throw new ResourceNotFoundException("category " + id + " not found");
         CategoryResource resource = resourceAssembler.toResource(foundDTO);
         return new HttpEntity<>(resource);

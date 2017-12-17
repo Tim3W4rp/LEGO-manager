@@ -100,7 +100,7 @@ public class SetsRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<SetResource> set(@PathVariable("id") long id) throws Exception {
         log.debug("rest set({})", id);
-        SetOfKitsDTO setDTO = setFacade.findSetById((id - 1));
+        SetOfKitsDTO setDTO = setFacade.findSetById(id);
         if (setDTO == null) throw new ResourceNotFoundException("category " + id + " not found");
         SetResource setResource = setResourceAssembler.toResource(setDTO);
         return new HttpEntity<>(setResource);

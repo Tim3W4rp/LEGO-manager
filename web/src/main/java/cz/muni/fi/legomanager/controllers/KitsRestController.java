@@ -80,7 +80,7 @@ public class KitsRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<KitResource> kit(@PathVariable("id") long id) throws Exception {
         log.debug("rest kit({})", id);
-        KitDTO foundDTO = facade.findKitById((id - 1));
+        KitDTO foundDTO = facade.findKitById(id);
         if (foundDTO == null) throw new ResourceNotFoundException("kit " + id + " not found");
         KitResource resource = resourceAssembler.toResource(foundDTO);
         return new HttpEntity<>(resource);
