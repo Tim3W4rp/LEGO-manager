@@ -37,10 +37,6 @@ public class Brick {
     private int blue;
 
     @NotNull
-    @OneToMany(mappedBy = "brick")
-    private List<KitBrick> kitBricks = new ArrayList<>();
-
-    @NotNull
     @ManyToOne
     private Shape shape;
 
@@ -84,18 +80,6 @@ public class Brick {
         this.shape = shape;
     }
 
-    public List<KitBrick> getKitBricks() {
-        return Collections.unmodifiableList(kitBricks);
-    }
-
-    public void addKitBrick(KitBrick kitBrick) {
-        kitBricks.add(kitBrick);
-    }
-
-    public void removeKitBrick(KitBrick kitBrick) {
-        kitBricks.remove(kitBrick);
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -134,7 +118,6 @@ public class Brick {
                 ", red=" + red +
                 ", green=" + green +
                 ", blue=" + blue +
-                ", kitBricks=" + kitBricks +
                 ", shape=" + shape +
                 '}';
     }

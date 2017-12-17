@@ -16,21 +16,21 @@ public interface BrickDao {
      *
      * @param brick brick to be added to DB
      */
-    public void create(Brick brick);
+    void create(Brick brick);
 
     /**
      * Updates an already existing brick in DB.
      *
      * @param brick brick to be updated in DB
      */
-    public void update(Brick brick);
+    void update(Brick brick);
 
     /**
      * Deletes a brick from DB.
      *
      * @param brick brick to be deleted from DB
      */
-    public void delete(Brick brick);
+    void delete(Brick brick);
 
     /**
      * Returns brick with corresponding id.
@@ -38,13 +38,13 @@ public interface BrickDao {
      * @param id id of the brick
      * @return brick with corresponding id
      */
-    public Brick findById(Long id);
+    Brick findById(Long id);
 
     /**
      * Returns list of all existing bricks in DB.
      *
      * @return list of all existing bricks
      */
-    public List<Brick> findAll();
+    List<Brick> findAll();
 
 }

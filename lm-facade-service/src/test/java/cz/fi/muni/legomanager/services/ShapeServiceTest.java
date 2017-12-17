@@ -2,7 +2,6 @@ package cz.fi.muni.legomanager.services;
 
 import cz.fi.muni.legomanager.config.ServiceConfigurationContext;
 import cz.fi.muni.legomanager.dao.ShapeDao;
-import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Shape;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -21,6 +20,7 @@ import java.util.List;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Test class for {@link ShapeService}.
@@ -41,9 +41,6 @@ public class ShapeServiceTest extends AbstractTestNGSpringContextTests {
     @Mock
     private Shape shape;
 
-    @Mock
-    private Brick brick;
-
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -53,11 +50,9 @@ public class ShapeServiceTest extends AbstractTestNGSpringContextTests {
 
         when(shape.getId()).thenReturn(1L);
         when(shape.getName()).thenReturn("Cube");
-        when(shape.getBricks()).thenReturn(new ArrayList<Brick>() {{
-            add(brick);
-        }});
 
         when(shapeDao.findById(1L)).thenReturn(shape);
+        when(shapeDao.findByName("Cube")).thenReturn(shape);
 
         when(shapeDao.findAll()).thenReturn(allShapes);
     }
@@ -99,12 +94,28 @@ public class ShapeServiceTest extends AbstractTestNGSpringContextTests {
     public void testFindById() {
         Shape found = shapeService.findById(1L);
         verify(shapeDao).findById(1L);
+
+        assertNotNull(found);
         assertEquals(shape, found);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testFindByNullId() {
         shapeService.findById(null);
+    }
+
+    @Test
+    public void testFindByName() {
+        Shape found = shapeService.findByName("Cube");
+        verify(shapeDao).findByName("Cube");
+
+        assertNotNull(found);
+        assertEquals(shape, found);
+    }
+
+    @Test (expectedExceptions = IllegalArgumentException.class)
+    public void testFindByNullName() {
+        shapeService.findByName(null);
     }
 
     @Test

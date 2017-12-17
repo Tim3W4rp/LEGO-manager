@@ -50,8 +50,13 @@ public class ShapeFacadeImpl implements ShapeFacade {
     }
 
     @Override
+    public ShapeDTO findByName(String name) {
+        return dozerService.mapTo(shapeService.findByName(name), ShapeDTO.class);
+    }
+
+    @Override
     public List<ShapeDTO> findAll() {
         return dozerService.mapTo(shapeService.findAll(), ShapeDTO.class);
     }
-    
+
 }

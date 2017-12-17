@@ -1,5 +1,7 @@
 package cz.fi.muni.legomanager.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 /**
@@ -7,6 +9,8 @@ import java.util.Objects;
  */
 public class ShapeCreateDTO {
 
+    @NotNull
+    @Size(min = 3, max = 25)
     private String name;
 
     public String getName() {

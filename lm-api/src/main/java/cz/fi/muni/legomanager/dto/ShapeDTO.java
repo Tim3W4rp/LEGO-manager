@@ -1,8 +1,5 @@
 package cz.fi.muni.legomanager.dto;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -14,7 +11,6 @@ public class ShapeDTO {
 
     private Long id;
     private String name;
-    private List<BrickDTO> bricks = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -32,31 +28,18 @@ public class ShapeDTO {
         this.name = name;
     }
 
-    public List<BrickDTO> getBricks() {
-        return Collections.unmodifiableList(bricks);
-    }
-
-    public void addBrick(BrickDTO brick) {
-        bricks.add(brick);
-    }
-
-    public void removeBrick(BrickDTO brick) {
-        bricks.remove(brick);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ShapeDTO)) return false;
         ShapeDTO shapeDTO = (ShapeDTO) o;
         return Objects.equals(id, shapeDTO.id) &&
-                Objects.equals(name, shapeDTO.name) &&
-                Objects.equals(bricks, shapeDTO.bricks);
+                Objects.equals(name, shapeDTO.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, bricks);
+        return Objects.hash(id, name);
     }
 
     @Override
@@ -64,7 +47,6 @@ public class ShapeDTO {
         return "ShapeDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", bricks=" + bricks +
                 '}';
     }
 

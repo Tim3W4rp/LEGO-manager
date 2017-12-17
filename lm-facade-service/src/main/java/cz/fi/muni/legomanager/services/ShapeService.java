@@ -18,21 +18,21 @@ public interface ShapeService {
      *
      * @param shape entity
      */
-    public void create(Shape shape);
+    void create(Shape shape);
 
     /**
      * Update the given existing Shape entity.
      *
      * @param shape entity
      */
-    public void update(Shape shape);
+    void update(Shape shape);
 
     /**
      * Delete the given existing Shape entity.
      *
      * @param shape entity
      */
-    public void delete(Shape shape);
+    void delete(Shape shape);
 
     /**
      * Get Shape entity with the given ID.
@@ -40,12 +40,20 @@ public interface ShapeService {
      * @param id id of the shape
      * @return existing Shape with given id
      */
-    public Shape findById(Long id);
+    Shape findById(Long id);
+
+    /**
+     * Get Shape entity with the given name.
+     *
+     * @param name name of the shape
+     * @return existing Shape with given name
+     */
+    Shape findByName(String name);
 
     /**
      * Get all existing Shape entities.
      *
      * @return list of existing Shape entities
      */
-    public List<Shape> findAll();
+    List<Shape> findAll();
 }

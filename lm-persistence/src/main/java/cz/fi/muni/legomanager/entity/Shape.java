@@ -1,10 +1,11 @@
 package cz.fi.muni.legomanager.entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,10 +23,6 @@ public class Shape {
     @NotNull
     @Column(nullable = false, unique = true)
     private String name;
-
-    @NotNull
-    @OneToMany(mappedBy = "shape")
-    private List<Brick> bricks = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -76,17 +73,5 @@ public class Shape {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
-    }
-
-    public List<Brick> getBricks() {
-        return Collections.unmodifiableList(bricks);
-    }
-
-    public void addBrick(Brick brick) {
-        bricks.add(brick);
-    }
-
-    public void removeBrick(Brick brick) {
-        bricks.remove(brick);
     }
 }

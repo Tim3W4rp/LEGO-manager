@@ -6,6 +6,7 @@ import cz.fi.muni.legomanager.entity.Shape;
 
 import org.hibernate.Session;
 import org.junit.Assert;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -119,6 +120,17 @@ public class ShapeDaoTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void findWithNull() {
         shapeDao.findById(null);
+    }
+
+    @Test
+    public void findByName() {
+        Shape found = shapeDao.findByName(vaderShape.getName());
+        Assert.assertEquals(found, vaderShape);
+    }
+
+    @Test(expectedExceptions = EmptyResultDataAccessException.class)
+    public void findByNonExistingName() {
+        shapeDao.findByName("Non existing name");
     }
 
     @Test

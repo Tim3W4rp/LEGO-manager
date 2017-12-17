@@ -41,6 +41,14 @@ public interface ShapeFacade {
     ShapeDTO findById(Long shapeId);
 
     /**
+     * Get shape by name.
+     *
+     * @param name name of the shape
+     * @return existing shape with the given name
+     */
+    ShapeDTO findByName(String name);
+
+    /**
      * Get all existing shapes.
      *
      * @return list of existing shapes

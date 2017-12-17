@@ -1,8 +1,5 @@
 package cz.fi.muni.legomanager.dto;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -16,7 +13,6 @@ public class BrickDTO {
     private int red;
     private int green;
     private int blue;
-    private List<KitBrickDTO> kitBricks = new ArrayList<>();
     private ShapeDTO shape;
 
     public Long getId() {
@@ -49,18 +45,6 @@ public class BrickDTO {
 
     public void setBlue(int blue) {
         this.blue = blue;
-    }
-
-    public List<KitBrickDTO> getKitBricks() {
-        return Collections.unmodifiableList(kitBricks);
-    }
-
-    public void addKitBrick(KitBrickDTO kitBrick) {
-        kitBricks.add(kitBrick);
-    }
-
-    public void removeKitBrick(KitBrickDTO kitBrick) {
-        kitBricks.remove(kitBrick);
     }
 
     public ShapeDTO getShape() {
@@ -96,7 +80,6 @@ public class BrickDTO {
                 ", red=" + red +
                 ", green=" + green +
                 ", blue=" + blue +
-                ", kitBricks=" + kitBricks +
                 ", shape=" + shape +
                 '}';
     }
