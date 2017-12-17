@@ -55,22 +55,7 @@ public class KitsRestController {
         this.entityLinks = entityLinks;
         this.setFacade = setFacade;
 
-        SetOfKitsDTO exmpl1 = new SetOfKitsDTO();
-        exmpl1.setId(1L);
-        exmpl1.setPrice(BigDecimal.valueOf(100));
-        exmpl1.setDescription("Set 1");
-        this.allSets.add(exmpl1);
-
-        SetOfKitsDTO exmpl2 = new SetOfKitsDTO();
-        exmpl2.setId(2L);
-        exmpl2.setPrice(BigDecimal.valueOf(300));
-        exmpl2.setDescription("Set 2");
-        this.allSets.add(exmpl2);
     }
-
-    private List<SetOfKitsDTO> allSets = new ArrayList<>();
-
-
 
     /**
      * Produces list of all categories in JSON.
