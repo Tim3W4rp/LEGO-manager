@@ -3,6 +3,7 @@ package cz.muni.fi.legomanager.controllers;
 import cz.fi.muni.legomanager.dto.*;
 
 import cz.fi.muni.legomanager.facade.SetOfKitsFacade;
+import cz.muni.fi.legomanager.exceptions.ErrorResource;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.SetResource;
@@ -96,27 +97,57 @@ public class SetsRestController {
      * @return category detail
      * @throws Exception if category not found
      */
-    /*@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<SetResource> set(@PathVariable("id") long id) throws Exception {
         log.debug("rest set({})", id);
-        SetOfKitsDTO setDTO = allSets.get((int)(id - 1));
+        SetOfKitsDTO setDTO = setFacade.findSetById((id - 1));
         if (setDTO == null) throw new ResourceNotFoundException("category " + id + " not found");
         SetResource setResource = setResourceAssembler.toResource(setDTO);
         return new HttpEntity<>(setResource);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public HttpEntity<SetResource> createCategory(@RequestBody @Valid SetOfKitsDTO setDTO, BindingResult bindingResult) throws Exception {
+    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+    public HttpEntity<SetResource> createSet(@RequestBody @Valid SetOfKitsCreateDTO setDTOCreate, BindingResult bindingResult) throws Exception {
         log.debug("rest createCategory()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
             throw new InvalidRequestException("Failed validation");
         }
-        setDTO.setId(allSets.get(allSets.size() - 1).getId() + 1);
-        this.allSets.add(setDTO);
+        Long id = setFacade.createSet(setDTOCreate);
+        SetOfKitsDTO setDTO = setFacade.findSetById(id);
+
         SetResource resource = setResourceAssembler.toResource(setDTO);
         return new ResponseEntity<>(resource, HttpStatus.OK);
-    }*/
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public final void deleteSet(@PathVariable("id") long id) throws Exception {
+        log.debug("rest deleteSet({})", id);
+        try {
+            setFacade.deleteSetById(id);
+        } catch (IllegalArgumentException ex) {
+            log.error("set " + id + " not found");
+            throw new ResourceNotFoundException("set " + id + " not found");
+        } catch (Throwable ex) {
+            log.error("cannot delete set " + id + " :" + ex.getMessage());
+            throw new ResourceNotFoundException("Unable to delete non existing item");
+        }
+    }
+
+    @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
+    public final SetOfKitsDTO changeSet(@PathVariable("id") long id, @RequestBody @Valid SetOfKitsDTO updatedSet) throws Exception {
+        log.debug("rest change Set({})", id);
+
+        try {
+            updatedSet.setId(id);
+            setFacade.updateSet(updatedSet);
+            return setFacade.findSetById(id);
+        } catch (Exception ex) {
+            throw new ResourceNotFoundException("Unable to update set");
+        }
+    }
+
+
 }
 
 
