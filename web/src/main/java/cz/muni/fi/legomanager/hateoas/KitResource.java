@@ -2,11 +2,13 @@ package cz.muni.fi.legomanager.hateoas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import cz.fi.muni.legomanager.dto.SetOfKitsDTO;
+import cz.fi.muni.legomanager.dto.*;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Category rendered to JSON. The @Relation annotation specifies its name in HAL rendering of collections.
@@ -18,29 +20,29 @@ import java.math.BigDecimal;
 public class KitResource extends ResourceSupport {
 
     @JsonProperty("id") //ResourceSupport alrerady has getId() method
-    private long dtoId;
-    private BigDecimal price;
+    private Long id;
     private String description;
+    private Integer price;
+    private Integer ageLimit;
+    private CategoryDTO category;
+    private List<KitBrickDTO> kitBricks = new ArrayList<>();
 
-    public KitResource(SetOfKitsDTO dto) {
-        this.dtoId = dto.getId();
-        this.price = dto.getPrice();
+    public KitResource(KitDTO dto) {
+        this.id = dto.getId();
         this.description = dto.getDescription();
+        this.price = dto.getPrice();
+        this.ageLimit = dto.getAgeLimit();
+        this.category = dto.getCategory();
+        this.kitBricks = dto.getKitBricks();
     }
 
-    public long getDtoId() {
-        return dtoId;
+    public Long getDTOId() {
+        return id;
     }
 
-    public void setDtoId(long dtoId) {
-        this.dtoId = dtoId;
+    public void setDTOId(Long id) {
+        this.id = id;
     }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) { this.price = price; }
 
     public String getDescription() {
         return description;
@@ -49,4 +51,23 @@ public class KitResource extends ResourceSupport {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) { this.price = price; }
+
+    public Integer getAgeLimit() {
+        return ageLimit;
+    }
+
+    public void setAgeLimit(Integer ageLimit) { this.ageLimit = ageLimit; }
+
+   /*
+    Others
+
+     */
+
+
 }

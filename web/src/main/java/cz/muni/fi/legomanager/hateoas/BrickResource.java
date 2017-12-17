@@ -2,11 +2,14 @@ package cz.muni.fi.legomanager.hateoas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import cz.fi.muni.legomanager.dto.SetOfKitsDTO;
+import cz.fi.muni.legomanager.dto.*;
+import cz.fi.muni.legomanager.dto.ShapeDTO;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Category rendered to JSON. The @Relation annotation specifies its name in HAL rendering of collections.
@@ -18,25 +21,55 @@ import java.math.BigDecimal;
 public class BrickResource extends ResourceSupport {
 
     @JsonProperty("id") //ResourceSupport alrerady has getId() method
-    private long dtoId;
-    private BigDecimal price;
-    private String description;
+    private Long dtoId;
+    private int red;
+    private int green;
+    private int blue;
+    private List<KitBrickDTO> kitBricks = new ArrayList<>();
+    private ShapeDTO shape;
 
-    public BrickResource(SetOfKitsDTO dto) {
+    public BrickResource(BrickDTO dto) {
         this.dtoId = dto.getId();
-        this.price = dto.getPrice();
-        this.description = dto.getDescription();
+        this.red = dto.getRed();
+        this.green = dto.getRed();
+        this.blue = dto.getBlue();
+        this.kitBricks = dto.getKitBricks();
+        this.shape = dto.getShape();
     }
 
-    public long getDtoId() {
+    public Long getDtoId() {
         return dtoId;
     }
 
-    public void setDtoId(long dtoId) {
+    public void setDtoId(Long dtoId) {
         this.dtoId = dtoId;
     }
 
-    public BigDecimal getPrice() {
+    public int getDtoRed() {
+        return red;
+    }
+
+    public void setDtoRed(int value) {
+        this.red = value;
+    }
+
+    public int getDtoGreen() {
+        return green;
+    }
+
+    public void setDtoGreen(int value) {
+        this.green = value;
+    }
+
+    public int getDtoBlue() {
+        return blue;
+    }
+
+    public void setDtoBlue(int value) {
+        this.blue = value;
+    }
+
+    /*public BigDecimal getPrice() {
         return price;
     }
 
@@ -48,5 +81,5 @@ public class BrickResource extends ResourceSupport {
 
     public void setDescription(String description) {
         this.description = description;
-    }
+    }*/
 }
