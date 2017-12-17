@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  *
  * @author Michal Peška, partly
  */
-@Relation(value = "set", collectionRelation = "sets")
+@Relation(value = "kit", collectionRelation = "kits")
 @JsonPropertyOrder({"id", "name"})
 public class KitResource extends ResourceSupport {
 

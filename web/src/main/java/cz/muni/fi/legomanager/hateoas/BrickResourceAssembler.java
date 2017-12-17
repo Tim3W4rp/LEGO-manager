@@ -1,7 +1,7 @@
 package cz.muni.fi.legomanager.hateoas;
 
-import cz.fi.muni.legomanager.dto.SetOfKitsDTO;
-import cz.muni.fi.legomanager.controllers.SetsRestController;
+import cz.fi.muni.legomanager.dto.*;
+import cz.muni.fi.legomanager.controllers.BricksRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 /**
  * Assembles a HATEOS-compliant representation of a category from a CategoryDTO.
  *
- * @author Štěpán Granát
+ * @author Michal Peška, partly
  */
 @Component
-public class BrickResourceAssembler extends ResourceAssemblerSupport<SetOfKitsDTO, SetResource> {
+public class BrickResourceAssembler extends ResourceAssemblerSupport<BrickDTO, BrickResource> {
 
 
     private EntityLinks entityLinks;
@@ -25,20 +25,20 @@ public class BrickResourceAssembler extends ResourceAssemblerSupport<SetOfKitsDT
 
     public BrickResourceAssembler(@SuppressWarnings("SpringJavaAutowiringInspection")
                                      @Autowired EntityLinks entityLinks) {
-        super(SetsRestController.class, SetResource.class);
+        super(BricksRestController.class, BrickResource.class);
         this.entityLinks = entityLinks;
     }
 
     @Override
-    public SetResource toResource(SetOfKitsDTO setDTO) {
-        long id = setDTO.getId();
-        SetResource setResource = new SetResource(setDTO);
+    public BrickResource toResource(BrickDTO brickDTO) {
+        long id = brickDTO.getId();
+        BrickResource brickResource = new BrickResource(brickDTO);
         try {
-            Link setLink = entityLinks.linkForSingleResource(SetOfKitsDTO.class, id).withSelfRel();
-            setResource.add(setLink);
+            Link setLink = entityLinks.linkForSingleResource(BrickDTO.class, id).withSelfRel();
+            brickResource.add(setLink);
         } catch (Exception ex) {
             log.error("cannot link HATEOAS", ex);
         }
-        return setResource;
+        return brickResource;
     }
 }

@@ -1,7 +1,7 @@
 package cz.muni.fi.legomanager.hateoas;
 
-import cz.fi.muni.legomanager.dto.SetOfKitsDTO;
-import cz.muni.fi.legomanager.controllers.SetsRestController;
+import cz.fi.muni.legomanager.dto.*;
+import cz.muni.fi.legomanager.controllers.KitsRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 /**
  * Assembles a HATEOS-compliant representation of a category from a CategoryDTO.
  *
- * @author Štěpán Granát
+ * @author Michal Peška
  */
 @Component
-public class KitResourceAssembler extends ResourceAssemblerSupport<SetOfKitsDTO, SetResource> {
+public class KitResourceAssembler extends ResourceAssemblerSupport<KitDTO, KitResource> {
 
 
     private EntityLinks entityLinks;
@@ -25,20 +25,20 @@ public class KitResourceAssembler extends ResourceAssemblerSupport<SetOfKitsDTO,
 
     public KitResourceAssembler(@SuppressWarnings("SpringJavaAutowiringInspection")
                                      @Autowired EntityLinks entityLinks) {
-        super(SetsRestController.class, SetResource.class);
+        super(KitsRestController.class, KitResource.class);
         this.entityLinks = entityLinks;
     }
 
     @Override
-    public SetResource toResource(SetOfKitsDTO setDTO) {
-        long id = setDTO.getId();
-        SetResource setResource = new SetResource(setDTO);
+    public KitResource toResource(KitDTO kitDTO) {
+        long id = kitDTO.getId();
+        KitResource kitResource = new KitResource(kitDTO);
         try {
-            Link setLink = entityLinks.linkForSingleResource(SetOfKitsDTO.class, id).withSelfRel();
-            setResource.add(setLink);
+            Link setLink = entityLinks.linkForSingleResource(KitDTO.class, id).withSelfRel();
+            kitResource.add(setLink);
         } catch (Exception ex) {
             log.error("cannot link HATEOAS", ex);
         }
-        return setResource;
+        return kitResource;
     }
 }
