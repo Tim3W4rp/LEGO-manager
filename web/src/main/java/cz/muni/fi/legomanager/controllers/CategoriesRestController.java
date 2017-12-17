@@ -1,7 +1,6 @@
 package cz.muni.fi.legomanager.controllers;
 
 import cz.fi.muni.legomanager.dto.*;
-import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.facade.CategoryFacade;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
@@ -61,8 +60,8 @@ public class CategoriesRestController {
      * @return list of categories
      */
     @RequestMapping(method = RequestMethod.GET)
-    public HttpEntity<Resources<CategoryResource>> sets() {
-        log.debug("rest sets()");
+    public HttpEntity<Resources<CategoryResource>> categories() {
+        log.debug("rest cats()");
 
         Resources<CategoryResource> resources = new Resources<>(
                 resourceAssembler.toResources(facade.getAllCategories()),
@@ -79,8 +78,8 @@ public class CategoriesRestController {
      * @throws Exception if category not found
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public HttpEntity<CategoryResource> set(@PathVariable("id") long id) throws Exception {
-        log.debug("rest set({})", id);
+    public HttpEntity<CategoryResource> category(@PathVariable("id") long id) throws Exception {
+        log.debug("rest cat({})", id);
         CategoryDTO foundDTO = facade.getCategoryById((id - 1));
         if (foundDTO == null) throw new ResourceNotFoundException("category " + id + " not found");
         CategoryResource resource = resourceAssembler.toResource(foundDTO);
@@ -88,7 +87,7 @@ public class CategoriesRestController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public HttpEntity<CategoryResource> createSet(@RequestBody @Valid CategoryDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
+    public HttpEntity<CategoryResource> createCategory(@RequestBody @Valid CategoryDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
         log.debug("rest createCategory()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
@@ -103,29 +102,29 @@ public class CategoriesRestController {
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public final void deleteSet(@PathVariable("id") long id) throws Exception {
-        log.debug("rest deleteSet({})", id);
+    public final void deleteCategory(@PathVariable("id") long id) throws Exception {
+        log.debug("rest deleteCat({})", id);
         try {
             facade.removeCategory(id);
         } catch (IllegalArgumentException ex) {
-            log.error("set " + id + " not found");
-            throw new ResourceNotFoundException("set " + id + " not found");
+            log.error("cat " + id + " not found");
+            throw new ResourceNotFoundException("cat " + id + " not found");
         } catch (Throwable ex) {
-            log.error("cannot delete set " + id + " :" + ex.getMessage());
+            log.error("cannot delete cat " + id + " :" + ex.getMessage());
             throw new ResourceNotFoundException("Unable to delete non existing item");
         }
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public final CategoryDTO changeSet(@PathVariable("id") long id, @RequestBody @Valid CategoryDTO updatedDTO) throws Exception {
-        log.debug("rest change Set({})", id);
+    public final CategoryDTO changeCategory(@PathVariable("id") long id, @RequestBody @Valid CategoryDTO updatedDTO) throws Exception {
+        log.debug("rest change Cat({})", id);
 
         try {
             updatedDTO.setId(id);
             facade.updateCategory(updatedDTO);
             return facade.getCategoryById(id);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException("Unable to update set");
+            throw new ResourceNotFoundException("Unable to update cat");
         }
     }
 

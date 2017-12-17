@@ -55,12 +55,12 @@ public class BricksRestController {
 
 
     /**
-     * Produces list of all categories in JSON.
+     * Produces list of all in JSON.
      *
-     * @return list of categories
+     * @return list of bricks
      */
     @RequestMapping(method = RequestMethod.GET)
-    public HttpEntity<Resources<BrickResource>> sets() {
+    public HttpEntity<Resources<BrickResource>> bricks() {
         log.debug("rest sets()");
 
         Resources<BrickResource> resources = new Resources<>(
@@ -71,14 +71,14 @@ public class BricksRestController {
     }
 
     /**
-     * Produces category detail.
+     * Produces detail.
      *
-     * @param id category identifier
-     * @return category detail
-     * @throws Exception if category not found
+     * @param id identifier
+     * @return detail
+     * @throws Exception if not found
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public HttpEntity<BrickResource> set(@PathVariable("id") long id) throws Exception {
+    public HttpEntity<BrickResource> brick(@PathVariable("id") long id) throws Exception {
         log.debug("rest set({})", id);
         BrickDTO foundDTO = facade.findById((id - 1));
         if (foundDTO == null) throw new ResourceNotFoundException("brick " + id + " not found");
@@ -87,8 +87,8 @@ public class BricksRestController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public HttpEntity<BrickResource> createSet(@RequestBody @Valid BrickCreateDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
-        log.debug("rest createCategory()");
+    public HttpEntity<BrickResource> createBrick(@RequestBody @Valid BrickCreateDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
+        log.debug("rest createBrick()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
             throw new InvalidRequestException("Failed validation");
@@ -101,7 +101,7 @@ public class BricksRestController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public final void deleteSet(@PathVariable("id") long id) throws Exception {
+    public final void deleteBrick(@PathVariable("id") long id) throws Exception {
         log.debug("rest deleteSet({})", id);
         try {
             facade.delete(id);
@@ -115,7 +115,7 @@ public class BricksRestController {
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public final BrickDTO changeSet(@PathVariable("id") long id, @RequestBody @Valid BrickDTO updatedDTO) throws Exception {
+    public final BrickDTO changeBrick(@PathVariable("id") long id, @RequestBody @Valid BrickDTO updatedDTO) throws Exception {
         log.debug("rest change Set({})", id);
 
         try {
