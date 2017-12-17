@@ -1,12 +1,12 @@
 package cz.muni.fi.legomanager.controllers;
 
-import cz.fi.muni.legomanager.dto.SetOfKitsCreateDTO;
-import cz.fi.muni.legomanager.dto.SetOfKitsDTO;
-import cz.fi.muni.legomanager.facade.SetOfKitsFacade;
+import cz.fi.muni.legomanager.dto.*;
+import cz.fi.muni.legomanager.entity.Category;
+import cz.fi.muni.legomanager.facade.CategoryFacade;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
-import cz.muni.fi.legomanager.hateoas.SetResource;
-import cz.muni.fi.legomanager.hateoas.SetResourceAssembler;
+import cz.muni.fi.legomanager.hateoas.CategoryResource;
+import cz.muni.fi.legomanager.hateoas.CategoryResourceAssembler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,41 +21,39 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
  *
- * @author Michal Peška, partly
+ * @author Michal Peška
  */
 
 @RestController
-@ExposesResourceFor(SetOfKitsDTO.class)
-@RequestMapping("/sets")
+@ExposesResourceFor(CategoryDTO.class)
+@RequestMapping("/categories")
 @CrossOrigin(origins = "http://localhost:3000") // for development mode
 public class CategoriesRestController {
 
-    private final static Logger log = LoggerFactory.getLogger(KitsRestController.class);
-    private SetOfKitsFacade setFacade;
-    private SetResourceAssembler setResourceAssembler;
+    private final static Logger log = LoggerFactory.getLogger(CategoriesRestController.class);
+    private CategoryFacade facade;
+    private CategoryResourceAssembler resourceAssembler;
     private EntityLinks entityLinks;
 
 
     @Autowired
     public CategoriesRestController(
-            SetResourceAssembler setResourceAssembler,
+            CategoryResourceAssembler resourceAssembler,
             @SuppressWarnings("SpringJavaAutowiringInspection")
-                    EntityLinks entityLinks,
-            SetOfKitsFacade setFacade) {
+            EntityLinks entityLinks,
+            CategoryFacade facade) {
 
-        this.setResourceAssembler = setResourceAssembler;
+        this.resourceAssembler = resourceAssembler;
         this.entityLinks = entityLinks;
-        this.setFacade = setFacade;
+        this.facade = facade;
 
     }
+
 
     /**
      * Produces list of all categories in JSON.
@@ -63,14 +61,14 @@ public class CategoriesRestController {
      * @return list of categories
      */
     @RequestMapping(method = RequestMethod.GET)
-    public HttpEntity<Resources<SetResource>> sets() {
+    public HttpEntity<Resources<CategoryResource>> sets() {
         log.debug("rest sets()");
 
-        Resources<SetResource> setsResources = new Resources<>(
-                setResourceAssembler.toResources(setFacade.getAllSets()),
-                linkTo(KitsRestController.class).withSelfRel(),
-                linkTo(KitsRestController.class).slash("/create").withRel("create"));
-        return new ResponseEntity<>(setsResources, HttpStatus.OK);
+        Resources<CategoryResource> resources = new Resources<>(
+                resourceAssembler.toResources(facade.getAllCategories()),
+                linkTo(CategoriesRestController.class).withSelfRel(),
+                linkTo(CategoriesRestController.class).slash("/create").withRel("create"));
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
     /**
@@ -81,33 +79,34 @@ public class CategoriesRestController {
      * @throws Exception if category not found
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public HttpEntity<SetResource> set(@PathVariable("id") long id) throws Exception {
+    public HttpEntity<CategoryResource> set(@PathVariable("id") long id) throws Exception {
         log.debug("rest set({})", id);
-        SetOfKitsDTO setDTO = setFacade.findSetById((id - 1));
-        if (setDTO == null) throw new ResourceNotFoundException("category " + id + " not found");
-        SetResource setResource = setResourceAssembler.toResource(setDTO);
-        return new HttpEntity<>(setResource);
+        CategoryDTO foundDTO = facade.getCategoryById((id - 1));
+        if (foundDTO == null) throw new ResourceNotFoundException("category " + id + " not found");
+        CategoryResource resource = resourceAssembler.toResource(foundDTO);
+        return new HttpEntity<>(resource);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public HttpEntity<SetResource> createSet(@RequestBody @Valid SetOfKitsCreateDTO setDTOCreate, BindingResult bindingResult) throws Exception {
+    public HttpEntity<CategoryResource> createSet(@RequestBody @Valid CategoryDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
         log.debug("rest createCategory()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
             throw new InvalidRequestException("Failed validation");
         }
-        Long id = setFacade.createSet(setDTOCreate);
-        SetOfKitsDTO setDTO = setFacade.findSetById(id);
+        Long id = facade.createCategory(paramDTOCreate);
+        CategoryDTO foundDTO = facade.getCategoryById(id);
 
-        SetResource resource = setResourceAssembler.toResource(setDTO);
+        CategoryResource resource = resourceAssembler.toResource(foundDTO);
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
+
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void deleteSet(@PathVariable("id") long id) throws Exception {
         log.debug("rest deleteSet({})", id);
         try {
-            setFacade.deleteSetById(id);
+            facade.removeCategory(id);
         } catch (IllegalArgumentException ex) {
             log.error("set " + id + " not found");
             throw new ResourceNotFoundException("set " + id + " not found");
@@ -118,13 +117,13 @@ public class CategoriesRestController {
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public final SetOfKitsDTO changeSet(@PathVariable("id") long id, @RequestBody @Valid SetOfKitsDTO updatedSet) throws Exception {
+    public final CategoryDTO changeSet(@PathVariable("id") long id, @RequestBody @Valid CategoryDTO updatedDTO) throws Exception {
         log.debug("rest change Set({})", id);
 
         try {
-            updatedSet.setId(id);
-            setFacade.updateSet(updatedSet);
-            return setFacade.findSetById(id);
+            updatedDTO.setId(id);
+            facade.updateCategory(updatedDTO);
+            return facade.getCategoryById(id);
         } catch (Exception ex) {
             throw new ResourceNotFoundException("Unable to update set");
         }

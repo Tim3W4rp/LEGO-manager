@@ -1,12 +1,11 @@
 package cz.muni.fi.legomanager.controllers;
 
-import cz.fi.muni.legomanager.dto.SetOfKitsCreateDTO;
-import cz.fi.muni.legomanager.dto.SetOfKitsDTO;
-import cz.fi.muni.legomanager.facade.SetOfKitsFacade;
+import cz.fi.muni.legomanager.dto.*;
+import cz.fi.muni.legomanager.facade.BrickFacade;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
-import cz.muni.fi.legomanager.hateoas.SetResource;
-import cz.muni.fi.legomanager.hateoas.SetResourceAssembler;
+import cz.muni.fi.legomanager.hateoas.BrickResource;
+import cz.muni.fi.legomanager.hateoas.BrickResourceAssembler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,41 +20,39 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
  *
- * @author Michal Peška, partly
+ * @author Michal Peška
  */
 
 @RestController
-@ExposesResourceFor(SetOfKitsDTO.class)
-@RequestMapping("/sets")
+@ExposesResourceFor(BrickDTO.class)
+@RequestMapping("/bricks")
 @CrossOrigin(origins = "http://localhost:3000") // for development mode
 public class KitsRestController {
 
-    private final static Logger log = LoggerFactory.getLogger(KitsRestController.class);
-    private SetOfKitsFacade setFacade;
-    private SetResourceAssembler setResourceAssembler;
+    private final static Logger log = LoggerFactory.getLogger(BricksRestController.class);
+    private BrickFacade facade;
+    private BrickResourceAssembler resourceAssembler;
     private EntityLinks entityLinks;
 
 
     @Autowired
     public KitsRestController(
-             SetResourceAssembler setResourceAssembler,
+            BrickResourceAssembler resourceAssembler,
             @SuppressWarnings("SpringJavaAutowiringInspection")
-            EntityLinks entityLinks,
-            SetOfKitsFacade setFacade) {
+                    EntityLinks entityLinks,
+            BrickFacade facade) {
 
-        this.setResourceAssembler = setResourceAssembler;
+        this.resourceAssembler = resourceAssembler;
         this.entityLinks = entityLinks;
-        this.setFacade = setFacade;
+        this.facade = facade;
 
     }
+
 
     /**
      * Produces list of all categories in JSON.
@@ -63,14 +60,14 @@ public class KitsRestController {
      * @return list of categories
      */
     @RequestMapping(method = RequestMethod.GET)
-    public HttpEntity<Resources<SetResource>> sets() {
+    public HttpEntity<Resources<BrickResource>> sets() {
         log.debug("rest sets()");
 
-        Resources<SetResource> setsResources = new Resources<>(
-                setResourceAssembler.toResources(setFacade.getAllSets()),
-                linkTo(KitsRestController.class).withSelfRel(),
-                linkTo(KitsRestController.class).slash("/create").withRel("create"));
-        return new ResponseEntity<>(setsResources, HttpStatus.OK);
+        Resources<BrickResource> resources = new Resources<>(
+                resourceAssembler.toResources(facade.findAll()),
+                linkTo(BricksRestController.class).withSelfRel(),
+                linkTo(BricksRestController.class).slash("/create").withRel("create"));
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
     /**
@@ -81,25 +78,25 @@ public class KitsRestController {
      * @throws Exception if category not found
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public HttpEntity<SetResource> set(@PathVariable("id") long id) throws Exception {
+    public HttpEntity<BrickResource> set(@PathVariable("id") long id) throws Exception {
         log.debug("rest set({})", id);
-        SetOfKitsDTO setDTO = setFacade.findSetById((id - 1));
-        if (setDTO == null) throw new ResourceNotFoundException("category " + id + " not found");
-        SetResource setResource = setResourceAssembler.toResource(setDTO);
-        return new HttpEntity<>(setResource);
+        BrickDTO foundDTO = facade.findById((id - 1));
+        if (foundDTO == null) throw new ResourceNotFoundException("brick " + id + " not found");
+        BrickResource resource = resourceAssembler.toResource(foundDTO);
+        return new HttpEntity<>(resource);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public HttpEntity<SetResource> createSet(@RequestBody @Valid SetOfKitsCreateDTO setDTOCreate, BindingResult bindingResult) throws Exception {
+    public HttpEntity<BrickResource> createSet(@RequestBody @Valid BrickCreateDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
         log.debug("rest createCategory()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
             throw new InvalidRequestException("Failed validation");
         }
-        Long id = setFacade.createSet(setDTOCreate);
-        SetOfKitsDTO setDTO = setFacade.findSetById(id);
+        Long id = facade.create(paramDTOCreate);
+        BrickDTO foundDTO = facade.findById(id);
 
-        SetResource resource = setResourceAssembler.toResource(setDTO);
+        BrickResource resource = resourceAssembler.toResource(foundDTO);
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
@@ -107,7 +104,7 @@ public class KitsRestController {
     public final void deleteSet(@PathVariable("id") long id) throws Exception {
         log.debug("rest deleteSet({})", id);
         try {
-            setFacade.deleteSetById(id);
+            facade.delete(id);
         } catch (IllegalArgumentException ex) {
             log.error("set " + id + " not found");
             throw new ResourceNotFoundException("set " + id + " not found");
@@ -118,13 +115,13 @@ public class KitsRestController {
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public final SetOfKitsDTO changeSet(@PathVariable("id") long id, @RequestBody @Valid SetOfKitsDTO updatedSet) throws Exception {
+    public final BrickDTO changeSet(@PathVariable("id") long id, @RequestBody @Valid BrickDTO updatedDTO) throws Exception {
         log.debug("rest change Set({})", id);
 
         try {
-            updatedSet.setId(id);
-            setFacade.updateSet(updatedSet);
-            return setFacade.findSetById(id);
+            updatedDTO.setId(id);
+            facade.update(updatedDTO);
+            return facade.findById(id);
         } catch (Exception ex) {
             throw new ResourceNotFoundException("Unable to update set");
         }
