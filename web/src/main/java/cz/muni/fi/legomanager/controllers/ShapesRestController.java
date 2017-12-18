@@ -1,5 +1,6 @@
 package cz.muni.fi.legomanager.controllers;
 
+import cz.fi.muni.legomanager.dto.ShapeCreateDTO;
 import cz.fi.muni.legomanager.dto.ShapeDTO;
 import cz.fi.muni.legomanager.facade.ShapeFacade;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
@@ -40,12 +41,16 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 public class ShapesRestController {
 
     private final static Logger log = LoggerFactory.getLogger(ShapesRestController.class);
+    private ShapeFacade shapeFacade;
+    private ShapeResourceAssembler shapeResourceAssembler;
+    private EntityLinks entityLinks;
+    private List<ShapeDTO> allShapes = new ArrayList<>();
 
     public ShapesRestController(
-            @Autowired ShapeResourceAssembler shapeResourceAssembler,
+            ShapeResourceAssembler shapeResourceAssembler,
             @SuppressWarnings("SpringJavaAutowiringInspection")
-            @Autowired EntityLinks entityLinks
-            //@Autowired ShapeFacade shapeFacade
+                    EntityLinks entityLinks,
+            ShapeFacade shapeFacade
     ) {
         this.shapeFacade = shapeFacade;
         this.shapeResourceAssembler = shapeResourceAssembler;
@@ -62,14 +67,6 @@ public class ShapesRestController {
         this.allShapes.add(shape2);
     }
 
-    private List<ShapeDTO> allShapes = new ArrayList<>();
-
-    private ShapeFacade shapeFacade;
-
-    private ShapeResourceAssembler shapeResourceAssembler;
-
-    private EntityLinks entityLinks;
-
     /**
      * Produces list of all shapes in JSON.
      *
@@ -80,7 +77,7 @@ public class ShapesRestController {
         log.debug("rest shapes()");
 
         Resources<ShapeResource> productsResources = new Resources<>(
-                shapeResourceAssembler.toResources(allShapes),
+                shapeResourceAssembler.toResources(shapeFacade.findAll()),
                 linkTo(ShapesRestController.class).withSelfRel(),
                 linkTo(ShapesRestController.class).slash("/create").withRel("create"));
         return new ResponseEntity<>(productsResources, HttpStatus.OK);
@@ -96,22 +93,51 @@ public class ShapesRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<ShapeResource> shape(@PathVariable("id") long id) throws ResourceNotFoundException {
         log.debug("rest shape({})", id);
-        ShapeDTO shapeDTO = allShapes.get((int) (id - 1));
+        ShapeDTO shapeDTO = shapeFacade.findById(id);
         if (shapeDTO == null) throw new ResourceNotFoundException("shape " + id + " not found");
         ShapeResource shapeResource = shapeResourceAssembler.toResource(shapeDTO);
         return new HttpEntity<>(shapeResource);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public HttpEntity<ShapeResource> createShape(@RequestBody @Valid ShapeDTO shapeDTO, BindingResult bindingResult) throws ResourceNotFoundException {
+    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public HttpEntity<ShapeResource> createShape(@RequestBody @Valid ShapeCreateDTO shapeCreateDTO, BindingResult bindingResult) throws ResourceNotFoundException {
         log.debug("rest createShape()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
             throw new InvalidRequestException("Failed validation");
         }
-        shapeDTO.setId(allShapes.get(allShapes.size() - 1).getId() + 1);
-        this.allShapes.add(shapeDTO);
+
+        Long id = shapeFacade.create(shapeCreateDTO);
+        ShapeDTO shapeDTO = shapeFacade.findById(id);
+
         ShapeResource resource = shapeResourceAssembler.toResource(shapeDTO);
         return new ResponseEntity<>(resource, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public final void deleteShape(@PathVariable("id") long id) throws Exception {
+        log.debug("rest deleteShape({})", id);
+        try {
+            shapeFacade.delete(id);
+        } catch (IllegalArgumentException ex) {
+            log.error("shape " + id + " not found");
+            throw new ResourceNotFoundException("shape " + id + " not found");
+        } catch (Throwable ex) {
+            log.error("cannot delete shape " + id + " :" + ex.getMessage());
+            throw new ResourceNotFoundException("Unable to delete non existing item.");
+        }
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public final ShapeDTO changeShape(@PathVariable("id") long id, @RequestBody @Valid ShapeDTO updatedShape) throws Exception {
+        log.debug("rest change Shape({})", id);
+
+        try {
+            updatedShape.setId(id);
+            shapeFacade.update(updatedShape);
+            return shapeFacade.findById(id);
+        } catch (Exception ex) {
+            throw new ResourceNotFoundException("Unable to update shape");
+        }
     }
 }

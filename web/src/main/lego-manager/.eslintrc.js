@@ -23,7 +23,7 @@ module.exports = {
             "always"
         ],
         "array-callback-return": "error",
-        "array-element-newline": "error",
+        "array-element-newline": 0,
         "arrow-body-style": "off",
         "arrow-parens": "off",
         "arrow-spacing": [
@@ -105,7 +105,7 @@ module.exports = {
         "id-length": "off",
         "id-match": "error",
         "implicit-arrow-linebreak": "off",
-        "indent": ["error", 2, { "SwitchCase": 1 }],
+        "indent": 0,
         "indent-legacy": "off",
         "init-declarations": "error",
         "jsx-quotes": "off",
