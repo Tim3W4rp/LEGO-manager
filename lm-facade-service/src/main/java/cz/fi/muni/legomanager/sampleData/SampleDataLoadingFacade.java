@@ -28,6 +28,9 @@ public class SampleDataLoadingFacade {
     @Autowired
     ShapeService shapeService;
 
+    @Autowired
+    KitBrickService kitBrickService;
+
     public void loadData() {
         // Categories
         Category batman = category("Batman", "Build something Batman!");
@@ -163,6 +166,6 @@ public class SampleDataLoadingFacade {
     }
 
     private void brickToKit(Kit kit, Brick brick) {
-        kitService.addBrickToKitById(kit.getId(), brick.getId());
+        kitBrickService.createKitBrick(kit, brick);
     }
 }

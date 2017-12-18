@@ -21,6 +21,7 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 import Index from './components/index/Index'
 import Categories from './components/categories/Categories'
 import CategoryCreate from './components/categoryCreate/CategoryCreate'
+import CategoryUpdate from './components/categoryUpdate/CategoryUpdate'
 import Category from './components/category/Category'
 import Sets from './components/sets/Sets'
 import SetCreate from './components/setCreate/SetCreate'
@@ -28,12 +29,14 @@ import Set from './components/set/Set'
 import Kits from './components/kits/Kits'
 import KitCreate from './components/kitCreate/KitCreate'
 import Kit from './components/kit/Kit'
+import SetUpdate from './components/setUpdate/SetUpdate'
 
 // reducers
 import categories from './components/categories/reducer'
 import category from './components/category/reducer'
 import sets from './components/sets/reducer'
 import set from './components/set/reducer'
+import setUpdate from './components/setUpdate/reducer'
 import loading from './components/loading/reducer'
 import errorToast from './components/errorToast/reducer'
 import kits from './components/kits/reducer'
@@ -46,6 +49,8 @@ import loadSets from './components/sets/loader'
 import loadSet from './components/set/loader'
 import loadKit from './components/kit/loader'
 import loadKits from './components/kits/loader'
+import loadSetUpdate from './components/setUpdate/loader'
+
 
 // elements
 import NotFound from './elements/notFound/NotFound'
@@ -84,6 +89,8 @@ export const store = createStore(
     }),
     kitsPage: combineReducers({
       kits,
+    setUpdatePage: combineReducers({
+      setUpdate,
     })
   }),
 
@@ -105,7 +112,8 @@ render(
       <Route path={env.PUBLIC_URL} component={App}>
         <IndexRoute component={Index}  />
         <Route path="categories" onEnter={loadCategories} component={Categories}/>
-        <Route path="category/create" component={CategoryCreate}/>
+        <Route path="category/create" component={CategoryCreate} />
+        <Route path="category/update/:id" onEnter={loadCategory} component={CategoryUpdate}/>
         <Route path="category/:id" onEnter={loadCategory} component={Category}/>
         <Route path="sets" onEnter={loadSets} component={Sets}/>
         <Route path="set/create" component={SetCreate}/>
@@ -113,6 +121,7 @@ render(
         <Route path="kits" onEnter={loadKits} component={Kits}/>
         <Route path="kit/create" component={KitCreate}/>
         <Route path="kit/:id" onEnter={loadKit} component={Kit}/>
+        <Route path="set/update/:id" onEnter={loadSetUpdate} component={SetUpdate}/>
       </Route>
       <Route path="/" component={App}>
         <Route path="*" component={NotFound}/>
