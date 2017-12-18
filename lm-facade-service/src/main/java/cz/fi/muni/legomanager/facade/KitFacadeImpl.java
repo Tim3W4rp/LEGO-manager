@@ -89,7 +89,7 @@ public class KitFacadeImpl implements KitFacade {
 
     @Override
     public void removeOneBrickFromKitById(Long kitId, Long brickId) {
-        kitService.removeOneBrickFromKitById(kitId, brickId);
+        kitService.decreaseBrickCountByOne(kitId, brickId);
     }
 
     @Override

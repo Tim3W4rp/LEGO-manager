@@ -7,7 +7,6 @@ import cz.fi.muni.legomanager.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -24,6 +23,9 @@ public class KitServiceImpl implements KitService {
 
     @Autowired
     private CategoryDao categoryDao;
+
+    @Autowired
+    private KitBrickService kitBrickService;
 
     @Override
     public Long createKit(Kit kit) {
@@ -87,20 +89,6 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
-    public void removeAllBricksOfThisTypeFromKitById(long kitId, long brickId) {
-        Kit kit = kitDao.findById(kitId);
-        Brick brick = brickDao.findById(brickId);
-        kit.removeAllBricksOfThisType(brick);
-    }
-
-    @Override
-    public void removeOneBrickFromKitById(long kitId, long brickId){
-        Kit kit = kitDao.findById(kitId);
-        Brick brick = brickDao.findById(brickId);
-        kit.removeBrick(brick);
-    }
-
-    @Override
     public List<Kit> findSimilarKits(Kit similarKit, int priceRange, int ageLimitRange, Category category) {
         if (similarKit == null) {
             throw new RuntimeException("Kit is null");
@@ -120,19 +108,12 @@ public class KitServiceImpl implements KitService {
         for (Kit kit : allKits) {
             if (((kit.getPrice() >= lowPrice && kit.getPrice() <= highPrice) &&
                     (kit.getAgeLimit() >= lowAge && kit.getAgeLimit() <= highAge) &&
-                        kit.getCategory().equals(category)) && !similarKits.contains(kit)) {
+                    kit.getCategory().equals(category)) && !similarKits.contains(kit)) {
                 similarKits.add(kit);
             }
         }
 
         return similarKits;
-    }
-
-    @Override
-    public void addBrickToKitById(Long kitId, Long brickId) {
-        Kit kit = kitDao.findById(kitId);
-        Brick brick = brickDao.findById(brickId);
-        kit.addBrick(brick);
     }
 
     @Override
@@ -162,10 +143,12 @@ public class KitServiceImpl implements KitService {
             howManyWillGenerate -= count;
         }
 
+
         for (int i = 0; i < bricks.size(); i++) {
             if (bricksCounts.get(i) > 0) {
                 randomKit.addBrick(bricks.get(i));
                 // Add counts needs to be done!
+
             }
         }
 
@@ -200,6 +183,35 @@ public class KitServiceImpl implements KitService {
     private void addCountToBrick(Brick brick, List<Brick> bricks, List<Long> bricksCounts, Long addCount) {
         int index = bricks.indexOf(brick);
         bricksCounts.set(index, bricksCounts.get(index) + addCount);
+    }
+
+
+    @Override
+    public void removeAllBricksOfThisTypeFromKitById(long kitId, long brickId) {
+        Kit kit = kitDao.findById(kitId);
+        Brick brick = brickDao.findById(brickId);
+        kitBrickService.removeAllBricksOfThisType(kit, brick);
+    }
+
+    @Override
+    public void decreaseBrickCountByOne(long kitId, long brickId){
+        Kit kit = kitDao.findById(kitId);
+        Brick brick = brickDao.findById(brickId);
+        kitBrickService.decreaseBrickCountByOne(kit, brick);
+    }
+
+    @Override
+    public void addBrickToKitById(long kitId, long brickId) {
+        Kit kit = kitDao.findById(kitId);
+        Brick brick = brickDao.findById(brickId);
+        kitBrickService.addBrickToKit(kit, brick);
+    }
+
+    @Override
+    public long getBrickCount(long kitId, long brickId) {
+        Kit kit = kitDao.findById(kitId);
+        Brick brick = brickDao.findById(brickId);
+        return kitBrickService.getBrickCount(kit, brick);
     }
 
 }

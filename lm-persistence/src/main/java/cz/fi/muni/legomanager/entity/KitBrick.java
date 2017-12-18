@@ -28,9 +28,9 @@ public class KitBrick implements Serializable {
     public KitBrick() {
     }
 
-    public KitBrick(Brick brick, Kit kit, long count) {
-        this.brick = brick;
+    public KitBrick(Kit kit, Brick brick, long count) {
         this.kit = kit;
+        this.brick = brick;
         this.count = count;
     }
 

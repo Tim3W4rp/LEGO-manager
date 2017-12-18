@@ -1,0 +1,19 @@
+.Set {
+  display: block;
+  margin: 10px;
+  padding: 15px;
+  min-height: 200px;
+}
+
+.Set-title {
+  margin-top: 10px;
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+.Set-label {
+  margin-top: 0px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 13px;
+}
