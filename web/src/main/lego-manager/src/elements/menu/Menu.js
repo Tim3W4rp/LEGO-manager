@@ -26,26 +26,6 @@ class Menu extends Component {
             </div>
         )
     }
-
-  render() {
-    return (
-      <div>
-        <AppBar
-          showMenuIconButton={false}
-          title="Menu"/>
-        <Link to='/categories'>
-          <MenuItem>Categories</MenuItem>
-        </Link>
-        <Link to='/sets'>
-          <MenuItem>Sets of kits</MenuItem>
-        </Link>
-        <Link to='/kits'>
-          <MenuItem>Kits</MenuItem>
-        </Link>
-      </div>
-    )
-  }
-
 }
 
 export default Menu
