@@ -27,6 +27,7 @@ import SetCreate from './components/setCreate/SetCreate'
 import Set from './components/set/Set'
 import Bricks from './components/bricks/Bricks'
 import BrickCreate from './components/brickCreate/BrickCreate'
+import BrickUpdate from './components/brickUpdate/BrickUpdate'
 import Brick from './components/brick/Brick'
 import Shapes from './components/shapes/Shapes'
 import ShapeCreate from './components/shapeCreate/ShapeCreate'
@@ -126,6 +127,7 @@ render(
                 <Route path="set/:id" onEnter={loadSet} component={Set}/>
                 <Route path="bricks" onEnter={loadBricks} component={Bricks}/>
                 <Route path="brick/create" onEnter={loadShapes} component={BrickCreate}/>
+                <Route path="brick/update/:id" onEnter={[ loadBrick, loadShapes ]} component={BrickUpdate}/>
                 <Route path="brick/:id" onEnter={loadBrick} component={Brick}/>
                 <Route path="shapes" onEnter={loadShapes} component={Shapes}/>
                 <Route path="shape/create" component={ShapeCreate}/>
