@@ -7,10 +7,12 @@ const reducer = (state = {
     case 'FETCH_ERROR':
       return {
         ...state,
-        text: action.error.message + " " + (
-          action.error.response
-            ? "Status: " + action.error.response.status
-            : ""),
+        text: (
+          action.error.response &&
+          action.error.response.data &&
+          action.error.response.data.code
+            ? action.error.response.data.message
+            : action.error.message),
         buttonText: 'close',
         opened: true
       }
