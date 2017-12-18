@@ -1,6 +1,8 @@
 package cz.muni.fi.legomanager.controllers;
 
 import cz.fi.muni.legomanager.dto.*;
+import cz.fi.muni.legomanager.entity.Category;
+import cz.fi.muni.legomanager.facade.CategoryFacade;
 import cz.fi.muni.legomanager.facade.KitFacade;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
@@ -36,6 +40,7 @@ public class KitsRestController {
 
     private final static Logger log = LoggerFactory.getLogger(KitsRestController.class);
     private KitFacade facade;
+    private CategoryFacade categoryFacade;
     private KitResourceAssembler resourceAssembler;
     private EntityLinks entityLinks;
 
@@ -45,11 +50,13 @@ public class KitsRestController {
             KitResourceAssembler resourceAssembler,
             @SuppressWarnings("SpringJavaAutowiringInspection")
                     EntityLinks entityLinks,
-            KitFacade facade) {
+            KitFacade facade,
+            CategoryFacade categoryFacade) {
 
         this.resourceAssembler = resourceAssembler;
         this.entityLinks = entityLinks;
         this.facade = facade;
+        this.categoryFacade = categoryFacade;
 
     }
 
@@ -127,7 +134,19 @@ public class KitsRestController {
         }
     }
 
+    @RequestMapping(value = "/{id}/{priceRange}/{ageLimitRange}/{categoryId}", method = RequestMethod.GET)
+    public final List<KitDTO> findSimilarKits(@PathVariable("id") long kitId,
+                                              @PathVariable("priceRange") int priceRange,
+                                              @PathVariable("ageLimitRange") int ageLimitRange,
+                                              @PathVariable("categoryId") Long categoryId) throws Exception {
+        log.debug("rest findSimilarKits({})", kitId);
 
+        try {
+            return facade.findSimilarKits(facade.findKitById(kitId), priceRange, ageLimitRange, categoryFacade.getCategoryById(categoryId));
+        } catch (Exception ex) {
+            throw new ResourceNotFoundException("Unable to find similar kits");
+        }
+    }
 }
 
 
