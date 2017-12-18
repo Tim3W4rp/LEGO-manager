@@ -1,0 +1,18 @@
+.CategoryUpdate {
+  display: block;
+  margin: 10px;
+  padding: 15px;
+  min-height: 200px;
+}
+
+.CategoryUpdate-title {
+  margin-top: 10px;
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+.CategoryUpdate-item {
+  display: block !important;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
