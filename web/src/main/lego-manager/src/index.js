@@ -111,21 +111,20 @@ export const store = createStore(
         }),
         shapePage: combineReducers({
             shape,
+        }),
+        setPage: combineReducers({
+          set,
+        }),
+        kitPage: combineReducers({
+          kit,
+        }),
+        kitsPage: combineReducers({
+          kits,
+        }),
+        setUpdatePage: combineReducers({
+          setUpdate,
         })
-    }),
-    setPage: combineReducers({
-      set,
-    }),
-    kitPage: combineReducers({
-      kit,
-    }),
-    kitsPage: combineReducers({
-      kits,
-    }),
-    setUpdatePage: combineReducers({
-      setUpdate,
-    })
-  }),
+      }),
     
     composeEnhancers(
         applyMiddleware(
@@ -147,6 +146,7 @@ render(
                 <IndexRoute component={Index}/>
                 <Route path="categories" onEnter={loadCategories} component={Categories}/>
                 <Route path="category/create" component={CategoryCreate}/>
+                <Route path="category/update/:id" onEnter={loadCategory} component={CategoryUpdate}/>
                 <Route path="category/:id" onEnter={loadCategory} component={Category}/>
                 <Route path="sets" onEnter={loadSets} component={Sets}/>
                 <Route path="set/create" component={SetCreate}/>
@@ -159,6 +159,9 @@ render(
                 <Route path="shape/create" component={ShapeCreate}/>
                 <Route path="shape/update/:id" onEnter={loadShape} component={ShapeUpdate}/>
                 <Route path="shape/:id" onEnter={loadShape} component={Shape}/>
+                <Route path="kits" onEnter={loadKits} component={Kits}/>
+                <Route path="kit/create" component={KitCreate}/>
+                <Route path="kit/:id" onEnter={loadKit} component={Kit}/>
             </Route>
             <Route path="/" component={App}>
                 <Route path="*" component={NotFound}/>
@@ -166,28 +169,5 @@ render(
         </Router>
     </Provider>,
     document.getElementById('root')
-
-  <Provider store={store}>
-    <Router history={history}>
-      <Route path={env.PUBLIC_URL} component={App}>
-        <IndexRoute component={Index}  />
-        <Route path="categories" onEnter={loadCategories} component={Categories}/>
-        <Route path="category/create" component={CategoryCreate} />
-        <Route path="category/update/:id" onEnter={loadCategory} component={CategoryUpdate}/>
-        <Route path="category/:id" onEnter={loadCategory} component={Category}/>
-        <Route path="sets" onEnter={loadSets} component={Sets}/>
-        <Route path="set/create" component={SetCreate}/>
-        <Route path="set/:id" onEnter={loadSet} component={Set}/>
-        <Route path="kits" onEnter={loadKits} component={Kits}/>
-        <Route path="kit/create" component={KitCreate}/>
-        <Route path="kit/:id" onEnter={loadKit} component={Kit}/>
-        <Route path="set/update/:id" onEnter={loadSetUpdate} component={SetUpdate}/>
-      </Route>
-      <Route path="/" component={App}>
-        <Route path="*" component={NotFound}/>
-      </Route>
-    </Router>
-  </Provider>,
-  document.getElementById('root')
 
 )
