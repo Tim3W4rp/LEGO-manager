@@ -68,7 +68,19 @@ public class KitBrickServiceImpl implements KitBrickService {
         List<KitBrick> kitBricks = kitBrickDao.findAll();
         for (KitBrick kitBrick : kitBricks) {
             if (kitBrick.getBrick().equals(brick) && kitBrick.getKit().equals(kit)) {
-                kitBricks.remove(brick);
+                kitBricks.remove(kitBrick);
+                return;
+            }
+        }
+        throw new RuntimeException("Such brick does not exist in this kit");
+    }
+
+    @Override
+    public void setBrickCount(Kit kit, Brick brick, long amount) {
+        List<KitBrick> kitBricks = kitBrickDao.findAll();
+        for (KitBrick kitBrick : kitBricks) {
+            if (kitBrick.getBrick().equals(brick) && kitBrick.getKit().equals(kit)) {
+                kitBrick.setCount(amount);
                 return;
             }
         }

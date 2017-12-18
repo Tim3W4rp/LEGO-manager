@@ -3,7 +3,6 @@ package cz.fi.muni.legomanager.services;
 import cz.fi.muni.legomanager.entity.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -25,4 +24,5 @@ public interface KitService {
     public void decreaseBrickCountByOne(long kitId, long brickId);
     public void addBrickToKitById(long kitId, long brickId);
     public long getBrickCount(long kitId, long brickId);
+    public void setBrickCount(long kitId, long brickId, long amount);
 }
