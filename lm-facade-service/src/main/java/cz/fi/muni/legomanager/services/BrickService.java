@@ -18,21 +18,21 @@ public interface BrickService {
      *
      * @param brick entity
      */
-    public void create(Brick brick);
+    void create(Brick brick);
 
     /**
      * Update the given existing Brick entity.
      *
      * @param brick entity
      */
-    public void update(Brick brick);
+    void update(Brick brick);
 
     /**
      * Delete the given existing Brick entity.
      *
      * @param brick entity
      */
-    public void delete(Brick brick);
+    void delete(Brick brick);
 
     /**
      * Get Brick entity with the given ID.
@@ -40,12 +40,12 @@ public interface BrickService {
      * @param id id of the brick
      * @return existing Brick with given id
      */
-    public Brick findById(Long id);
+    Brick findById(Long id);
 
     /**
      * Get all existing Brick entities.
      *
      * @return list of existing Brick entities
      */
-    public List<Brick> findAll();
+    List<Brick> findAll();
 }

@@ -134,7 +134,6 @@ public class Brick {
                 ", red=" + red +
                 ", green=" + green +
                 ", blue=" + blue +
-                ", kitBricks=" + kitBricks +
                 ", shape=" + shape +
                 '}';
     }

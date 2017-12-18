@@ -16,21 +16,21 @@ public interface ShapeDao {
      *
      * @param shape shape to be added to DB
      */
-    public void create(Shape shape);
+    void create(Shape shape);
 
     /**
      * Updates an already existing shape in DB.
      *
      * @param shape shape to be updated in DB
      */
-    public void update(Shape shape);
+    void update(Shape shape);
 
     /**
      * Deletes a shape from DB.
      *
      * @param shape shape to be deleted from DB
      */
-    public void delete(Shape shape);
+    void delete(Shape shape);
 
     /**
      * Returns shape with corresponding id.
@@ -38,13 +38,21 @@ public interface ShapeDao {
      * @param id id of the shape
      * @return shape with corresponding id
      */
-    public Shape findById(Long id);
+    Shape findById(Long id);
+
+    /**
+     * Returns shape with corresponding name.
+     *
+     * @param name name of the shape
+     * @return shape with corresponding name
+     */
+    Shape findByName(String name);
 
     /**
      * Returns list of all existing shapes in DB.
      *
      * @return list of all existing shapes
      */
-    public List<Shape> findAll();
+    List<Shape> findAll();
 
 }

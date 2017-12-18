@@ -69,6 +69,17 @@ public class ShapeDaoImpl implements ShapeDao {
     }
 
     @Override
+    public Shape findByName(String name) {
+        if (name == null) {
+            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
+        }
+
+        return em.createQuery("SELECT s FROM Shape s WHERE s.name = :shapeName", Shape.class)
+                .setParameter("shapeName", name).getSingleResult();
+
+    }
+
+    @Override
     public List<Shape> findAll() {
         return em.createQuery("select s from Shape s", Shape.class)
                 .getResultList();

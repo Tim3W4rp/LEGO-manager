@@ -21,6 +21,7 @@ import java.util.List;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Test class for {@link ShapeService}.
@@ -58,6 +59,7 @@ public class ShapeServiceTest extends AbstractTestNGSpringContextTests {
         }});
 
         when(shapeDao.findById(1L)).thenReturn(shape);
+        when(shapeDao.findByName("Cube")).thenReturn(shape);
 
         when(shapeDao.findAll()).thenReturn(allShapes);
     }
@@ -99,12 +101,28 @@ public class ShapeServiceTest extends AbstractTestNGSpringContextTests {
     public void testFindById() {
         Shape found = shapeService.findById(1L);
         verify(shapeDao).findById(1L);
+
+        assertNotNull(found);
         assertEquals(shape, found);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testFindByNullId() {
         shapeService.findById(null);
+    }
+
+    @Test
+    public void testFindByName() {
+        Shape found = shapeService.findByName("Cube");
+        verify(shapeDao).findByName("Cube");
+
+        assertNotNull(found);
+        assertEquals(shape, found);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testFindByNullName() {
+        shapeService.findByName(null);
     }
 
     @Test

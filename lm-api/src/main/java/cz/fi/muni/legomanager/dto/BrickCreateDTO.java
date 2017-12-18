@@ -1,5 +1,8 @@
 package cz.fi.muni.legomanager.dto;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -7,9 +10,22 @@ import java.util.Objects;
  */
 public class BrickCreateDTO {
 
+    @NotNull
+    @Min(0)
+    @Max(255)
     private int red;
+
+    @NotNull
+    @Min(0)
+    @Max(255)
     private int green;
+
+    @NotNull
+    @Min(0)
+    @Max(255)
     private int blue;
+
+    @NotNull
     private ShapeDTO shape;
 
     public int getRed() {

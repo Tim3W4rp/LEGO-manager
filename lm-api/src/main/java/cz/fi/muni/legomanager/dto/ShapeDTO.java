@@ -50,13 +50,12 @@ public class ShapeDTO {
         if (!(o instanceof ShapeDTO)) return false;
         ShapeDTO shapeDTO = (ShapeDTO) o;
         return Objects.equals(id, shapeDTO.id) &&
-                Objects.equals(name, shapeDTO.name) &&
-                Objects.equals(bricks, shapeDTO.bricks);
+                Objects.equals(name, shapeDTO.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, bricks);
+        return Objects.hash(id, name);
     }
 
     @Override
@@ -64,7 +63,6 @@ public class ShapeDTO {
         return "ShapeDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", bricks=" + bricks +
                 '}';
     }
 

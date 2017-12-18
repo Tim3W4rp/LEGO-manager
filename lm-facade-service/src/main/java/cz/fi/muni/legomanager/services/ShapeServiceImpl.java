@@ -55,6 +55,14 @@ public class ShapeServiceImpl implements ShapeService {
     }
 
     @Override
+    public Shape findByName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Shape name cannot be null.");
+        }
+        return shapeDao.findByName(name);
+    }
+
+    @Override
     public List<Shape> findAll() {
         return shapeDao.findAll();
     }
