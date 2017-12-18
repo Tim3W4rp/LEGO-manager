@@ -24,23 +24,23 @@ REST API curl examples:
 
 GET ALL
 
-curl -X GET http://localhost:8080/pa165/api/v1/sets
+curl -X GET http://localhost:8080/pa165/rest/sets
 
 GET ONE
 
-curl -X GET http://localhost:8080/pa165/api/v1/sets/1
+curl -X GET http://localhost:8080/pa165/rest/sets/1
 
 DELETE
 
-curl -X DELETE http://localhost:8080/pa165/api/v1/sets/1
+curl -X DELETE http://localhost:8080/pa165/rest/sets/1
 
 UPDATE
 
-curl -H "Content-Type: application/json" -X PUT -d "{\"description\":\"eeee\",\"price\":222.78}" http://localhost:8080/pa165/api/v1/sets/2
+curl -H "Content-Type: application/json" -X PUT -d "{\"description\":\"eeee\",\"price\":222.78}" http://localhost:8080/pa165/rest/sets/2
 
 POST
 
-curl -H "Content-Type: application/json" -X POST -d "{\"description\":\"xyz\",\"price\":56.78}" http://localhost:8080/pa165/api/v1/sets/create
+curl -H "Content-Type: application/json" -X POST -d "{\"description\":\"xyz\",\"price\":56.78}" http://localhost:8080/pa165/rest/sets/create
 
 
 Credits:
