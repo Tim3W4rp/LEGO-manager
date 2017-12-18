@@ -40,7 +40,7 @@ import static org.springframework.hateoas.config.EnableHypermediaSupport.Hyperme
 @EnableHypermediaSupport(type = HypermediaType.HAL)
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = {"cz.muni.fi.legomanager.controllers", "cz.muni.fi.legomanager.hateoas"})
+@ComponentScan(basePackages = {"cz.fi.muni.legomanager", "cz.muni.fi.legomanager"})
 public class RestSpringMvcConfig extends WebMvcConfigurerAdapter {
 
     @Bean
