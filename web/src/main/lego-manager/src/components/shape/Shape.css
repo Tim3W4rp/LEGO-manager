@@ -3,12 +3,30 @@
     margin: 10px;
     padding: 15px;
     min-height: 200px;
+    position: relative;
 }
 
 .Shape-title {
     margin-top: 10px;
     font-size: 25px;
     margin-bottom: 20px;
+}
+
+.Shape-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Shape-update {
+    position: absolute;
+    right: 15px;
+    top: 50px;
+}
+
+.Shape-delete {
+    position: absolute;
+    right: 15px;
+    top: 90px;
 }
 
 .Shape-label {

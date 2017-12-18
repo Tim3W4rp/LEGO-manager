@@ -30,6 +30,7 @@ import BrickCreate from './components/brickCreate/BrickCreate'
 import Brick from './components/brick/Brick'
 import Shapes from './components/shapes/Shapes'
 import ShapeCreate from './components/shapeCreate/ShapeCreate'
+import ShapeUpdate from './components/shapeUpdate/ShapeUpdate'
 import Shape from './components/shape/Shape'
 
 // reducers
@@ -128,6 +129,7 @@ render(
                 <Route path="brick/:id" onEnter={loadBrick} component={Brick}/>
                 <Route path="shapes" onEnter={loadShapes} component={Shapes}/>
                 <Route path="shape/create" component={ShapeCreate}/>
+                <Route path="shape/update/:id" onEnter={loadShape} component={ShapeUpdate}/>
                 <Route path="shape/:id" onEnter={loadShape} component={Shape}/>
             </Route>
             <Route path="/" component={App}>
