@@ -3,6 +3,7 @@ package cz.muni.fi.legomanager.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import cz.fi.muni.legomanager.sampleData.SampleDataLoadingFacade;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,9 @@ import org.springframework.web.servlet.config.annotation.ContentNegotiationConfi
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Validator;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -75,6 +78,14 @@ public class RestSpringMvcConfig extends WebMvcConfigurerAdapter {
     @Autowired
     private BeanFactory beanFactory;
 
+    @Autowired
+    public SampleDataLoadingFacade sampleDataLoadingFacade;
+
+    @PostConstruct
+    public void dataLoading() throws IOException {
+        sampleDataLoadingFacade.loadData();
+    }
+
 
     /**
      * Provides JSR-303 Validator.
@@ -85,6 +96,5 @@ public class RestSpringMvcConfig extends WebMvcConfigurerAdapter {
     public Validator validator() {
         return new LocalValidatorFactoryBean();
     }
-
 
 }
