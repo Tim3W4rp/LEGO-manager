@@ -89,6 +89,7 @@ export const store = createStore(
     }),
     kitsPage: combineReducers({
       kits,
+    }),
     setUpdatePage: combineReducers({
       setUpdate,
     })
