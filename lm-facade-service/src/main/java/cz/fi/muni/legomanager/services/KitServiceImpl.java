@@ -126,7 +126,6 @@ public class KitServiceImpl implements KitService {
     // Note: check M:N if it works
     @Override
     public Long createRandomKitByRules(Long minBrickCount, Long maxBrickCount, List<Brick> bricks, List<Long> bricksCounts) {
-        Kit randomKit = new Kit();
         Long piecesTotal = countPieces(bricksCounts);
         Long howManyMustGenerate = minBrickCount - piecesTotal > 0 ? minBrickCount - piecesTotal : 0L;
         Long howManyMayGenerate = maxBrickCount - minBrickCount;
@@ -143,16 +142,22 @@ public class KitServiceImpl implements KitService {
             howManyWillGenerate -= count;
         }
 
+        Kit randomKit = new Kit();
+        randomKit.setAgeLimit(5);
+        randomKit.setDescription("Description of kit");
+        randomKit.setPrice(1000);
 
+        Kit createdKit = kitDao.create(randomKit);
         for (int i = 0; i < bricks.size(); i++) {
             if (bricksCounts.get(i) > 0) {
-                randomKit.addBrick(bricks.get(i));
+
+                addBrickToKitById(createdKit.getId(), bricks.get(i).getId());
                 // Add counts needs to be done!
 
             }
         }
 
-        Kit createdKit = kitDao.create(randomKit);
+
         return createdKit.getId();
 
     }
