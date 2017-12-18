@@ -23,6 +23,9 @@ class Menu extends Component {
                 <Link to='/shapes'>
                     <MenuItem>Shapes</MenuItem>
                 </Link>
+                <Link to='/kits'>
+                    <MenuItem>Kits</MenuItem>
+                </Link>
             </div>
         )
     }
