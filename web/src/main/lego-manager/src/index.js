@@ -21,6 +21,7 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 import Index from './components/index/Index'
 import Categories from './components/categories/Categories'
 import CategoryCreate from './components/categoryCreate/CategoryCreate'
+import CategoryUpdate from './components/categoryUpdate/CategoryUpdate'
 import Category from './components/category/Category'
 import Sets from './components/sets/Sets'
 import SetCreate from './components/setCreate/SetCreate'
@@ -30,7 +31,7 @@ import Set from './components/set/Set'
 import categories from './components/categories/reducer'
 import category from './components/category/reducer'
 import sets from './components/sets/reducer'
-import set from './components/set/reducer'
+import setOfKits from './components/set/reducer'
 import loading from './components/loading/reducer'
 import errorToast from './components/errorToast/reducer'
 
@@ -39,6 +40,7 @@ import loadCategories from './components/categories/loader'
 import loadCategory from './components/category/loader'
 import loadSets from './components/sets/loader'
 import loadSet from './components/set/loader'
+
 // elements
 import NotFound from './elements/notFound/NotFound'
 import App from './App'
@@ -69,7 +71,7 @@ export const store = createStore(
       sets,
     }),
     setPage: combineReducers({
-      set,
+      set: setOfKits,
     })
   }),
 
@@ -91,7 +93,8 @@ render(
       <Route path={env.PUBLIC_URL} component={App}>
         <IndexRoute component={Index}  />
         <Route path="categories" onEnter={loadCategories} component={Categories}/>
-        <Route path="category/create" component={CategoryCreate}/>
+        <Route path="category/create" component={CategoryCreate} />
+        <Route path="category/update/:id" onEnter={loadCategory} component={CategoryUpdate}/>
         <Route path="category/:id" onEnter={loadCategory} component={Category}/>
         <Route path="sets" onEnter={loadSets} component={Sets}/>
         <Route path="set/create" component={SetCreate}/>

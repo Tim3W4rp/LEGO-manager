@@ -3,12 +3,30 @@
   margin: 10px;
   padding: 15px;
   min-height: 200px;
+  position: relative;
 }
 
 .Category-title {
   margin-top: 10px;
   font-size: 25px;
   margin-bottom: 20px;
+}
+
+.Category-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Category-update {
+  position: absolute;
+  right: 15px;
+  top: 50px;
+}
+
+.Category-delete {
+  position: absolute;
+  right: 15px;
+  top: 90px;
 }
 
 .Category-label {
