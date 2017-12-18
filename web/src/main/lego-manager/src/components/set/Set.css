@@ -3,6 +3,7 @@
   margin: 10px;
   padding: 15px;
   min-height: 200px;
+  position: relative;
 }
 
 .Set-title {
@@ -11,11 +12,26 @@
   margin-bottom: 20px;
 }
 
+.Set-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Set-update {
+  position: absolute;
+  right: 15px;
+  top: 50px;
+}
+
+.Set-delete {
+  position: absolute;
+  right: 15px;
+  top: 90px;
+}
+
 .Set-label {
   margin-top: 0px;
   margin-bottom: 5px;
   font-weight: bold;
   font-size: 13px;
 }
-
-

@@ -110,16 +110,14 @@ public class SampleDataLoadingFacade {
 
         Brick blackWheel = brick(0, 0, 0, wheel);
 
+
         // add bricks to kits
-        brickToKit(jokerWehicle, blackWheel);
-        brickToKit(jokerWehicle, blackWheel);
-        brickToKit(jokerWehicle, blackWheel);
-        brickToKit(jokerWehicle, blackWheel);
-        brickToKit(jokerWehicle, joker);
-        brickToKit(jokerWehicle, black2x2);
-        brickToKit(jokerWehicle, gray2x2);
-        brickToKit(jokerWehicle, black2x4);
-        brickToKit(jokerWehicle, gray2x4);
+        brickToKit(jokerWehicle, blackWheel, 10);
+        brickToKit(jokerWehicle, joker, 5);
+        brickToKit(jokerWehicle, black2x2, 10);
+        brickToKit(jokerWehicle, gray2x2, 9);
+        brickToKit(jokerWehicle, black2x4, 8);
+        brickToKit(jokerWehicle, gray2x4, 7);
 
     }
 
@@ -165,7 +163,9 @@ public class SampleDataLoadingFacade {
         return b;
     }
 
-    private void brickToKit(Kit kit, Brick brick) {
-        kitBrickService.addBrickToKit(kit, brick);
+
+    private void brickToKit(Kit kit, Brick brick, long count) {
+        kitBrickService.createKitBrick(kit, brick);
+        kitBrickService.setBrickCount(kit, brick, count);
     }
 }
