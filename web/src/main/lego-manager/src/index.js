@@ -112,9 +112,6 @@ export const store = createStore(
         shapePage: combineReducers({
             shape,
         }),
-        setPage: combineReducers({
-          set,
-        }),
         kitPage: combineReducers({
           kit,
         }),
@@ -125,7 +122,6 @@ export const store = createStore(
           setUpdate,
         })
       }),
-    
     composeEnhancers(
         applyMiddleware(
             promiseMiddleware()
