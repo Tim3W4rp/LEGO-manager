@@ -102,39 +102,6 @@ public class Kit {
         this.category = category;
     }
 
-    //todo test
-    public void addBrick(Brick brick) {
-        for (KitBrick kitBrick : kitBricks) {
-            if (kitBrick.getBrick().equals(brick)) {
-                kitBrick.increaseBrickCountByOne();
-                return;
-            }
-        }
-        kitBricks.add(new KitBrick(brick, this, 1));
-    }
-
-    //todo test
-    public void removeBrick(Brick brick) {
-        for (KitBrick kitBrick : kitBricks) {
-            if (kitBrick.getBrick().equals(brick)) {
-                kitBrick.decreaseBrickCountByOne();
-                return;
-            }
-        }
-        throw new RuntimeException("Such brick does not exist in this kit");
-    }
-
-    //todo test
-    public void removeAllBricksOfThisType(Brick brick) {
-        for (KitBrick kitBrick : kitBricks) {
-            if (kitBrick.getBrick().equals(brick)) {
-                kitBricks.remove(kitBrick);
-                return;
-            }
-        }
-        throw new RuntimeException("Such brick does not exist in this kit");
-    }
-
     public SetOfKits getSetOfKits() {
         return setOfKits;
     }
