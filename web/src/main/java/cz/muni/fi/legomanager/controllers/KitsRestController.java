@@ -147,6 +147,26 @@ public class KitsRestController {
             throw new ResourceNotFoundException("Unable to find similar kits");
         }
     }
+
+
+    @RequestMapping(value = "/createrandom/{min}/{max}", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+    public HttpEntity<KitResource> createRandomKit(@PathVariable("min") Long min,
+                                                   @PathVariable("max") Long max,
+                                                   @RequestBody @Valid RadnomBricksDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
+        log.debug("rest create random Kit()");
+        if (bindingResult.hasErrors()) {
+            log.error("failed validation {}", bindingResult.toString());
+            throw new InvalidRequestException("Failed validation");
+        }
+        Long id = facade.createRandomKitByRules(min, max, paramDTOCreate);
+        KitDTO foundDTO = facade.findKitById(id);
+
+        KitResource resource = resourceAssembler.toResource(foundDTO);
+        return new ResponseEntity<>(resource, HttpStatus.OK);
+    }
+
+
+
 }
 
 
