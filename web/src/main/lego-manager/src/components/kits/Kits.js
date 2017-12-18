@@ -10,46 +10,57 @@ import {
   TableRowColumn
 } from 'material-ui/Table'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
-
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
-import './Sets.css'
+import './Kits.css'
 
-class Sets extends Component {
+class Kits extends Component {
   render() {
-    return (<div className="Sets">
+    return (<div className="Kits">
       <Table selectable={false} onRowClick={this.handleClick}>
         <TableHeader displaySelectAll={false}>
           <TableRow>
             <TableHeaderColumn>ID</TableHeaderColumn>
-            <TableHeaderColumn>Description</TableHeaderColumn>
+            <TableHeaderColumn>Name</TableHeaderColumn>
             <TableHeaderColumn>Price</TableHeaderColumn>
+            <TableHeaderColumn>Age Limit</TableHeaderColumn>
+            <TableHeaderColumn>Category</TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody displayRowCheckbox={false} showRowHover={true}>
           {
-            this.props.sets.data.map((set) => <TableRow key={set.id}>
+            this.props.kits.data.map((kit) => <TableRow key={kit.id}>
               <TableRowColumn>
-                <Link to={'/set/' + set.id}>
-                  {set.id}
+                <Link to={'/kit/' + kit.id}>
+                  {kit.id}
                 </Link>
               </TableRowColumn>
               <TableRowColumn>
-                <Link to={'/set/' + set.id}>
-                  {set.description}
+                <Link to={'/kit/' + kit.id}>
+                  {kit.description}
                 </Link>
               </TableRowColumn>
               <TableRowColumn>
-                <Link to={'/set/' + set.id}>
-                  {set.price}
+                <Link to={'/kit/' + kit.id}>
+                  {kit.price}
+                </Link>
+              </TableRowColumn>
+              <TableRowColumn>
+                <Link to={'/kit/' + kit.id}>
+                  {kit.ageLimit}
+                </Link>
+              </TableRowColumn>
+              <TableRowColumn>
+                <Link to={'/kit/' + kit.id}>
+                  {kit.category}
                 </Link>
               </TableRowColumn>
             </TableRow>)
           }
         </TableBody>
       </Table>
-      <Link to="/set/create">
-        <FloatingActionButton className="Sets-floating-button">
+      <Link to="/kit/create">
+        <FloatingActionButton className="Kits-floating-button">
           <ContentAdd/>
         </FloatingActionButton>
       </Link>
@@ -58,7 +69,7 @@ class Sets extends Component {
 }
 
 const mapStateToProps = store => {
-  return {sets: store.setsPage.sets}
+  return {kits: store.kitsPage.kits}
 }
 
-export default connect(mapStateToProps)(Sets)
+export default connect(mapStateToProps)(Kits)

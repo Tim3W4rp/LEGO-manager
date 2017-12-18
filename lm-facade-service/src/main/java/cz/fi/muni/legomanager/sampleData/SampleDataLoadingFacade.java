@@ -2,6 +2,7 @@ package cz.fi.muni.legomanager.sampleData;
 
 import cz.fi.muni.legomanager.entity.*;
 import cz.fi.muni.legomanager.services.*;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,9 @@ public class SampleDataLoadingFacade {
 
     @Autowired
     ShapeService shapeService;
+
+    @Autowired
+    KitBrickService kitBrickService;
 
     public void loadData() {
         // Categories
@@ -162,6 +166,6 @@ public class SampleDataLoadingFacade {
     }
 
     private void brickToKit(Kit kit, Brick brick) {
-        kitService.addBrickToKitById(kit.getId(), brick.getId());
+        kitBrickService.addBrickToKit(kit, brick);
     }
 }

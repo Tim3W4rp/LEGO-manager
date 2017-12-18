@@ -21,6 +21,7 @@ import {syncHistoryWithStore, routerReducer} from 'react-router-redux'
 import Index from './components/index/Index'
 import Categories from './components/categories/Categories'
 import CategoryCreate from './components/categoryCreate/CategoryCreate'
+import CategoryUpdate from './components/categoryUpdate/CategoryUpdate'
 import Category from './components/category/Category'
 import Sets from './components/sets/Sets'
 import SetCreate from './components/setCreate/SetCreate'
@@ -33,6 +34,10 @@ import Shapes from './components/shapes/Shapes'
 import ShapeCreate from './components/shapeCreate/ShapeCreate'
 import ShapeUpdate from './components/shapeUpdate/ShapeUpdate'
 import Shape from './components/shape/Shape'
+import Kits from './components/kits/Kits'
+import KitCreate from './components/kitCreate/KitCreate'
+import Kit from './components/kit/Kit'
+import SetUpdate from './components/setUpdate/SetUpdate'
 
 // reducers
 import categories from './components/categories/reducer'
@@ -43,8 +48,11 @@ import bricks from './components/bricks/reducer'
 import brick from './components/brick/reducer'
 import shapes from './components/shapes/reducer'
 import shape from './components/shape/reducer'
+import setUpdate from './components/setUpdate/reducer'
 import loading from './components/loading/reducer'
 import errorToast from './components/errorToast/reducer'
+import kits from './components/kits/reducer'
+import kit from './components/kit/reducer'
 
 // data loaders
 import loadCategories from './components/categories/loader'
@@ -56,6 +64,9 @@ import loadBrick from './components/brick/loader'
 import loadShapes from './components/shapes/loader'
 import loadShape from './components/shape/loader'
 import loadShapesAndBrick from './components/brickUpdate/loader'
+import loadKit from './components/kit/loader'
+import loadKits from './components/kits/loader'
+import loadSetUpdate from './components/setUpdate/loader'
 
 // elements
 import NotFound from './elements/notFound/NotFound'
@@ -102,7 +113,20 @@ export const store = createStore(
             shape,
         })
     }),
-
+    setPage: combineReducers({
+      set,
+    }),
+    kitPage: combineReducers({
+      kit,
+    }),
+    kitsPage: combineReducers({
+      kits,
+    }),
+    setUpdatePage: combineReducers({
+      setUpdate,
+    })
+  }),
+    
     composeEnhancers(
         applyMiddleware(
             promiseMiddleware()
@@ -116,6 +140,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 // init react with store and router
 render(
+
     <Provider store={store}>
         <Router history={history}>
             <Route path={env.PUBLIC_URL} component={App}>
@@ -141,4 +166,28 @@ render(
         </Router>
     </Provider>,
     document.getElementById('root')
+
+  <Provider store={store}>
+    <Router history={history}>
+      <Route path={env.PUBLIC_URL} component={App}>
+        <IndexRoute component={Index}  />
+        <Route path="categories" onEnter={loadCategories} component={Categories}/>
+        <Route path="category/create" component={CategoryCreate} />
+        <Route path="category/update/:id" onEnter={loadCategory} component={CategoryUpdate}/>
+        <Route path="category/:id" onEnter={loadCategory} component={Category}/>
+        <Route path="sets" onEnter={loadSets} component={Sets}/>
+        <Route path="set/create" component={SetCreate}/>
+        <Route path="set/:id" onEnter={loadSet} component={Set}/>
+        <Route path="kits" onEnter={loadKits} component={Kits}/>
+        <Route path="kit/create" component={KitCreate}/>
+        <Route path="kit/:id" onEnter={loadKit} component={Kit}/>
+        <Route path="set/update/:id" onEnter={loadSetUpdate} component={SetUpdate}/>
+      </Route>
+      <Route path="/" component={App}>
+        <Route path="*" component={NotFound}/>
+      </Route>
+    </Router>
+  </Provider>,
+  document.getElementById('root')
+
 )
