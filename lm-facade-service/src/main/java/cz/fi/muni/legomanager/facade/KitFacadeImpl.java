@@ -105,14 +105,9 @@ public class KitFacadeImpl implements KitFacade {
     }
 
     @Override
-    public long createRandomKitByRules(long minBrickCount, long maxBrickCount, Map<BrickDTO, Long> bricksCounts) {
-        Map<Brick, Long> brickEntitiesCounts = new HashMap<Brick, Long>();
+    public long createRandomKitByRules(long minBrickCount, long maxBrickCount, List<BrickDTO> bricks, List<Long> bricksCounts) {
+        List<Brick> bricksEnt = dozerService.mapTo(bricks, Brick.class);
 
-        for (Map.Entry<BrickDTO, Long> entry : bricksCounts.entrySet()) {
-            Brick mappedBrick = dozerService.mapTo(entry.getKey(), Brick.class);
-            brickEntitiesCounts.put(mappedBrick, entry.getValue());
-        }
-        
-        return kitService.createRandomKitByRules(minBrickCount, maxBrickCount, brickEntitiesCounts);
+        return kitService.createRandomKitByRules(minBrickCount, maxBrickCount, bricksEnt, bricksCounts);
     }
 }

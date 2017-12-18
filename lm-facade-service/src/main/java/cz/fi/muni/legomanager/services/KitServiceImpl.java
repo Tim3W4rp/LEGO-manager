@@ -125,67 +125,71 @@ public class KitServiceImpl implements KitService {
     // Important note: BrickCounts contains counts and bricks that must appear in kit (count>0) and those that can appear(count=0)
     // Note: check M:N if it works
     @Override
-    public Long createRandomKitByRules(Long minBrickCount, Long maxBrickCount, Map<Brick, Long> bricksCounts) {
-        Kit randomKit = new Kit();
+    public Long createRandomKitByRules(Long minBrickCount, Long maxBrickCount, List<Brick> bricks, List<Long> bricksCounts) {
         Long piecesTotal = countPieces(bricksCounts);
-        Map<Brick, Long> canBeBricksCounts = getPossibleBrickCounts(bricksCounts);
+        Long howManyMustGenerate = minBrickCount - piecesTotal > 0 ? minBrickCount - piecesTotal : 0L;
+        Long howManyMayGenerate = maxBrickCount - minBrickCount;
+        Long howManyWillGenerate = getRandomNumberUpTo(howManyMayGenerate.intValue()) + howManyMustGenerate;
 
-        int bricksMin = minBrickCount.intValue() - piecesTotal.intValue();
-        Long bricksDifference = (maxBrickCount - minBrickCount);
-        int countOfBricksToAdd = bricksMin + getRandomNumberUpTo(bricksDifference.intValue());
+        List<Brick> possibleBricks = getPossibleBricks(bricks, bricksCounts);
+        int possibleBricksCount = possibleBricks.size();
+        while (howManyWillGenerate > 0) {
+            int index = getRandomNumberUpTo(possibleBricksCount);
+            Brick selectedBrick = possibleBricks.get(index);
 
-        Brick[] arrayBricks = (Brick[])canBeBricksCounts.keySet().toArray();
-
-        // Add random number of bricks
-        while(countOfBricksToAdd > 0) {
-            Long lastValue;
-            int brickIndex = getRandomNumberUpTo(canBeBricksCounts.size());
-            int addCount = getRandomNumberUpTo(countOfBricksToAdd);
-
-            Brick selectedBrick = arrayBricks[brickIndex];
-            lastValue = bricksCounts.get(selectedBrick);
-            bricksCounts.put(selectedBrick, Long.valueOf(addCount) + lastValue);
-
-            countOfBricksToAdd -= addCount;
+            int count = getRandomNumberUpTo(howManyWillGenerate.intValue());
+            addCountToBrick(selectedBrick, bricks, bricksCounts, Long.valueOf(count));
+            howManyWillGenerate -= count;
         }
 
-        for (Map.Entry<Brick, Long> entry : bricksCounts.entrySet()) {
-            if (entry.getValue() > 0L) {
-                kitBrickService.addBrickToKit(randomKit, entry.getKey());
-                KitBrick kitBrick = new KitBrick();
-                kitBrick.setBrick(entry.getKey());
-                kitBrick.setCount(entry.getValue());
+        Kit randomKit = new Kit();
+        randomKit.setAgeLimit(5);
+        randomKit.setDescription("Description of kit");
+        randomKit.setPrice(1000);
+
+        Kit createdKit = kitDao.create(randomKit);
+        for (int i = 0; i < bricks.size(); i++) {
+            if (bricksCounts.get(i) > 0) {
+
+                addBrickToKitById(createdKit.getId(), bricks.get(i).getId());
+                // Add counts needs to be done!
 
             }
         }
 
-        Kit createdKit = kitDao.create(randomKit);
+
         return createdKit.getId();
 
     }
 
-    private Long countPieces(Map<Brick, Long> mappedBrickCount) {
+    private Long countPieces(List<Long> bricksCounts) {
         Long count = 0L;
-        for (Map.Entry<Brick, Long> entry : mappedBrickCount.entrySet()) {
-            count += entry.getValue();
+        for (Long countBrick : bricksCounts) {
+            count += countBrick;
         }
         return count;
-    }
-
-    private Map<Brick, Long> getPossibleBrickCounts(Map<Brick, Long> mappedBrickCount) {
-        Map<Brick, Long> possibleBrickCounts = new LinkedHashMap<>();
-        for (Map.Entry<Brick, Long> entry : mappedBrickCount.entrySet()) {
-            if (entry.getValue() == 0L) {
-                possibleBrickCounts.put(entry.getKey(), entry.getValue());
-            }
-        }
-        return possibleBrickCounts;
     }
 
     private int getRandomNumberUpTo(int max) {
         Random randomGenerator = new Random();
         return randomGenerator.nextInt(max);
     }
+
+    private List<Brick> getPossibleBricks(List<Brick> bricks, List<Long> bricksCounts) {
+        List<Brick> possibleBricks = new ArrayList<>();
+        for (int i = 0; i< bricks.size(); i++) {
+            if (bricksCounts.get(i) == 0L) {
+                possibleBricks.add(bricks.get(i));
+            }
+        }
+        return possibleBricks;
+    }
+
+    private void addCountToBrick(Brick brick, List<Brick> bricks, List<Long> bricksCounts, Long addCount) {
+        int index = bricks.indexOf(brick);
+        bricksCounts.set(index, bricksCounts.get(index) + addCount);
+    }
+
 
     @Override
     public void removeAllBricksOfThisTypeFromKitById(long kitId, long brickId) {
@@ -214,4 +218,5 @@ public class KitServiceImpl implements KitService {
         Brick brick = brickDao.findById(brickId);
         return kitBrickService.getBrickCount(kit, brick);
     }
+
 }

@@ -18,7 +18,7 @@ public interface KitService {
     public Set<Kit> getKitsByCategoryId(long categoryId);
     public List<Kit> findSimilarKits(Kit similarKit, int priceRange, int ageLimitRange, Category category);
     public Brick findBrickById(long id);
-    Long createRandomKitByRules(Long minBrickCount, Long maxBrickCount, Map<Brick, Long> bricksCounts);
+    Long createRandomKitByRules(Long minBrickCount, Long maxBrickCount, List<Brick> bricks, List<Long> bricksCounts);
     public void addKitToSet(Kit kit, SetOfKits setOfKits);
 
     public void removeAllBricksOfThisTypeFromKitById(long kitId, long brickId);
