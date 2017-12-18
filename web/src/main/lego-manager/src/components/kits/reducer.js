@@ -6,7 +6,7 @@ const reducer = (state = {
     case 'FETCH_KITS_FULFILLED':
       return {
         ...state,
-        data: action.payload.data._embedded.categories,
+        data: action.payload.data._embedded.kits,
         links: action.payload.data._links
       }
 

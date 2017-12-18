@@ -1,9 +1,13 @@
 package cz.fi.muni.legomanager.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CategoryDTO {
     private Long id;
     private String name;
     private String description;
+    private List<KitSimpleDTO> kits = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -27,6 +31,14 @@ public class CategoryDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<KitSimpleDTO> getKits() {
+        return kits;
+    }
+
+    public void setKits(List<KitSimpleDTO> kits) {
+        this.kits = kits;
     }
 
     @Override

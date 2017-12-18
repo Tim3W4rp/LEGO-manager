@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export const backendUrl =
   (env.NODE_ENV === 'development' ? 'http://localhost:8080' : '')
-  + env.PUBLIC_URL + '/api/v1'
+  + env.PUBLIC_URL + '/rest'
 
 const client = axios.create({
   baseURL: backendUrl,

@@ -36,6 +36,7 @@ public class Kit {
     private Category category;
 
     @NotNull
+    @ElementCollection(fetch = FetchType.EAGER)
     @OneToMany(mappedBy = "kit", cascade = CascadeType.ALL)
     private List<KitBrick> kitBricks = new ArrayList<>();
 

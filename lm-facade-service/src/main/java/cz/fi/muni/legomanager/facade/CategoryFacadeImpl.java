@@ -2,6 +2,7 @@ package cz.fi.muni.legomanager.facade;
 
 import cz.fi.muni.legomanager.dto.CategoryDTO;
 import cz.fi.muni.legomanager.dto.KitDTO;
+import cz.fi.muni.legomanager.dto.KitSimpleDTO;
 import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.services.CategoryService;
 import cz.fi.muni.legomanager.services.DozerService;
@@ -49,16 +50,19 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
     @Override
     public CategoryDTO getCategoryById(Long categoryId) {
-        return dozerService.mapTo(categoryService.getCategory(categoryId), CategoryDTO.class);
+        Category category = categoryService.getCategory(categoryId);
+        CategoryDTO categoryDTO = dozerService.mapTo(category, CategoryDTO.class);
+        categoryDTO.setKits(this.getKits(category.getId()));
+        return categoryDTO;
     }
 
     @Override
-    public List<KitDTO> getKits(Long categoryId) {
+    public List<KitSimpleDTO> getKits(Long categoryId) {
         Category c = categoryService.getCategory(categoryId);
         if (c == null) {
             throw new RuntimeException("Category doesn't exist.");
         }
-        return dozerService.mapTo(c.getKits(), KitDTO.class);
+        return dozerService.mapTo(c.getKits(), KitSimpleDTO.class);
     }
 
     @Override
