@@ -17,14 +17,14 @@ class Menu extends Component {
                 <Link to='/sets'>
                     <MenuItem>Sets</MenuItem>
                 </Link>
+                <Link to='/kits'>
+                    <MenuItem>Kits</MenuItem>
+                </Link>
                 <Link to='/bricks'>
                     <MenuItem>Bricks</MenuItem>
                 </Link>
                 <Link to='/shapes'>
                     <MenuItem>Shapes</MenuItem>
-                </Link>
-                <Link to='/kits'>
-                    <MenuItem>Kits</MenuItem>
                 </Link>
             </div>
         )
