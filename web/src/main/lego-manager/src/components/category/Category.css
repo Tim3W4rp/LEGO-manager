@@ -35,3 +35,17 @@
   font-weight: bold;
   font-size: 13px;
 }
+
+.Category-description {
+  margin-bottom: 40px;
+}
+
+.Category-kits {
+  margin-bottom: 5px;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.Category-table {
+  margin-top: 10px;
+}
