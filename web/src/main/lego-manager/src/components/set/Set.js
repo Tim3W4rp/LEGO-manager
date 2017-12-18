@@ -23,17 +23,17 @@ class Set extends Component {
     return (
       <Paper className="Set" zDepth={1}>
 
-
+        <form className="SetCreate-form" onSubmit={vals => handleSubmit(this.submit(this.props.set.id))}>
+          <Link to={'/set/update/' + this.props.set.id}>
+            <RaisedButton primary={true}
+              className="Set-update">Update set</RaisedButton>
+          </Link>
+          <RaisedButton type="submit" label="Remove set" primary={true} />
+        </form>
         <div className="Set-label">Set {this.props.set.id}</div>
         <Divider />
         <div className="Set-title">{this.props.set.description}</div>
         <div className="Set-description">{this.props.set.price}</div>
-        <form className="SetCreate-form" onSubmit={vals => handleSubmit(this.submit(this.props.set.id))}>
-          <Link to={'/set/update/' + this.props.set.id}>
-            <RaisedButton className="Set-update">Update</RaisedButton>
-          </Link>
-          <RaisedButton className="Set-delete">Remove</RaisedButton>
-        </form>
       </Paper>
     )
   }
