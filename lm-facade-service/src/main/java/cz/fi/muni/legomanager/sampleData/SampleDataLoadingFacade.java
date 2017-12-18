@@ -166,6 +166,6 @@ public class SampleDataLoadingFacade {
     }
 
     private void brickToKit(Kit kit, Brick brick) {
-        kitBrickService.createKitBrick(kit, brick);
+        kitBrickService.addBrickToKit(kit, brick);
     }
 }
