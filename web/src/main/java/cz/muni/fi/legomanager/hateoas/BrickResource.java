@@ -69,6 +69,16 @@ public class BrickResource extends ResourceSupport {
         this.blue = value;
     }
 
+
+    public ShapeDTO getDtoShape() {
+        return shape;
+    }
+
+    public void setDtoShape(ShapeDTO shape) {
+        this.shape = shape;
+    }
+
+
     /*public BigDecimal getPrice() {
         return price;
     }
