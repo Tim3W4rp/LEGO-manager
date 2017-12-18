@@ -13,6 +13,9 @@ class Menu extends Component {
         <Link to='/categories'>
           <MenuItem>Categories</MenuItem>
         </Link>
+        <Link to='/sets'>
+          <MenuItem>Sets of kits</MenuItem>
+        </Link>
       </div>
     )
   }
