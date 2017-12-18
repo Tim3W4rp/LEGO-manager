@@ -42,7 +42,7 @@ class BrickUpdate extends Component {
                         hintText="Shape"
                         validate={[ required ]}>
                         {this.props.shapes.data.map((shape) => (
-                            <MenuItem value={shape} primaryText={shape.name} />
+                            <MenuItem key={shape.id} value={shape} primaryText={shape.name} />
                         ))}
                     </Field>
 
@@ -93,7 +93,12 @@ let component = reduxForm({
 })(BrickUpdate)
 
 component = connect(store => ({
-    initialValues: store.brickPage.brick,
+    initialValues: {
+      shape: store.brickPage.brick.shape,
+      red: store.brickPage.brick.dtoRed,
+      green: store.brickPage.brick.dtoGreen,
+      blue: store.brickPage.brick.dtoBlue,
+    },
     shapes: store.shapesPage.shapes
 }), dispatch => (
     bindActionCreators({ ...UpdateActions }, dispatch)

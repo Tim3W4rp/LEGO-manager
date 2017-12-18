@@ -55,6 +55,7 @@ import loadBricks from './components/bricks/loader'
 import loadBrick from './components/brick/loader'
 import loadShapes from './components/shapes/loader'
 import loadShape from './components/shape/loader'
+import loadShapesAndBrick from './components/brickUpdate/loader'
 
 // elements
 import NotFound from './elements/notFound/NotFound'
@@ -127,7 +128,7 @@ render(
                 <Route path="set/:id" onEnter={loadSet} component={Set}/>
                 <Route path="bricks" onEnter={loadBricks} component={Bricks}/>
                 <Route path="brick/create" onEnter={loadShapes} component={BrickCreate}/>
-                <Route path="brick/update/:id" onEnter={[ loadShapes, loadBrick ]} component={BrickUpdate}/>
+                <Route path="brick/update/:id" onEnter={loadShapesAndBrick} component={BrickUpdate}/>
                 <Route path="brick/:id" onEnter={loadBrick} component={Brick}/>
                 <Route path="shapes" onEnter={loadShapes} component={Shapes}/>
                 <Route path="shape/create" component={ShapeCreate}/>
