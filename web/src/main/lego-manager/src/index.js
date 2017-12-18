@@ -124,7 +124,7 @@ render(
                 <Route path="set/create" component={SetCreate}/>
                 <Route path="set/:id" onEnter={loadSet} component={Set}/>
                 <Route path="bricks" onEnter={loadBricks} component={Bricks}/>
-                <Route path="brick/create" component={BrickCreate}/>
+                <Route path="brick/create" onEnter={loadShapes} component={BrickCreate}/>
                 <Route path="brick/:id" onEnter={loadBrick} component={Brick}/>
                 <Route path="shapes" onEnter={loadShapes} component={Shapes}/>
                 <Route path="shape/create" component={ShapeCreate}/>
