@@ -25,12 +25,14 @@ import Category from './components/category/Category'
 import Sets from './components/sets/Sets'
 import SetCreate from './components/setCreate/SetCreate'
 import Set from './components/set/Set'
+import SetUpdate from './components/setUpdate/SetUpdate'
 
 // reducers
 import categories from './components/categories/reducer'
 import category from './components/category/reducer'
 import sets from './components/sets/reducer'
 import set from './components/set/reducer'
+import setUpdate from './components/setUpdate/reducer'
 import loading from './components/loading/reducer'
 import errorToast from './components/errorToast/reducer'
 
@@ -39,6 +41,7 @@ import loadCategories from './components/categories/loader'
 import loadCategory from './components/category/loader'
 import loadSets from './components/sets/loader'
 import loadSet from './components/set/loader'
+import loadSetUpdate from './components/setUpdate/loader'
 // elements
 import NotFound from './elements/notFound/NotFound'
 import App from './App'
@@ -70,6 +73,9 @@ export const store = createStore(
     }),
     setPage: combineReducers({
       set,
+    }),
+    setUpdatePage: combineReducers({
+      setUpdate,
     })
   }),
 
@@ -96,6 +102,7 @@ render(
         <Route path="sets" onEnter={loadSets} component={Sets}/>
         <Route path="set/create" component={SetCreate}/>
         <Route path="set/:id" onEnter={loadSet} component={Set}/>
+        <Route path="set/update/:id" onEnter={loadSetUpdate} component={SetUpdate}/>
       </Route>
       <Route path="/" component={App}>
         <Route path="*" component={NotFound}/>
