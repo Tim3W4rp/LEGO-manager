@@ -11,7 +11,7 @@ class Set extends Component {
   render() {
     return (
       <Paper className="Set" zDepth={1}>
-        <div className="Set-label">Category {this.props.set.id}</div>
+        <div className="Set-label">Set {this.props.set.id}</div>
         <Divider />
         <div className="Set-title">{this.props.set.description}</div>
         <div className="Set-description">{this.props.set.price}</div>

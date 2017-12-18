@@ -1,10 +1,10 @@
 import client from '../../client'
 
-export const addSet = (categoryData) => ({
+export const addSet = (setData) => ({
   type: 'ADD_CATEGORY',
   payload: client({
-    url: '/categories/create',
+    url: '/sets/create',
     method: 'POST',
-    data: categoryData
+    data: setData
   })
 })
