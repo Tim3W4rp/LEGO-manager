@@ -5,7 +5,7 @@ class Index extends Component {
   render() {
     return (
       <div className="Index">
-        Index page
+        Welcome to our LegoManager. :)
       </div>
     );
   }
