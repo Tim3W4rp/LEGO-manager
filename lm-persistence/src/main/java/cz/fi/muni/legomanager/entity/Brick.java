@@ -37,6 +37,10 @@ public class Brick {
     private int blue;
 
     @NotNull
+    @OneToMany(mappedBy = "brick")
+    private List<KitBrick> kitBricks = new ArrayList<>();
+
+    @NotNull
     @ManyToOne
     private Shape shape;
 
@@ -78,6 +82,18 @@ public class Brick {
 
     public void setShape(Shape shape) {
         this.shape = shape;
+    }
+
+    public List<KitBrick> getKitBricks() {
+        return Collections.unmodifiableList(kitBricks);
+    }
+
+    public void addKitBrick(KitBrick kitBrick) {
+        kitBricks.add(kitBrick);
+    }
+
+    public void removeKitBrick(KitBrick kitBrick) {
+        kitBricks.remove(kitBrick);
     }
 
     @Override

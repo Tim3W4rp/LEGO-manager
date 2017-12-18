@@ -73,6 +73,12 @@ public class ShapeFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
+    public void testFindByName() {
+        ShapeDTO found = shapeFacade.findByName("Cube");
+        assertEquals(found.getId(), shapeId);
+    }
+
+    @Test
     public void testFindAll() {
         assertEquals(shapeFacade.findAll().size(), 1);
     }

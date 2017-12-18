@@ -2,6 +2,7 @@ package cz.muni.fi.legomanager.hateoas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import cz.fi.muni.legomanager.dto.ShapeDTO;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
@@ -18,5 +19,24 @@ public class ShapeResource extends ResourceSupport {
     private long dtoId;
     private String name;
 
+    public ShapeResource(ShapeDTO dto) {
+        this.dtoId = dto.getId();
+        this.name = dto.getName();
+    }
 
+    public long getDtoId() {
+        return dtoId;
+    }
+
+    public void setDtoId(long dtoId) {
+        this.dtoId = dtoId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

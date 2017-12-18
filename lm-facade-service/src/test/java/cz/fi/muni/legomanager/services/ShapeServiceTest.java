@@ -2,6 +2,7 @@ package cz.fi.muni.legomanager.services;
 
 import cz.fi.muni.legomanager.config.ServiceConfigurationContext;
 import cz.fi.muni.legomanager.dao.ShapeDao;
+import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Shape;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -41,6 +42,9 @@ public class ShapeServiceTest extends AbstractTestNGSpringContextTests {
     @Mock
     private Shape shape;
 
+    @Mock
+    private Brick brick;
+
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -50,6 +54,9 @@ public class ShapeServiceTest extends AbstractTestNGSpringContextTests {
 
         when(shape.getId()).thenReturn(1L);
         when(shape.getName()).thenReturn("Cube");
+        when(shape.getBricks()).thenReturn(new ArrayList<Brick>() {{
+            add(brick);
+        }});
 
         when(shapeDao.findById(1L)).thenReturn(shape);
         when(shapeDao.findByName("Cube")).thenReturn(shape);
@@ -113,7 +120,7 @@ public class ShapeServiceTest extends AbstractTestNGSpringContextTests {
         assertEquals(shape, found);
     }
 
-    @Test (expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testFindByNullName() {
         shapeService.findByName(null);
     }

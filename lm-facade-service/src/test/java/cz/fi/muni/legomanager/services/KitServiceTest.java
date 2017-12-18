@@ -84,6 +84,7 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
         when(kit.getCategory()).thenReturn(category);
         when(kit.getKitBricks()).thenReturn(kitBricks);
         when(brick.getId()).thenReturn(1L);
+        when(brick.getKitBricks()).thenReturn(kitBricks);
         when(category.getId()).thenReturn(1L);
         when(category.getKits()).thenReturn(kitsInCategory);
         when(kitBrick.getBrick()).thenReturn(brick);
