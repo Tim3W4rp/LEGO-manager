@@ -219,4 +219,10 @@ public class KitServiceImpl implements KitService {
         return kitBrickService.getBrickCount(kit, brick);
     }
 
+    @Override
+    public void setBrickCount(long kitId, long brickId, long amount) {
+        Kit kit = kitDao.findById(kitId);
+        Brick brick = brickDao.findById(brickId);
+        kitBrickService.setBrickCount(kit, brick, amount);
+    }
 }

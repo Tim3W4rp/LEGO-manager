@@ -16,6 +16,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -58,6 +59,9 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
     @Mock
     private Brick brick;
 
+    @Mock
+    private KitBrickService kitBrickService;
+
     @Autowired
     @InjectMocks
     private KitService kitService;
@@ -95,6 +99,8 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
         when(categoryDao.findById(1L)).thenReturn(category);
         when(kitDao.findById(1L)).thenReturn(kit);
         when(kitDao.findAll()).thenReturn(allKits);
+
+        when(kitBrickService.getBrickCount(kit, brick)).thenReturn(2L);
     }
 
     @Test
@@ -135,26 +141,41 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testAddBrickToKitById() {
-        /*kitService.addBrickToKitById(1L, 1L);
+        kitService.addBrickToKitById(1L, 1L);
         Kit kit = kitDao.findById(1L);
         Brick brick = brickDao.findById(1L);
-        verify(kitService).addBrickToKitById(1L,1L);*/
+        verify(kitBrickService).addBrickToKit(kit,  brick);
     }
 
     @Test
     public void testRemoveOneBrickFromKitById() {
-        /*kitService.decreaseBrickCountByOne(1L, 1L);
+        kitService.decreaseBrickCountByOne(1L, 1L);
         Kit kit = kitDao.findById(1L);
         Brick brick = brickDao.findById(1L);
-        verify(kitService).decreaseBrickCountByOne(1L, 1L);*/
+        verify(kitBrickService).decreaseBrickCountByOne(kit,  brick);
     }
 
     @Test
     public void testRemoveAllBricksOfThisTypeFromKitById() {
-        /*kitService.removeAllBricksOfThisTypeFromKitById(1L, 1L);
+        kitService.removeAllBricksOfThisTypeFromKitById(1L, 1L);
         Kit kit = kitDao.findById(1L);
         Brick brick = brickDao.findById(1L);
-        verify(kitService).removeAllBricksOfThisTypeFromKitById(1L, 1L);*/
+        verify(kitBrickService).removeAllBricksOfThisType(kit,  brick);
+    }
+
+    @Test
+    public void testGetBrickCount() {
+        Kit kit = kitDao.findById(1L);
+        Brick brick = brickDao.findById(1L);
+        assertEquals(kitBrickService.getBrickCount(kit, brick), 2L);
+    }
+
+    @Test
+    public void testSetBrickCount() {
+        Kit kit = kitDao.findById(1L);
+        Brick brick = brickDao.findById(1L);
+        kitBrickService.setBrickCount(kit, brick, 2L);
+        assertEquals(kitBrickService.getBrickCount(kit, brick), 2L);
     }
 
     @Test

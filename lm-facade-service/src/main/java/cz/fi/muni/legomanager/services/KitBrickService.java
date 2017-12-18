@@ -7,8 +7,9 @@ import cz.fi.muni.legomanager.entity.KitBrick;
 public interface KitBrickService {
     public Long createKitBrick(Kit kit, Brick brick);
     public KitBrick findKitBrickById(long id);
-    public long getBrickCount(Kit kit, Brick brick);
     public void addBrickToKit(Kit kit, Brick brick);
     public void decreaseBrickCountByOne(Kit kit, Brick brick);
     public void removeAllBricksOfThisType(Kit kit, Brick brick);
+    public void setBrickCount(Kit kit, Brick brick, long amount);
+    public long getBrickCount(Kit kit, Brick brick);
 }
