@@ -25,6 +25,9 @@ import Category from './components/category/Category'
 import Sets from './components/sets/Sets'
 import SetCreate from './components/setCreate/SetCreate'
 import Set from './components/set/Set'
+import Kits from './components/kits/Kits'
+import KitCreate from './components/kitCreate/KitCreate'
+import Kit from './components/kit/Kit'
 
 // reducers
 import categories from './components/categories/reducer'
@@ -33,12 +36,17 @@ import sets from './components/sets/reducer'
 import set from './components/set/reducer'
 import loading from './components/loading/reducer'
 import errorToast from './components/errorToast/reducer'
+import kits from './components/kits/reducer'
+import kit from './components/kit/reducer'
 
 // data loaders
 import loadCategories from './components/categories/loader'
 import loadCategory from './components/category/loader'
 import loadSets from './components/sets/loader'
 import loadSet from './components/set/loader'
+import loadKit from './components/kit/loader'
+import loadKits from './components/kits/loader'
+
 // elements
 import NotFound from './elements/notFound/NotFound'
 import App from './App'
@@ -70,6 +78,12 @@ export const store = createStore(
     }),
     setPage: combineReducers({
       set,
+    }),
+    kitPage: combineReducers({
+      kit,
+    }),
+    kitsPage: combineReducers({
+      kits,
     })
   }),
 
@@ -96,6 +110,9 @@ render(
         <Route path="sets" onEnter={loadSets} component={Sets}/>
         <Route path="set/create" component={SetCreate}/>
         <Route path="set/:id" onEnter={loadSet} component={Set}/>
+        <Route path="kits" onEnter={loadKits} component={Kits}/>
+        <Route path="kit/create" component={KitCreate}/>
+        <Route path="kit/:id" onEnter={loadKit} component={Kit}/>
       </Route>
       <Route path="/" component={App}>
         <Route path="*" component={NotFound}/>

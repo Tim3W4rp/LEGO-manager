@@ -1,5 +1,7 @@
 package cz.fi.muni.legomanager.entity;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -30,15 +32,15 @@ public class Kit {
     private Integer ageLimit;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
 
     @NotNull
-    @OneToMany(mappedBy = "kit")
+    @OneToMany(mappedBy = "kit", cascade = CascadeType.ALL)
     private List<KitBrick> kitBricks = new ArrayList<>();
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private SetOfKits setOfKits;
 
     public Kit() {

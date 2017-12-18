@@ -148,7 +148,6 @@ public class KitsRestController {
         }
     }
 
-
     @RequestMapping(value = "/createrandom", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<KitResource> createRandomKit(@RequestBody @Valid RandomBricksDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
         log.debug("rest create random Kit()");
@@ -162,9 +161,6 @@ public class KitsRestController {
         KitResource resource = resourceAssembler.toResource(foundDTO);
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
-
-
-
 }
 
 
