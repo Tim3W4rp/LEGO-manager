@@ -2,6 +2,7 @@ package cz.fi.muni.legomanager.sampleData;
 
 import cz.fi.muni.legomanager.entity.*;
 import cz.fi.muni.legomanager.services.*;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

@@ -16,6 +16,9 @@ class Menu extends Component {
         <Link to='/sets'>
           <MenuItem>Sets of kits</MenuItem>
         </Link>
+        <Link to='/kits'>
+          <MenuItem>Kits</MenuItem>
+        </Link>
       </div>
     )
   }
