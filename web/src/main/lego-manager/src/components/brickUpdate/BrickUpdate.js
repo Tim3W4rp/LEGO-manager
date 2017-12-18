@@ -98,6 +98,7 @@ component = connect(store => ({
       red: store.brickPage.brick.dtoRed,
       green: store.brickPage.brick.dtoGreen,
       blue: store.brickPage.brick.dtoBlue,
+      id: store.brickPage.brick.id
     },
     shapes: store.shapesPage.shapes
 }), dispatch => (
