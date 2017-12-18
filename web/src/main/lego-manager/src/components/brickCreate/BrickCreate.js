@@ -5,8 +5,10 @@ import Paper from 'material-ui/Paper'
 import Divider from 'material-ui/Divider'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import {TextField} from 'redux-form-material-ui'
+import { TextField, SelectField } from 'redux-form-material-ui'
 import {Field, reduxForm} from 'redux-form'
+
+import MenuItem from 'material-ui/MenuItem';
 
 import './BrickCreate.css'
 import {addBrick} from './actions'
@@ -36,30 +38,43 @@ class BrickCreate extends Component {
                     <Field
                         className="BrickCreate-item"
                         name="shape"
-                        component={TextField}
+                        component={SelectField}
                         hintText="Shape"
-                        validate={[ required ]}/>
+                        validate={[ required ]}>
+                        {this.props.shapes.data.map((shape) => (
+                          <MenuItem value={shape} primaryText={shape.name} />
+                        ))}
+                    </Field>
 
                     <Field
                         className="BrickCreate-item"
                         name="red"
                         component={TextField}
                         hintText="Red"
-                        validate={[ required ]}/>
+                        validate={[
+                           required,
+                           number255
+                         ]}/>
 
                     <Field
                         className="BrickCreate-item"
                         name="green"
                         component={TextField}
                         hintText="Green"
-                        validate={[ required ]}/>
+                        validate={[
+                          required,
+                          number255
+                        ]}/>
 
                     <Field
                         className="BrickCreate-item"
                         name="blue"
                         component={TextField}
                         hintText="Blue"
-                        validate={[ required ]}/>
+                        validate={[
+                           required,
+                           number255
+                        ]}/>
 
                     <RaisedButton type="submit" label="Add brick" primary={true}/>
                 </form>
@@ -69,8 +84,11 @@ class BrickCreate extends Component {
 }
 
 const required = value => value ? undefined : 'Required'
+const number255 = value => (/^\d+$/).test(value) && value >= 0 && value <= 255 ? undefined : 'Number 0 - 255'
 
-let component = connect(store => ({}), dispatch => ({
+let component = connect(store => ({
+  shapes: store.shapesPage.shapes
+}), dispatch => ({
     dispatch,
 }))(BrickCreate)
 

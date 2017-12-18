@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Link from '../../elements/link/Link'
+import BrickElement from '../../elements/brick/Brick'
 import {
     Table,
     TableBody,
@@ -22,40 +23,22 @@ class Bricks extends Component {
                     <TableRow>
                         <TableHeaderColumn>ID</TableHeaderColumn>
                         <TableHeaderColumn>Shape</TableHeaderColumn>
-                        <TableHeaderColumn>Red</TableHeaderColumn>
-                        <TableHeaderColumn>Green</TableHeaderColumn>
-                        <TableHeaderColumn>Blue</TableHeaderColumn>
                     </TableRow>
                 </TableHeader>
                 <TableBody displayRowCheckbox={false} showRowHover={true}>
                     {
-                        this.props.bricks.data.map((brick) => <TableRow key={brick.id}>
-                            <TableRowColumn>
-                                <Link to={'/brick/' + brick.id}>
-                                    {brick.id}
-                                </Link>
-                            </TableRowColumn>
-                            <TableRowColumn>
-                                <Link to={'/brick/' + brick.id}>
-                                    {brick.shape}
-                                </Link>
-                            </TableRowColumn>
-                            <TableRowColumn>
-                                <Link to={'/brick/' + brick.id}>
-                                    {brick.red}
-                                </Link>
-                            </TableRowColumn>
-                            <TableRowColumn>
-                                <Link to={'/brick/' + brick.id}>
-                                    {brick.green}
-                                </Link>
-                            </TableRowColumn>
-                            <TableRowColumn>
-                                <Link to={'/brick/' + brick.id}>
-                                    {brick.blue}
-                                </Link>
-                            </TableRowColumn>
-                        </TableRow>)
+                      this.props.bricks.data.map((brick) => <TableRow key={brick.id}>
+                          <TableRowColumn>
+                              <Link to={'/brick/' + brick.id}>
+                                  {brick.id}
+                              </Link>
+                          </TableRowColumn>
+                          <TableRowColumn>
+                            <Link to={'/brick/' + brick.id}>
+                              <BrickElement size="40" color={'rgb(' + brick.dtoRed + ', ' + brick.dtoGreen + ', ' + brick.dtoBlue + ')'}/>
+                            </Link>
+                          </TableRowColumn>
+                      </TableRow>)
                     }
                 </TableBody>
             </Table>
