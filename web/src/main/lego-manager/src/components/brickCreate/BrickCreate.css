@@ -1,0 +1,18 @@
+.BrickCreate {
+    display: block;
+    margin: 10px;
+    padding: 15px;
+    min-height: 200px;
+}
+
+.BrickCreate-title {
+    margin-top: 10px;
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+.BrickCreate-item {
+    display: block !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

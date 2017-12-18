@@ -25,6 +25,9 @@ import Category from './components/category/Category'
 import Sets from './components/sets/Sets'
 import SetCreate from './components/setCreate/SetCreate'
 import Set from './components/set/Set'
+import Bricks from './components/bricks/Bricks'
+import BrickCreate from './components/brickCreate/BrickCreate'
+import Brick from './components/brick/Brick'
 import Shapes from './components/shapes/Shapes'
 import ShapeCreate from './components/shapeCreate/ShapeCreate'
 import Shape from './components/shape/Shape'
@@ -34,6 +37,8 @@ import categories from './components/categories/reducer'
 import category from './components/category/reducer'
 import sets from './components/sets/reducer'
 import set from './components/set/reducer'
+import bricks from './components/bricks/reducer'
+import brick from './components/brick/reducer'
 import shapes from './components/shapes/reducer'
 import shape from './components/shape/reducer'
 import loading from './components/loading/reducer'
@@ -44,6 +49,8 @@ import loadCategories from './components/categories/loader'
 import loadCategory from './components/category/loader'
 import loadSets from './components/sets/loader'
 import loadSet from './components/set/loader'
+import loadBricks from './components/bricks/loader'
+import loadBrick from './components/brick/loader'
 import loadShapes from './components/shapes/loader'
 import loadShape from './components/shape/loader'
 
@@ -79,6 +86,12 @@ export const store = createStore(
         setPage: combineReducers({
             set,
         }),
+        bricksPage: combineReducers({
+            bricks,
+        }),
+        brickPage: combineReducers({
+            brick,
+        }),
         shapesPage: combineReducers({
             shapes,
         }),
@@ -110,6 +123,9 @@ render(
                 <Route path="sets" onEnter={loadSets} component={Sets}/>
                 <Route path="set/create" component={SetCreate}/>
                 <Route path="set/:id" onEnter={loadSet} component={Set}/>
+                <Route path="bricks" onEnter={loadBricks} component={Bricks}/>
+                <Route path="brick/create" component={BrickCreate}/>
+                <Route path="brick/:id" onEnter={loadBrick} component={Brick}/>
                 <Route path="shapes" onEnter={loadShapes} component={Shapes}/>
                 <Route path="shape/create" component={ShapeCreate}/>
                 <Route path="shape/:id" onEnter={loadShape} component={Shape}/>
