@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {bindActionCreators} from 'redux'
+import { bindActionCreators } from 'redux'
 
 import Paper from 'material-ui/Paper'
 import Divider from 'material-ui/Divider'
@@ -9,45 +9,42 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { TextField } from 'redux-form-material-ui'
 import { Field, reduxForm } from 'redux-form'
 
-import './SetCreate.css'
 import * as actions from './actions'
+import './LoginForm.css'
 
 import Link from '../../elements/link/Link'
 
 
-class SetCreate extends Component {
+class LoginForm extends Component {
 
-  submit(values) {
-    this.props.addSet(values)
-      .then(r => (
-        Link.redirect('/set/' + r.value.data.id)
-      ))
+  submit(vals) {
+    this.props.signIn(vals)
   }
 
   render() {
     const { handleSubmit } = this.props
     return (
-      <Paper className="SetCreate" zDepth={1}>
-        <div className="SetCreate-label">Create new set</div>
+      <Paper className="LoginForm" zDepth={1}>
+        <div className="LoginForm-label">You need to sign in to see this section</div>
 
         <Divider />
 
-        <form className="SetCreate-form" onSubmit={handleSubmit(vals => this.submit(vals))}>
+        <form className="LoginForm-form" onSubmit={handleSubmit(vals => this.submit(vals))}>
           <Field
-            className="SetCreate-item"
-            name="description"
+            className="LoginForm-item"
+            name="name"
             component={TextField}
-            hintText="Description"
+            hintText="Username"
             validate={[ required ]} />
 
           <Field
-            className="SetCreate-item"
-            name="price"
+            className="LoginForm-item"
+            name="password"
             component={TextField}
-            hintText="Price"
-            multiLine={true} />
+            hintText="Password"
+            validate={[ required ]} />
 
-          <RaisedButton type="submit" label="Add set" primary={true} />
+          <RaisedButton type="submit" label="SIGN IN" primary={true} />
         </form>
       </Paper>
     )
@@ -58,12 +55,12 @@ const required = value => value ? undefined : 'Required'
 
 let component = connect(store => ({
 
-}), dispatch => bindActionCreators({
-  ...actions
-}, dispatch))(SetCreate)
+}), dispatch => (
+  bindActionCreators({ ...actions }, dispatch)
+))(LoginForm)
 
 component = reduxForm({
-  form: 'setCreate'
+  form: 'categoryCreate'
 })(component)
 
 export default component

@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+
 import Link from '../../elements/link/Link'
 import {
   Table,
@@ -14,8 +16,15 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
 import './Sets.css'
+import * as actions from './actions'
+
 
 class Sets extends Component {
+
+  componentWillMount() {
+    this.props.loadSets()
+  }
+
   render() {
     return (<div className="Sets">
       <Table selectable={false} onRowClick={this.handleClick}>
@@ -57,8 +66,9 @@ class Sets extends Component {
   }
 }
 
-const mapStateToProps = store => {
-  return {sets: store.setsPage.sets}
-}
 
-export default connect(mapStateToProps)(Sets)
+export default connect(store => ({
+  sets: store.setsPage.sets
+}), dispatch => bindActionCreators({
+  ...actions
+}, dispatch))(Sets)

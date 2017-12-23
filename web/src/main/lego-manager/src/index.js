@@ -18,6 +18,7 @@ import {Router, Route, IndexRoute, browserHistory} from 'react-router'
 import {syncHistoryWithStore, routerReducer} from 'react-router-redux'
 
 //components
+import Authentification from './components/authentification/Authentification'
 import Index from './components/index/Index'
 import Categories from './components/categories/Categories'
 import CategoryCreate from './components/categoryCreate/CategoryCreate'
@@ -25,6 +26,7 @@ import CategoryUpdate from './components/categoryUpdate/CategoryUpdate'
 import Category from './components/category/Category'
 import Sets from './components/sets/Sets'
 import SetCreate from './components/setCreate/SetCreate'
+import SetUpdate from './components/setUpdate/SetUpdate'
 import Set from './components/set/Set'
 import Bricks from './components/bricks/Bricks'
 import BrickCreate from './components/brickCreate/BrickCreate'
@@ -37,13 +39,13 @@ import Shape from './components/shape/Shape'
 import Kits from './components/kits/Kits'
 import KitCreate from './components/kitCreate/KitCreate'
 import Kit from './components/kit/Kit'
-import SetUpdate from './components/setUpdate/SetUpdate'
 
 // reducers
+import authentification from './components/authentification/reducer'
 import categories from './components/categories/reducer'
 import category from './components/category/reducer'
 import sets from './components/sets/reducer'
-import set from './components/set/reducer'
+import setReducer from './components/set/reducer'
 import bricks from './components/bricks/reducer'
 import brick from './components/brick/reducer'
 import shapes from './components/shapes/reducer'
@@ -53,20 +55,6 @@ import loading from './components/loading/reducer'
 import errorToast from './components/errorToast/reducer'
 import kits from './components/kits/reducer'
 import kit from './components/kit/reducer'
-
-// data loaders
-import loadCategories from './components/categories/loader'
-import loadCategory from './components/category/loader'
-import loadSets from './components/sets/loader'
-import loadSet from './components/set/loader'
-import loadBricks from './components/bricks/loader'
-import loadBrick from './components/brick/loader'
-import loadShapes from './components/shapes/loader'
-import loadShape from './components/shape/loader'
-import loadShapesAndBrick from './components/brickUpdate/loader'
-import loadKit from './components/kit/loader'
-import loadKits from './components/kits/loader'
-import loadSetUpdate from './components/setUpdate/loader'
 
 // elements
 import NotFound from './elements/notFound/NotFound'
@@ -88,6 +76,7 @@ export const store = createStore(
         form: reduxFormReducer,
         loading: loading,
         error: errorToast,
+        user: authentification,
         categoriesPage: combineReducers({
             categories,
         }),
@@ -98,7 +87,7 @@ export const store = createStore(
             sets,
         }),
         setPage: combineReducers({
-            set,
+            set: setReducer,
         }),
         bricksPage: combineReducers({
             bricks,
@@ -135,34 +124,36 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 // init react with store and router
 render(
-
     <Provider store={store}>
-        <Router history={history}>
-            <Route path={env.PUBLIC_URL} component={App}>
-                <IndexRoute component={Index}/>
-                <Route path="categories" onEnter={loadCategories} component={Categories}/>
-                <Route path="category/create" component={CategoryCreate}/>
-                <Route path="category/update/:id" onEnter={loadCategory} component={CategoryUpdate}/>
-                <Route path="category/:id" onEnter={loadCategory} component={Category}/>
-                <Route path="sets" onEnter={loadSets} component={Sets}/>
-                <Route path="set/create" component={SetCreate}/>
-                <Route path="set/:id" onEnter={loadSet} component={Set}/>
-                <Route path="bricks" onEnter={loadBricks} component={Bricks}/>
-                <Route path="brick/create" onEnter={loadShapes} component={BrickCreate}/>
-                <Route path="brick/update/:id" onEnter={loadShapesAndBrick} component={BrickUpdate}/>
-                <Route path="brick/:id" onEnter={loadBrick} component={Brick}/>
-                <Route path="shapes" onEnter={loadShapes} component={Shapes}/>
-                <Route path="shape/create" component={ShapeCreate}/>
-                <Route path="shape/update/:id" onEnter={loadShape} component={ShapeUpdate}/>
-                <Route path="shape/:id" onEnter={loadShape} component={Shape}/>
-                <Route path="kits" onEnter={loadKits} component={Kits}/>
-                <Route path="kit/create" component={KitCreate}/>
-                <Route path="kit/:id" onEnter={loadKit} component={Kit}/>
-            </Route>
-            <Route path="/" component={App}>
-                <Route path="*" component={NotFound}/>
-            </Route>
-        </Router>
+      <Router history={history}>
+        <Route path={env.PUBLIC_URL} component={App}>
+          <Route component={Authentification}>
+            <IndexRoute component={Index}/>
+            <Route path="categories" enter={'loadCategories'} component={Categories}/>
+            <Route path="category/create" component={CategoryCreate}/>
+            <Route path="category/update/:id" enter={'loadCategory'} component={CategoryUpdate}/>
+            <Route path="category/:id" enter={'loadCategory'} component={Category}/>
+            <Route path="sets" enter={'loadSets'} component={Sets}/>
+            <Route path="set/create" component={SetCreate}/>
+            <Route path="set/:id" enter={'loadSet'} component={Set}/>
+            <Route path="set/update/:id" enter={'loadSet'} component={SetUpdate}/>
+            <Route path="bricks" enter={'loadBricks'} component={Bricks}/>
+            <Route path="brick/create" enter={'loadShapes'} component={BrickCreate}/>
+            <Route path="brick/update/:id" enter={'loadShapesAndBrick'} component={BrickUpdate}/>
+            <Route path="brick/:id" enter={'loadBrick'} component={Brick}/>
+            <Route path="shapes" enter={'loadShapes'} component={Shapes}/>
+            <Route path="shape/create" component={ShapeCreate}/>
+            <Route path="shape/update/:id" enter={'loadShape'} component={ShapeUpdate}/>
+            <Route path="shape/:id" enter={'loadShape'} component={Shape}/>
+            <Route path="kits" enter={'loadKits'} component={Kits}/>
+            <Route path="kit/create" component={KitCreate}/>
+            <Route path="kit/:id" enter={'loadKit'} component={Kit}/>
+          </Route>
+        </Route>
+        <Route path="/" component={App}>
+          <Route path="*" component={NotFound}/>
+        </Route>
+      </Router>
     </Provider>,
     document.getElementById('root')
 

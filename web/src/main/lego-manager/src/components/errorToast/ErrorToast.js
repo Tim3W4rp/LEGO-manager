@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import {bindActionCreators} from 'redux'
 
 import Snackbar from 'material-ui/Snackbar';
 
-import { toggleToast } from './actions'
+import  * as actions from './actions'
 
 import './ErrorToast.css';
 
@@ -21,12 +22,12 @@ class ErrorToast extends Component {
   }
 
   closeToast() {
-    this.props.dispatch(toggleToast(false))
+    this.props.toggleToast(false)
   }
 }
 
 export default connect(store => ({
   error: store.error
-}), dispatch => ({
-  dispatch
-}))(ErrorToast)
+}), dispatch => bindActionCreators({
+  ...actions
+}, dispatch))(ErrorToast)

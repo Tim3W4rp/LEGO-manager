@@ -6,6 +6,8 @@ import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.BrickResource;
 import cz.muni.fi.legomanager.hateoas.BrickResourceAssembler;
+import cz.muni.fi.legomanager.security.ApplyAuthorizeFilter;
+import cz.muni.fi.legomanager.security.SecurityLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @RestController
 @ExposesResourceFor(BrickDTO.class)
 @RequestMapping("/bricks")
-@CrossOrigin(origins = "http://localhost:3000") // for development mode
 public class BricksRestController {
 
     private final static Logger log = LoggerFactory.getLogger(BricksRestController.class);
@@ -59,6 +60,7 @@ public class BricksRestController {
      *
      * @return list of bricks
      */
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.EMPLOYEE)
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<BrickResource>> bricks() {
         log.debug("rest sets()");
@@ -77,6 +79,7 @@ public class BricksRestController {
      * @return detail
      * @throws Exception if not found
      */
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.EMPLOYEE)
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<BrickResource> brick(@PathVariable("id") long id) throws Exception {
         log.debug("rest set({})", id);
@@ -86,6 +89,7 @@ public class BricksRestController {
         return new HttpEntity<>(resource);
     }
 
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<BrickResource> createBrick(@RequestBody @Valid BrickCreateDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
         log.debug("rest createBrick()");
@@ -100,6 +104,7 @@ public class BricksRestController {
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void deleteBrick(@PathVariable("id") long id) throws Exception {
         log.debug("rest deleteSet({})", id);
@@ -114,6 +119,7 @@ public class BricksRestController {
         }
     }
 
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     public final BrickDTO changeBrick(@PathVariable("id") long id, @RequestBody @Valid BrickDTO updatedDTO) throws Exception {
         log.debug("rest change Set({})", id);

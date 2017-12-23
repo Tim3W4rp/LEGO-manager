@@ -8,14 +8,21 @@ export const backendUrl =
 
 const client = axios.create({
   baseURL: backendUrl,
-  withCredentials: true,
   headers: {
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
-    }
+    'Accept': 'application/json, text/plain, */*',
+    'Content-Type': 'application/json',
   },
 })
+
+client.interceptors.request.use(function(config) {
+  try {
+    let token = store.getState().user.token
+    config.headers.Authorization = `Bearer ${token}`
+    return config
+  } catch (e) {
+    return config
+  }
+}, null);
 
 client.interceptors.response.use(null, function(err) {
   store.dispatch({

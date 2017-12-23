@@ -6,6 +6,8 @@ import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.CategoryResource;
 import cz.muni.fi.legomanager.hateoas.CategoryResourceAssembler;
+import cz.muni.fi.legomanager.security.ApplyAuthorizeFilter;
+import cz.muni.fi.legomanager.security.SecurityLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @RestController
 @ExposesResourceFor(CategoryDTO.class)
 @RequestMapping("/categories")
-@CrossOrigin(origins = "http://localhost:3000") // for development mode
 public class CategoriesRestController {
 
     private final static Logger log = LoggerFactory.getLogger(CategoriesRestController.class);
@@ -59,6 +60,7 @@ public class CategoriesRestController {
      *
      * @return list of categories
      */
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.EMPLOYEE)
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<CategoryResource>> categories() {
         log.debug("rest cats()");
@@ -77,6 +79,7 @@ public class CategoriesRestController {
      * @return category detail
      * @throws Exception if category not found
      */
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.EMPLOYEE)
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<CategoryResource> category(@PathVariable("id") long id) throws Exception {
         log.debug("rest cat({})", id);
@@ -86,6 +89,7 @@ public class CategoriesRestController {
         return new HttpEntity<>(resource);
     }
 
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<CategoryResource> createCategory(@RequestBody @Valid CategoryDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
         log.debug("rest createCategory()");
@@ -100,7 +104,7 @@ public class CategoriesRestController {
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
-
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void deleteCategory(@PathVariable("id") long id) throws Exception {
         log.debug("rest deleteCat({})", id);
@@ -115,6 +119,7 @@ public class CategoriesRestController {
         }
     }
 
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
     public final CategoryDTO changeCategory(@PathVariable("id") long id, @RequestBody @Valid CategoryDTO updatedDTO) throws Exception {
         log.debug("rest change Cat({})", id);

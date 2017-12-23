@@ -9,13 +9,19 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { TextField } from 'redux-form-material-ui'
 import { Field, reduxForm } from 'redux-form'
 
-import * as UpdateActions from './actions'
+import * as actions from './actions'
+import {loadCategory} from '../category/actions'
+
 import './CategoryUpdate.css'
 
 import Link from '../../elements/link/Link'
 
 
 class CategoryUpdate extends Component {
+
+  componentWillMount() {
+    this.props.loadCategory(this.props.routeParams.id)
+  }
 
   submit(values) {
     this.props.updateCategory(values)
@@ -63,8 +69,8 @@ let component = reduxForm({
 
 component = connect(store => ({
   initialValues: store.categoryPage.category
-}), dispatch => (
-  bindActionCreators({ ...UpdateActions }, dispatch)
-))(component)
+}), dispatch => bindActionCreators({
+  ...actions, loadCategory
+}, dispatch))(component)
 
 export default component

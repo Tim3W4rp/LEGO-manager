@@ -19,6 +19,11 @@ import {
 import './Category.css'
 
 class Category extends Component {
+
+  componentWillMount() {
+    this.props.loadCategory(this.props.routeParams.id)
+  }
+
   delete() {
     this.props.deleteCategory(this.props.category.id)
       .then(r => (

@@ -7,42 +7,37 @@ import Paper from 'material-ui/Paper'
 import Divider from 'material-ui/Divider'
 import BrickElement from '../../elements/brick/Brick'
 import RaisedButton from 'material-ui/RaisedButton';
-import * as BrickActions from './actions'
-
+import * as actions from './actions'
 
 import './Brick.css'
 
 class Brick extends Component {
-    delete() {
-        this.props.deleteBrick(this.props.brick.id)
-            .then(r => (
-                Link.redirect('/bricks/')
-            ))
-    }
 
-    render() {
-        let brick = this.props.brick
-        return (
-            <Paper className="Brick" zDepth={1}>
-                <div className="Brick-label">Brick {brick.id}</div>
-                <Divider/>
-                <BrickElement size="40"
-                              color={'rgb(' + brick.dtoRed + ', ' + brick.dtoGreen + ', ' + brick.dtoBlue + ')'}/>
-                <Link to={'/brick/update/' + this.props.brick.id}>
-                    <RaisedButton
-                        className="Brick-update">Update</RaisedButton>
-                </Link>
+  componentWillMount() {
+    this.props.loadBrick(this.props.routeParams.id)
+  }
 
-                <RaisedButton
-                    className="Brick-delete"
-                    onClick={e => this.delete()}>Delete</RaisedButton>
-            </Paper>
-        )
-    }
+  delete() {
+    this.props.deleteBrick(this.props.brick.id).then(r => (Link.redirect('/bricks/')))
+  }
+
+  render() {
+    let brick = this.props.brick
+    return (<Paper className="Brick" zDepth={1}>
+      <div className="Brick-label">Brick {brick.id}</div>
+      <Divider/>
+      <BrickElement size="40" color={'rgb(' + brick.dtoRed + ', ' + brick.dtoGreen + ', ' + brick.dtoBlue + ')'}/>
+      <Link to={'/brick/update/' + this.props.brick.id}>
+        <RaisedButton className="Brick-update">Update</RaisedButton>
+      </Link>
+
+      <RaisedButton className="Brick-delete" onClick={e => this.delete()}>Delete</RaisedButton>
+    </Paper>)
+  }
 }
 
 export default connect(store => ({
-    brick: store.brickPage.brick
-}), dispatch => (
-    bindActionCreators({...BrickActions}, dispatch)
-))(Brick)
+  brick: store.brickPage.brick
+}), dispatch => (bindActionCreators({
+  ...actions
+}, dispatch)))(Brick)
