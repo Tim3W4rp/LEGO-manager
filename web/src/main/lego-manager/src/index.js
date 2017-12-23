@@ -59,102 +59,70 @@ import kit from './components/kit/reducer'
 // elements
 import NotFound from './elements/notFound/NotFound'
 import App from './App'
+import Theme from './Theme'
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin()
 
-const composeEnhancers =
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 // create store
-export const store = createStore(
-    combineReducers({
-        browser: responsiveStateReducer,
-        responsiveDrawer: responsiveDrawer,
-        routing: routerReducer,
-        form: reduxFormReducer,
-        loading: loading,
-        error: errorToast,
-        user: authentification,
-        categoriesPage: combineReducers({
-            categories,
-        }),
-        categoryPage: combineReducers({
-            category,
-        }),
-        setsPage: combineReducers({
-            sets,
-        }),
-        setPage: combineReducers({
-            set: setReducer,
-        }),
-        bricksPage: combineReducers({
-            bricks,
-        }),
-        brickPage: combineReducers({
-            brick,
-        }),
-        shapesPage: combineReducers({
-            shapes,
-        }),
-        shapePage: combineReducers({
-            shape,
-        }),
-        kitPage: combineReducers({
-          kit,
-        }),
-        kitsPage: combineReducers({
-          kits,
-        }),
-        setUpdatePage: combineReducers({
-          setUpdate,
-        })
-      }),
-    composeEnhancers(
-        applyMiddleware(
-            promiseMiddleware()
-        ),
-        responsiveStoreEnhancer
-    )
-)
+export const store = createStore(combineReducers({
+  browser: responsiveStateReducer,
+  responsiveDrawer: responsiveDrawer,
+  routing: routerReducer,
+  form: reduxFormReducer,
+  loading: loading,
+  error: errorToast,
+  user: authentification,
+  categoriesPage: combineReducers({categories}),
+  categoryPage: combineReducers({category}),
+  setsPage: combineReducers({sets}),
+  setPage: combineReducers({set: setReducer}),
+  bricksPage: combineReducers({bricks}),
+  brickPage: combineReducers({brick}),
+  shapesPage: combineReducers({shapes}),
+  shapePage: combineReducers({shape}),
+  kitPage: combineReducers({kit}),
+  kitsPage: combineReducers({kits}),
+  setUpdatePage: combineReducers({setUpdate})
+}), composeEnhancers(applyMiddleware(promiseMiddleware()), responsiveStoreEnhancer))
 
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store)
 
 // init react with store and router
-render(
-    <Provider store={store}>
-      <Router history={history}>
+render(<Theme>
+  <Provider store={store}>
+    <Router history={history}>
+      <Route component={Authentification}>
         <Route path={env.PUBLIC_URL} component={App}>
-          <Route component={Authentification}>
-            <IndexRoute component={Index}/>
-            <Route path="categories" enter={'loadCategories'} component={Categories}/>
-            <Route path="category/create" component={CategoryCreate}/>
-            <Route path="category/update/:id" enter={'loadCategory'} component={CategoryUpdate}/>
-            <Route path="category/:id" enter={'loadCategory'} component={Category}/>
-            <Route path="sets" enter={'loadSets'} component={Sets}/>
-            <Route path="set/create" component={SetCreate}/>
-            <Route path="set/:id" enter={'loadSet'} component={Set}/>
-            <Route path="set/update/:id" enter={'loadSet'} component={SetUpdate}/>
-            <Route path="bricks" enter={'loadBricks'} component={Bricks}/>
-            <Route path="brick/create" enter={'loadShapes'} component={BrickCreate}/>
-            <Route path="brick/update/:id" enter={'loadShapesAndBrick'} component={BrickUpdate}/>
-            <Route path="brick/:id" enter={'loadBrick'} component={Brick}/>
-            <Route path="shapes" enter={'loadShapes'} component={Shapes}/>
-            <Route path="shape/create" component={ShapeCreate}/>
-            <Route path="shape/update/:id" enter={'loadShape'} component={ShapeUpdate}/>
-            <Route path="shape/:id" enter={'loadShape'} component={Shape}/>
-            <Route path="kits" enter={'loadKits'} component={Kits}/>
-            <Route path="kit/create" component={KitCreate}/>
-            <Route path="kit/:id" enter={'loadKit'} component={Kit}/>
-          </Route>
+          <IndexRoute component={Index}/>
+          <Route path="categories" component={Categories}/>
+          <Route path="category/create" component={CategoryCreate}/>
+          <Route path="category/update/:id" component={CategoryUpdate}/>
+          <Route path="category/:id" component={Category}/>
+          <Route path="sets" component={Sets}/>
+          <Route path="set/create" component={SetCreate}/>
+          <Route path="set/:id" component={Set}/>
+          <Route path="set/update/:id" component={SetUpdate}/>
+          <Route path="bricks" component={Bricks}/>
+          <Route path="brick/create" component={BrickCreate}/>
+          <Route path="brick/update/:id" component={BrickUpdate}/>
+          <Route path="brick/:id" component={Brick}/>
+          <Route path="shapes" component={Shapes}/>
+          <Route path="shape/create" component={ShapeCreate}/>
+          <Route path="shape/update/:id" component={ShapeUpdate}/>
+          <Route path="shape/:id" component={Shape}/>
+          <Route path="kits" component={Kits}/>
+          <Route path="kit/create" component={KitCreate}/>
+          <Route path="kit/:id" component={Kit}/>
         </Route>
         <Route path="/" component={App}>
           <Route path="*" component={NotFound}/>
         </Route>
-      </Router>
-    </Provider>,
-    document.getElementById('root')
-
-)
+      </Route>
+    </Router>
+  </Provider>
+</Theme>, document.getElementById('root'))

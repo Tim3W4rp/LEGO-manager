@@ -18,6 +18,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -95,11 +96,17 @@ public class CategoriesRestController {
         log.debug("rest createCategory()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException("Failed validation");
+            throw new InvalidRequestException(bindingResult.toString());
         }
-        Long id = facade.createCategory(paramDTOCreate);
-        CategoryDTO foundDTO = facade.getCategoryById(id);
+        Long id;
+        try {
+            id = facade.createCategory(paramDTOCreate);
+        } catch (JpaSystemException ex) {
+            log.error("Category with this name already exists");
+            throw new InvalidRequestException("Category with this name already exists");
+        }
 
+        CategoryDTO foundDTO = facade.getCategoryById(id);
         CategoryResource resource = resourceAssembler.toResource(foundDTO);
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
@@ -111,26 +118,32 @@ public class CategoriesRestController {
         try {
             facade.removeCategory(id);
         } catch (IllegalArgumentException ex) {
-            log.error("cat " + id + " not found");
-            throw new ResourceNotFoundException("cat " + id + " not found");
-        } catch (Throwable ex) {
-            log.error("cannot delete cat " + id + " :" + ex.getMessage());
-            throw new ResourceNotFoundException("Unable to delete non existing item");
+            log.error("category " + id + " not found");
+            throw new ResourceNotFoundException("category " + id + " not found");
+        } catch(JpaSystemException ex) {
+            log.error("Category is not empty");
+            throw new InvalidRequestException("Category is not empty");
         }
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public final CategoryDTO changeCategory(@PathVariable("id") long id, @RequestBody @Valid CategoryDTO updatedDTO) throws Exception {
+    public final CategoryDTO changeCategory(@PathVariable("id") long id, @RequestBody @Valid CategoryDTO updatedDTO, BindingResult bindingResult) throws Exception {
         log.debug("rest change Cat({})", id);
+        if (bindingResult.hasErrors()) {
+            log.error("failed validation {}", bindingResult.toString());
+            throw new InvalidRequestException(bindingResult.toString());
+        }
 
         try {
             updatedDTO.setId(id);
             facade.updateCategory(updatedDTO);
-            return facade.getCategoryById(id);
-        } catch (Exception ex) {
-            throw new ResourceNotFoundException("Unable to update cat");
+        } catch (JpaSystemException ex) {
+            log.error("Category with this name already exists");
+            throw new InvalidRequestException("Category with this name already exists");
         }
+        return facade.getCategoryById(id);
+
     }
 
 
