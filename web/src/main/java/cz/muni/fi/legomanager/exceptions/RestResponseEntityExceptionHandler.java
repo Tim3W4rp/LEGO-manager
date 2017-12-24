@@ -78,6 +78,22 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     }
 
     @ResponseBody
+    @ExceptionHandler(value = { FormException.class })
+    protected ResponseEntity<Object> formValidation(FormException ex, WebRequest request) {
+        return handleExceptionInternal(
+                ex,
+                new FormValidationResource(
+                        "FormValidationError",
+                        ex.getMessage(),
+                        ex.getResult()
+                ),
+                new HttpHeaders(),
+                HttpStatus.UNPROCESSABLE_ENTITY,
+                request
+        );
+    }
+
+    @ResponseBody
     @ExceptionHandler
     protected ResponseEntity<Object> generalException(RuntimeException ex, WebRequest request) {
         return handleExceptionInternal(

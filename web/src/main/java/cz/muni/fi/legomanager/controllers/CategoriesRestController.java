@@ -2,6 +2,7 @@ package cz.muni.fi.legomanager.controllers;
 
 import cz.fi.muni.legomanager.dto.*;
 import cz.fi.muni.legomanager.facade.CategoryFacade;
+import cz.muni.fi.legomanager.exceptions.FormException;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.CategoryResource;
@@ -96,7 +97,7 @@ public class CategoriesRestController {
         log.debug("rest createCategory()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException(bindingResult.toString());
+            throw new FormException("Validation failed", bindingResult);
         }
         Long id;
         try {
@@ -132,7 +133,7 @@ public class CategoriesRestController {
         log.debug("rest change Cat({})", id);
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException(bindingResult.toString());
+            throw new FormException("Validation failed", bindingResult);
         }
 
         try {

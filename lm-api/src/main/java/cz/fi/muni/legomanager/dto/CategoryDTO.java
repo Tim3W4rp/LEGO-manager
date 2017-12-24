@@ -1,10 +1,15 @@
 package cz.fi.muni.legomanager.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDTO {
     private Long id;
+
+    @NotNull
+    @Size(min = 1)
     private String name;
     private String description;
     private List<KitSimpleDTO> kits = new ArrayList<>();

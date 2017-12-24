@@ -31,10 +31,6 @@ public class CategoryDaoImpl implements CategoryDao {
             throw new InvalidDataAccessApiUsageException("Name cannot be null");
         }
 
-        if (category.getDescription() == null) {
-            throw new InvalidDataAccessApiUsageException("Description cannot be null");
-        }
-
         em.persist(category);
     }
 
