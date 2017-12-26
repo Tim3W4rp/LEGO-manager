@@ -1,0 +1,33 @@
+.LoginForm-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.LoginForm {
+  margin-top: 20px;
+  display: block;
+  align-items: center;
+  padding: 15px;
+}
+
+.LoginForm-title {
+  display: flex;
+  margin-top: 10px;
+  font-size: 27px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.LoginForm-title > div {
+  margin-left: 15px;
+}
+
+.LoginForm-item {
+  display: block !important;
+  margin-top: 10px;
+}
+
+.LoginForm-login {
+  margin-top: 20px;
+}

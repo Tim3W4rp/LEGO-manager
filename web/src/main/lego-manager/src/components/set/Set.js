@@ -1,18 +1,24 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import {bindActionCreators} from 'redux'
+
 import Link from '../../elements/link/Link'
 
 import Paper from 'material-ui/Paper'
 import Divider from 'material-ui/Divider'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { removeSet } from './actions'
-
+import * as actions from './actions'
 import './Set.css'
 
 class Set extends Component {
+
+  componentWillMount() {
+    this.props.loadSet(this.props.routeParams.id)
+  }
+
   submit(id) {
-    this.props.dispatch(removeSet(id))
+    this.props.removeSet(id)
       .then(r => (
         Link.redirect('/sets')
       ))
@@ -25,22 +31,21 @@ class Set extends Component {
 
         <form className="SetCreate-form" onSubmit={vals => handleSubmit(this.submit(this.props.set.id))}>
           <Link to={'/set/update/' + this.props.set.id}>
-            <RaisedButton primary={true}
-              className="Set-update">Update set</RaisedButton>
+            <RaisedButton className="Set-update">Update</RaisedButton>
           </Link>
-          <RaisedButton type="submit" label="Remove set" primary={true} />
+          <RaisedButton className="Set-delete">Delete</RaisedButton>
         </form>
         <div className="Set-label">Set {this.props.set.id}</div>
         <Divider />
         <div className="Set-title">{this.props.set.description}</div>
-        <div className="Set-description">{this.props.set.price}</div>
+        <div className="Set-description">Price: {this.props.set.price}</div>
       </Paper>
     )
   }
 }
 
-const mapStateToProps = store => {
-  return {set: store.setPage.set}
-}
-
-export default connect(mapStateToProps)(Set)
+export default connect(store => ({
+  set: store.setPage.set
+}), dispatch => bindActionCreators({
+  ...actions
+}, dispatch))(Set)

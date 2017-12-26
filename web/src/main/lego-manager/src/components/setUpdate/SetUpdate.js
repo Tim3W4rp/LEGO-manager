@@ -9,13 +9,18 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { TextField } from 'redux-form-material-ui'
 import { Field, reduxForm } from 'redux-form'
 
-import * as UpdateActions from './actions'
+import * as actions from './actions'
+import {loadSet} from '../set/actions'
 import './SetUpdate.css'
 
 import Link from '../../elements/link/Link'
 
 
 class SetUpdate extends Component {
+
+  componentWillMount() {
+    this.props.loadSet(this.props.routeParams.id)
+  }
 
   submit(values) {
     this.props.updateSet(values)
@@ -64,7 +69,7 @@ let component = reduxForm({
 component = connect(store => ({
   initialValues: store.setPage.set
 }), dispatch => (
-  bindActionCreators({ ...UpdateActions }, dispatch)
+  bindActionCreators({ ...actions, loadSet}, dispatch)
 ))(component)
 
 export default component

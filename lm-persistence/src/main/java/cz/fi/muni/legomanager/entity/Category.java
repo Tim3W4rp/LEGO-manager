@@ -20,8 +20,7 @@ public class Category {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @NotNull
-    @Column(nullable = false)
+    @Column
     private String description;
 
     @NotNull

@@ -1,4 +1,4 @@
-const reducer = (state = [], action) => {
+const reducer = (state = {}, action) => {
   // reveal if action is one of async actions
   let async_action = parse_async_action(action.type)
 
@@ -21,7 +21,7 @@ const reducer = (state = [], action) => {
     case 'FULFILLED':
     case 'REJECTED':
       tmpObject[async_action.name] -= 1
-      return {...state, tmpObject}
+      return {...state, ...tmpObject}
 
     default:
       return state

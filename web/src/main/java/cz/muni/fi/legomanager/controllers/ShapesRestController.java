@@ -7,6 +7,8 @@ import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.ShapeResource;
 import cz.muni.fi.legomanager.hateoas.ShapeResourceAssembler;
+import cz.muni.fi.legomanager.security.ApplyAuthorizeFilter;
+import cz.muni.fi.legomanager.security.SecurityLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @RestController
 @ExposesResourceFor(ShapeDTO.class)
 @RequestMapping("/shapes")
-@CrossOrigin(origins = "http://localhost:3000") // for development mode
 public class ShapesRestController {
 
     private final static Logger log = LoggerFactory.getLogger(ShapesRestController.class);
@@ -72,6 +73,7 @@ public class ShapesRestController {
      *
      * @return list of shapes
      */
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.EMPLOYEE)
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<ShapeResource>> shapes() {
         log.debug("rest shapes()");
@@ -90,6 +92,7 @@ public class ShapesRestController {
      * @return shape detail
      * @throws ResourceNotFoundException if shape not found
      */
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.EMPLOYEE)
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<ShapeResource> shape(@PathVariable("id") long id) throws ResourceNotFoundException {
         log.debug("rest shape({})", id);
@@ -99,6 +102,7 @@ public class ShapesRestController {
         return new HttpEntity<>(shapeResource);
     }
 
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<ShapeResource> createShape(@RequestBody @Valid ShapeCreateDTO shapeCreateDTO, BindingResult bindingResult) throws ResourceNotFoundException {
         log.debug("rest createShape()");
@@ -114,6 +118,7 @@ public class ShapesRestController {
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void deleteShape(@PathVariable("id") long id) throws Exception {
         log.debug("rest deleteShape({})", id);
@@ -128,6 +133,7 @@ public class ShapesRestController {
         }
     }
 
+    @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public final ShapeDTO changeShape(@PathVariable("id") long id, @RequestBody @Valid ShapeDTO updatedShape) throws Exception {
         log.debug("rest change Shape({})", id);

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import cz.fi.muni.legomanager.sampleData.SampleDataLoadingFacade;
+import cz.muni.fi.legomanager.security.AuthorizationHandlerInterceptor;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.annotation.PostConstruct;
@@ -84,6 +86,12 @@ public class RestSpringMvcConfig extends WebMvcConfigurerAdapter {
     @PostConstruct
     public void dataLoading() throws IOException {
         sampleDataLoadingFacade.loadData();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new OriginInceptor());
+        registry.addInterceptor(new AuthorizationHandlerInterceptor());
     }
 
 

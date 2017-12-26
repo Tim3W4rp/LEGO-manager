@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import {bindActionCreators} from 'redux'
 
 import Paper from 'material-ui/Paper'
 import Divider from 'material-ui/Divider'
@@ -9,7 +10,7 @@ import { TextField } from 'redux-form-material-ui'
 import { Field, reduxForm } from 'redux-form'
 
 import './SetCreate.css'
-import { addSet } from './actions'
+import * as actions from './actions'
 
 import Link from '../../elements/link/Link'
 
@@ -17,7 +18,7 @@ import Link from '../../elements/link/Link'
 class SetCreate extends Component {
 
   submit(values) {
-    this.props.dispatch(addSet(values))
+    this.props.addSet(values)
       .then(r => (
         Link.redirect('/set/' + r.value.data.id)
       ))
@@ -57,9 +58,9 @@ const required = value => value ? undefined : 'Required'
 
 let component = connect(store => ({
 
-}), dispatch => ({
-  dispatch,
-}))(SetCreate)
+}), dispatch => bindActionCreators({
+  ...actions
+}, dispatch))(SetCreate)
 
 component = reduxForm({
   form: 'setCreate'

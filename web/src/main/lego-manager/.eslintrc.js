@@ -18,10 +18,7 @@ module.exports = {
     "rules": {
         "accessor-pairs": "error",
         "array-bracket-newline": "error",
-        "array-bracket-spacing": [
-            "error",
-            "always"
-        ],
+        "array-bracket-spacing": "off",
         "array-callback-return": "error",
         "array-element-newline": 0,
         "arrow-body-style": "off",
@@ -126,7 +123,7 @@ module.exports = {
         "max-lines": "error",
         "max-nested-callbacks": "error",
         "max-params": "error",
-        "max-statements": "error",
+        "max-statements": "off",
         "max-statements-per-line": "error",
         "multiline-comment-style": [
             "error",
@@ -150,7 +147,7 @@ module.exports = {
         "no-console": "off",
         "no-div-regex": "error",
         "no-duplicate-imports": "error",
-        "no-else-return": "error",
+        "no-else-return": "off",
         "no-empty-function": "off",
         "no-eq-null": "error",
         "no-eval": "error",

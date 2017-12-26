@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import {bindActionCreators} from 'redux'
 
 import Paper from 'material-ui/Paper'
 import Divider from 'material-ui/Divider'
@@ -9,15 +10,14 @@ import { TextField } from 'redux-form-material-ui'
 import { Field, reduxForm } from 'redux-form'
 
 import './KitCreate.css'
-import { addKit } from './actions'
+import * as actions from './actions'
 
 import Link from '../../elements/link/Link'
 
 
 class KitCreate extends Component {
-
   submit(values) {
-    this.props.dispatch(addKit(values))
+    this.props.addKit(values)
       .then(r => (
         Link.redirect('/kit/' + r.value.data.id)
       ))
@@ -71,9 +71,9 @@ const required = value => value ? undefined : 'Required'
 
 let component = connect(store => ({
 
-}), dispatch => ({
-  dispatch,
-}))(KitCreate)
+}), dispatch => bindActionCreators({
+  ...actions
+}, dispatch))(KitCreate)
 
 component = reduxForm({
   form: 'kitCreate'

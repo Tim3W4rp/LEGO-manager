@@ -1,9 +1,17 @@
 import client from '../../client'
 
-export const deleteShape = (shapeId) => ({
-    type: 'ADD_SHAPE',
-    payload: client({
-        url: '/shapes/' + shapeId,
-        method: 'DELETE',
-    })
+export const loadShape = (id) => ({
+  type: 'FETCH_SHAPE',
+  payload: client({
+    url: '/shapes/' + id,
+    method: 'GET',
+  })
+})
+
+export const deleteShape = (id) => ({
+  type: 'ADD_SHAPE',
+  payload: client({
+    url: '/shapes/' + id,
+    method: 'DELETE',
+  })
 })

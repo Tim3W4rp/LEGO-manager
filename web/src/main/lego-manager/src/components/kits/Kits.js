@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+
 import Link from '../../elements/link/Link'
 import {
   Table,
@@ -13,8 +15,14 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
 import './Kits.css'
+import * as actions from './actions'
 
 class Kits extends Component {
+
+  componentWillMount() {
+    this.props.loadKits()
+  }
+
   render() {
     return (<div className="Kits">
       <Table selectable={false} onRowClick={this.handleClick}>
@@ -68,8 +76,8 @@ class Kits extends Component {
   }
 }
 
-const mapStateToProps = store => {
-  return {kits: store.kitsPage.kits}
-}
-
-export default connect(mapStateToProps)(Kits)
+export default connect(store => ({
+  kits: store.kitsPage.kits
+}), dispatch => bindActionCreators({
+  ...actions
+}, dispatch))(Kits)
