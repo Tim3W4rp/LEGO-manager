@@ -1,7 +1,6 @@
 package cz.fi.muni.legomanager.dto;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,27 +12,28 @@ import java.util.Objects;
 public class RandomBricksDTO {
 
     private List<BrickDTO> bricks = new ArrayList<>();
-    private List<Long> counts = new ArrayList<>();
-    private Long min;
-    private Long max;
+    private int min;
+    private int max;
 
-    public void setMin(Long value) { min = value; }
-    public Long getMin() { return min; }
-
-    public void setMax(Long value) { max = value; }
-    public Long getMax() { return max; }
-
-    public List<Long> getCounts() { return counts; }
-
-    public void addCounts(Long value) {
-        counts.add(value);
+    public void setMin(int value) {
+        min = value;
     }
 
-    public void removeCounts(Long value) {
-        counts.remove(value);
+    public int getMin() {
+        return min;
     }
 
-    public List<BrickDTO> getBricks() { return bricks; }
+    public void setMax(int value) {
+        max = value;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public List<BrickDTO> getBricks() {
+        return bricks;
+    }
 
     public void addBrick(BrickDTO brick) {
         bricks.add(brick);
@@ -43,23 +43,19 @@ public class RandomBricksDTO {
         bricks.remove(brick);
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RandomBricksDTO)) return false;
         RandomBricksDTO brickDTO = (RandomBricksDTO) o;
-        boolean equality = bricks.size() == brickDTO.bricks.size() &&
-                counts.size() == brickDTO.counts.size() &&
-                min == brickDTO.min && max == brickDTO.max;
 
-        return equality;
+        return bricks.size() == brickDTO.bricks.size() &&
+                min == brickDTO.min && max == brickDTO.max;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(min, max, bricks, counts);
+        return Objects.hash(min, max, bricks);
     }
 
     @Override

@@ -31,7 +31,6 @@ import java.util.List;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
- *
  * @author Michal Peška
  */
 
@@ -99,7 +98,7 @@ public class KitsRestController {
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<KitResource> createKit(@RequestBody @Valid KitCreateDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
         log.debug("rest createKit()");
         if (bindingResult.hasErrors()) {
@@ -129,7 +128,7 @@ public class KitsRestController {
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
-    @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public final KitDTO changeKit(@PathVariable("id") long id, @RequestBody @Valid KitDTO updatedDTO) throws Exception {
         log.debug("rest change kit({})", id);
 
@@ -158,15 +157,14 @@ public class KitsRestController {
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
-    @RequestMapping(value = "/createrandom", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/createrandom", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<KitResource> createRandomKit(@RequestBody @Valid RandomBricksDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
         log.debug("rest create random Kit()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
             throw new InvalidRequestException("Failed validation");
         }
-        Long id = facade.createRandomKitByRules(paramDTOCreate.getMin(), paramDTOCreate.getMax(), paramDTOCreate.getBricks(), paramDTOCreate.getCounts());
-        KitDTO foundDTO = facade.findKitById(id);
+        KitDTO foundDTO = facade.createRandomKitByRules(paramDTOCreate.getMin(), paramDTOCreate.getMax(), paramDTOCreate.getBricks());
 
         KitResource resource = resourceAssembler.toResource(foundDTO);
         return new ResponseEntity<>(resource, HttpStatus.OK);

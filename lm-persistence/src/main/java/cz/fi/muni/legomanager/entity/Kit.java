@@ -1,7 +1,5 @@
 package cz.fi.muni.legomanager.entity;
 
-import org.hibernate.Hibernate;
-
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -40,7 +38,6 @@ public class Kit {
     @OneToMany(mappedBy = "kit", cascade = CascadeType.ALL)
     private List<KitBrick> kitBricks = new ArrayList<>();
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     private SetOfKits setOfKits;
 
@@ -66,11 +63,15 @@ public class Kit {
     }
 
     public List<KitBrick> getKitBricks() {
-        return kitBricks;
+        return Collections.unmodifiableList(kitBricks);
     }
 
-    public void setKitBricks(List<KitBrick> kitBricks) {
-        this.kitBricks = kitBricks;
+    public void addKitBrick(KitBrick kitBrick) {
+        kitBricks.add(kitBrick);
+    }
+
+    public void removeKitBrick(KitBrick kitBrick) {
+        kitBricks.remove(kitBrick);
     }
 
     public String getDescription() {
