@@ -170,7 +170,7 @@ public class SampleDataLoadingFacade {
         return b;
     }
 
-    private void brickToKit(Kit kit, Brick brick, long amount) {
+    private void brickToKit(Kit kit, Brick brick, int amount) {
         kitBrickService.createKitBrick(kit, brick);
         kitBrickService.addBrickToKit(kit, brick);
         kitBrickService.setBrickCount(kit, brick, amount);

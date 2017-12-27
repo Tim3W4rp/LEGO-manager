@@ -1,12 +1,15 @@
 package cz.fi.muni.legomanager.services;
 
 import cz.fi.muni.legomanager.config.ServiceConfigurationContext;
+import cz.fi.muni.legomanager.dao.BrickDao;
+import cz.fi.muni.legomanager.dao.CategoryDao;
 import cz.fi.muni.legomanager.dao.KitDao;
 import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.entity.Kit;
 import cz.fi.muni.legomanager.entity.KitBrick;
 import cz.fi.muni.legomanager.entity.SetOfKits;
+import cz.fi.muni.legomanager.entity.Shape;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,10 +43,10 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
     private KitDao kitDao;
 
     @Mock
-    private BrickService brickService;
+    private BrickDao brickDao;
 
     @Mock
-    private CategoryService categoryService;
+    private CategoryDao categoryDao;
 
     @Mock
     private SetOfKits setOfKits;
@@ -93,8 +97,8 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
         when(kitBrick.getKit()).thenReturn(kit);
         when(setOfKits.getKits()).thenReturn(kitsInSet);
 
-        when(brickService.findById(1L)).thenReturn(brick);
-        when(categoryService.getCategory(1L)).thenReturn(category);
+        when(brickDao.findById(1L)).thenReturn(brick);
+        when(categoryDao.findById(1L)).thenReturn(category);
         when(kitDao.findById(1L)).thenReturn(kit);
         when(kitDao.findAll()).thenReturn(allKits);
 
@@ -141,7 +145,7 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
     public void testAddBrickToKitById() {
         kitService.addBrickToKitById(1L, 1L);
         Kit kit = kitDao.findById(1L);
-        Brick brick = brickService.findById(1L);
+        Brick brick = brickDao.findById(1L);
         verify(kitBrickService).addBrickToKit(kit, brick);
     }
 
@@ -149,7 +153,7 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
     public void testRemoveOneBrickFromKitById() {
         kitService.decreaseBrickCountByOne(1L, 1L);
         Kit kit = kitDao.findById(1L);
-        Brick brick = brickService.findById(1L);
+        Brick brick = brickDao.findById(1L);
         verify(kitBrickService).decreaseBrickCountByOne(kit, brick);
     }
 
@@ -157,22 +161,22 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
     public void testRemoveAllBricksOfThisTypeFromKitById() {
         kitService.removeAllBricksOfThisTypeFromKitById(1L, 1L);
         Kit kit = kitDao.findById(1L);
-        Brick brick = brickService.findById(1L);
+        Brick brick = brickDao.findById(1L);
         verify(kitBrickService).removeAllBricksOfThisType(kit, brick);
     }
 
     @Test
     public void testGetBrickCount() {
         Kit kit = kitDao.findById(1L);
-        Brick brick = brickService.findById(1L);
+        Brick brick = brickDao.findById(1L);
         assertEquals(kitBrickService.getBrickCount(kit, brick), 2L);
     }
 
     @Test
     public void testSetBrickCount() {
         Kit kit = kitDao.findById(1L);
-        Brick brick = brickService.findById(1L);
-        kitBrickService.setBrickCount(kit, brick, 2L);
+        Brick brick = brickDao.findById(1L);
+        kitBrickService.setBrickCount(kit, brick, 2);
         assertEquals(kitBrickService.getBrickCount(kit, brick), 2L);
     }
 
@@ -237,11 +241,39 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
         kitService.findSimilarKits(null, 5, 5, category);
     }
 
+    /*@Test
+    public void testCreateRandomKitByRules() {
+        Kit createdKit = kitService.createRandomKitByRules(10, 100, new ArrayList<Brick>(prepareBricks()));
+        
+        assertNotNull(createdKit);
+    }*/
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testCreateRandomKitByRulesNullBricks() {
+        kitService.createRandomKitByRules(1, 10, null);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testCreateRandomKitByRulesEmptyBricks() {
+        kitService.createRandomKitByRules(1, 10, new ArrayList<>());
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testCreateRandomKitByRulesNegativeCount() {
+        kitService.createRandomKitByRules(-1, 10, new ArrayList<Brick>(
+                Collections.singletonList(brick)));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testCreateRandomKitByRulesWrongCount() {
+        kitService.createRandomKitByRules(3, 1, new ArrayList<Brick>(
+                Collections.singletonList(brick)));
+    }
 
     @Test
     public void testFindBrickById() {
         kitService.findBrickById(1L);
-        Brick brick = brickService.findById(1L);
+        Brick brick = brickDao.findById(1L);
         assertEquals(brick.getId().longValue(), 1L);
     }
 
@@ -264,4 +296,26 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
 
     }
 
+    private List<Brick> prepareBricks() {
+        List<Brick> bricks = new ArrayList<>();
+
+        Shape shape = mock(Shape.class);
+        when(shape.getName()).thenReturn("Cube");
+
+        Brick brick1 = mock(Brick.class);
+        when(brick1.getRed()).thenReturn(255);
+        when(brick1.getGreen()).thenReturn(0);
+        when(brick1.getBlue()).thenReturn(0);
+        when(brick1.getShape()).thenReturn(shape);
+        bricks.add(brick1);
+
+        Brick brick2 = mock(Brick.class);
+        when(brick2.getRed()).thenReturn(0);
+        when(brick2.getGreen()).thenReturn(255);
+        when(brick2.getBlue()).thenReturn(255);
+        when(brick2.getShape()).thenReturn(shape);
+        bricks.add(brick2);
+
+        return bricks;
+    }
 }

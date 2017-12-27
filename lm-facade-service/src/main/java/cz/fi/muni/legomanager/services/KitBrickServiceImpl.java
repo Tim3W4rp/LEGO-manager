@@ -76,7 +76,7 @@ public class KitBrickServiceImpl implements KitBrickService {
     }
 
     @Override
-    public void setBrickCount(Kit kit, Brick brick, long amount) {
+    public void setBrickCount(Kit kit, Brick brick, int amount) {
         List<KitBrick> kitBricks = kitBrickDao.findAll();
         for (KitBrick kitBrick : kitBricks) {
             if (kitBrick.getBrick().equals(brick) && kitBrick.getKit().equals(kit)) {
