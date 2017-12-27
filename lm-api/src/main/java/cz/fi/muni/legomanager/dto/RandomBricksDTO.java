@@ -1,6 +1,7 @@
 package cz.fi.muni.legomanager.dto;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,7 +33,7 @@ public class RandomBricksDTO {
     }
 
     public List<BrickDTO> getBricks() {
-        return bricks;
+        return Collections.unmodifiableList(bricks);
     }
 
     public void addBrick(BrickDTO brick) {
