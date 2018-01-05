@@ -17,6 +17,9 @@ import Link from '../../elements/link/Link'
 
 class KitCreate extends Component {
   submit(values) {
+    values.min = Number.parseInt(values.min, 10);
+    values.max = Number.parseInt(values.max, 10);
+    values.bricks = [{id: 1}, {id: 2}, {id: 3}];
     this.props.addKit(values)
       .then(r => (
         Link.redirect('/kit/' + r.value.data.id)
