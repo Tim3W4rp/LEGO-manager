@@ -43,7 +43,7 @@ class Set extends Component {
           <Link to={'/set/update/' + this.props.set.id}>
             <RaisedButton className="Set-update">Update</RaisedButton>
           </Link>
-          <RaisedButton className="Set-delete">Delete</RaisedButton>
+          <RaisedButton onClick={e => this.submit(this.props.set.id)} className="Set-delete">Delete</RaisedButton>
         </form>
         <div className="Set-label">Set {this.props.set.id}</div>
         <Divider />
