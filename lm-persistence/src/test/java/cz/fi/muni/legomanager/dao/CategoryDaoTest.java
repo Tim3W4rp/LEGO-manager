@@ -69,12 +69,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
-    public void createCategoryWithNullDescription() {
-        starWarsCategory.setDescription(null);
-        categoryDao.create(starWarsCategory);
-    }
-
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void createAlreadyExists() {
         categoryDao.create(testCategory);
     }
@@ -91,12 +85,6 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void updateWithNull() {
         categoryDao.update(null);
-    }
-
-    @Test(expectedExceptions = DataAccessException.class)
-    public void updateWithNullDescription() {
-        testCategory.setDescription(null);
-        categoryDao.update(testCategory);
     }
 
     @Test(expectedExceptions = DataAccessException.class)

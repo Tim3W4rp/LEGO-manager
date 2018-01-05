@@ -1,8 +1,16 @@
 package cz.fi.muni.legomanager.sampleData;
 
-import cz.fi.muni.legomanager.entity.*;
-import cz.fi.muni.legomanager.services.*;
-import org.hibernate.Hibernate;
+import cz.fi.muni.legomanager.entity.Brick;
+import cz.fi.muni.legomanager.entity.Category;
+import cz.fi.muni.legomanager.entity.Kit;
+import cz.fi.muni.legomanager.entity.SetOfKits;
+import cz.fi.muni.legomanager.entity.Shape;
+import cz.fi.muni.legomanager.services.BrickService;
+import cz.fi.muni.legomanager.services.CategoryService;
+import cz.fi.muni.legomanager.services.KitBrickService;
+import cz.fi.muni.legomanager.services.KitService;
+import cz.fi.muni.legomanager.services.SetOfKitsService;
+import cz.fi.muni.legomanager.services.ShapeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -111,15 +119,12 @@ public class SampleDataLoadingFacade {
         Brick blackWheel = brick(0, 0, 0, wheel);
 
         // add bricks to kits
-        brickToKit(jokerWehicle, blackWheel);
-        brickToKit(jokerWehicle, blackWheel);
-        brickToKit(jokerWehicle, blackWheel);
-        brickToKit(jokerWehicle, blackWheel);
-        brickToKit(jokerWehicle, joker);
-        brickToKit(jokerWehicle, black2x2);
-        brickToKit(jokerWehicle, gray2x2);
-        brickToKit(jokerWehicle, black2x4);
-        brickToKit(jokerWehicle, gray2x4);
+        brickToKit(jokerWehicle, blackWheel, 10);
+        brickToKit(jokerWehicle, joker, 5);
+        brickToKit(jokerWehicle, black2x2, 20);
+        brickToKit(jokerWehicle, gray2x2, 30);
+        brickToKit(jokerWehicle, black2x4, 50);
+        brickToKit(jokerWehicle, gray2x4, 100);
 
     }
 
@@ -165,7 +170,9 @@ public class SampleDataLoadingFacade {
         return b;
     }
 
-    private void brickToKit(Kit kit, Brick brick) {
+    private void brickToKit(Kit kit, Brick brick, int amount) {
+        kitBrickService.createKitBrick(kit, brick);
         kitBrickService.addBrickToKit(kit, brick);
+        kitBrickService.setBrickCount(kit, brick, amount);
     }
 }

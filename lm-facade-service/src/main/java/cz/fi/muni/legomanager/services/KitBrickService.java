@@ -10,6 +10,6 @@ public interface KitBrickService {
     public void addBrickToKit(Kit kit, Brick brick);
     public void decreaseBrickCountByOne(Kit kit, Brick brick);
     public void removeAllBricksOfThisType(Kit kit, Brick brick);
-    public void setBrickCount(Kit kit, Brick brick, long amount);
+    public void setBrickCount(Kit kit, Brick brick, int amount);
     public long getBrickCount(Kit kit, Brick brick);
 }

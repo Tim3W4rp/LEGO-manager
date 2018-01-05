@@ -3,11 +3,18 @@ package cz.fi.muni.legomanager.services;
 import cz.fi.muni.legomanager.dao.BrickDao;
 import cz.fi.muni.legomanager.dao.CategoryDao;
 import cz.fi.muni.legomanager.dao.KitDao;
-import cz.fi.muni.legomanager.entity.*;
+import cz.fi.muni.legomanager.entity.Brick;
+import cz.fi.muni.legomanager.entity.Category;
+import cz.fi.muni.legomanager.entity.Kit;
+import cz.fi.muni.legomanager.entity.KitBrick;
+import cz.fi.muni.legomanager.entity.SetOfKits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Martin Jordán
@@ -68,7 +75,7 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
-    public List<Kit> findAllKits(){
+    public List<Kit> findAllKits() {
         return kitDao.findAll();
     }
 
@@ -117,79 +124,68 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
-    public void addKitToSet(Kit kit, SetOfKits setOfKits) {
-        setOfKits.addKit(kit);
-    }
+    public Kit createRandomKitByRules(int minBrickCountInKit, int maxBrickCountInKit, List<Brick> bricksInKit) {
 
+        if (minBrickCountInKit < 0 || maxBrickCountInKit < 0) {
+            throw new IllegalArgumentException("minBrickCountInKit and maxBrickCountInKit cannot be negative");
+        }
 
-    // Important note: BrickCounts contains counts and bricks that must appear in kit (count>0) and those that can appear(count=0)
-    // Note: check M:N if it works
-    @Override
-    public Long createRandomKitByRules(Long minBrickCount, Long maxBrickCount, List<Brick> bricks, List<Long> bricksCounts) {
-        Long piecesTotal = countPieces(bricksCounts);
-        Long howManyMustGenerate = minBrickCount - piecesTotal > 0 ? minBrickCount - piecesTotal : 0L;
-        Long howManyMayGenerate = maxBrickCount - minBrickCount;
-        Long howManyWillGenerate = getRandomNumberUpTo(howManyMayGenerate.intValue()) + howManyMustGenerate;
+        if (maxBrickCountInKit <= minBrickCountInKit) {
+            throw new IllegalArgumentException("maxBrickCountInKit must be greater than minBrickCountInKit");
+        }
 
-        List<Brick> possibleBricks = getPossibleBricks(bricks, bricksCounts);
-        int possibleBricksCount = possibleBricks.size();
-        while (howManyWillGenerate > 0) {
-            int index = getRandomNumberUpTo(possibleBricksCount);
-            Brick selectedBrick = possibleBricks.get(index);
+        if (bricksInKit == null || bricksInKit.isEmpty()) {
+            throw new IllegalArgumentException("bricksInKit must contain at least one brick");
+        }
 
-            int count = getRandomNumberUpTo(howManyWillGenerate.intValue());
-            addCountToBrick(selectedBrick, bricks, bricksCounts, Long.valueOf(count));
-            howManyWillGenerate -= count;
+        Category category;
+        List<Category> allCategories = categoryDao.findAll();
+
+        if (allCategories != null && allCategories.size() != 0) {
+            category = allCategories.get(generateRandomNumber(0, allCategories.size()) - 1);
+        } else {
+            category = new Category();
+            category.setName("Sample name");
+            category.setDescription("Sample description.");
+            categoryDao.create(category);
         }
 
         Kit randomKit = new Kit();
-        randomKit.setAgeLimit(5);
-        randomKit.setDescription("Description of kit");
-        randomKit.setPrice(1000);
+        randomKit.setAgeLimit(generateRandomNumber(0, 100));
+        randomKit.setDescription("Random generated kit by rules.");
+        randomKit.setPrice(generateRandomNumber(10, 1000));
+        randomKit.setCategory(category);
 
-        Kit createdKit = kitDao.create(randomKit);
-        for (int i = 0; i < bricks.size(); i++) {
-            if (bricksCounts.get(i) > 0) {
+        int maxForOneBrick = maxBrickCountInKit / bricksInKit.size();
+        int piecesTotal = 0;
+        int numberOfBrick = 0;
 
-                addBrickToKitById(createdKit.getId(), bricks.get(i).getId());
-                // Add counts needs to be done!
+        for (Brick brick : bricksInKit) {
+            numberOfBrick++;
+            Long id = kitBrickService.createKitBrick(randomKit, brick);
+            KitBrick kitBrick = kitBrickService.findKitBrickById(id);
+            kitBrickService.addBrickToKit(randomKit, brick);
 
+            int brickCount = generateRandomNumber(0, maxForOneBrick);
+            piecesTotal += brickCount;
+
+            if (numberOfBrick == bricksInKit.size() && piecesTotal < minBrickCountInKit) {
+                int minNeeded = minBrickCountInKit - piecesTotal;
+                int maxNeeded = maxBrickCountInKit - piecesTotal;
+                kitBrickService.setBrickCount(randomKit, brick, generateRandomNumber(minNeeded, maxNeeded));
+            } else {
+                kitBrickService.setBrickCount(randomKit, brick, brickCount);
             }
+            randomKit.addKitBrick(kitBrick);
         }
 
-
-        return createdKit.getId();
-
+        return kitDao.create(randomKit);
     }
 
-    private Long countPieces(List<Long> bricksCounts) {
-        Long count = 0L;
-        for (Long countBrick : bricksCounts) {
-            count += countBrick;
-        }
-        return count;
+    @Override
+    public void addKitToSet(Kit kit, SetOfKits setOfKits) {
+        setOfKits.addKit(kit);
     }
-
-    private int getRandomNumberUpTo(int max) {
-        Random randomGenerator = new Random();
-        return randomGenerator.nextInt(max);
-    }
-
-    private List<Brick> getPossibleBricks(List<Brick> bricks, List<Long> bricksCounts) {
-        List<Brick> possibleBricks = new ArrayList<>();
-        for (int i = 0; i< bricks.size(); i++) {
-            if (bricksCounts.get(i) == 0L) {
-                possibleBricks.add(bricks.get(i));
-            }
-        }
-        return possibleBricks;
-    }
-
-    private void addCountToBrick(Brick brick, List<Brick> bricks, List<Long> bricksCounts, Long addCount) {
-        int index = bricks.indexOf(brick);
-        bricksCounts.set(index, bricksCounts.get(index) + addCount);
-    }
-
 
     @Override
     public void removeAllBricksOfThisTypeFromKitById(long kitId, long brickId) {
@@ -199,7 +195,7 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
-    public void decreaseBrickCountByOne(long kitId, long brickId){
+    public void decreaseBrickCountByOne(long kitId, long brickId) {
         Kit kit = kitDao.findById(kitId);
         Brick brick = brickDao.findById(brickId);
         kitBrickService.decreaseBrickCountByOne(kit, brick);
@@ -220,9 +216,13 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
-    public void setBrickCount(long kitId, long brickId, long amount) {
+    public void setBrickCount(long kitId, long brickId, int amount) {
         Kit kit = kitDao.findById(kitId);
         Brick brick = brickDao.findById(brickId);
         kitBrickService.setBrickCount(kit, brick, amount);
+    }
+
+    private int generateRandomNumber(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 }
