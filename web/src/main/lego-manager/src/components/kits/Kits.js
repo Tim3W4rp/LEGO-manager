@@ -67,6 +67,11 @@ class Kits extends Component {
           }
         </TableBody>
       </Table>
+      <Link to="/kit/createrandom">
+        <FloatingActionButton className="Kits-floating-random-button">
+          <ContentAdd/>
+        </FloatingActionButton>
+      </Link>
       <Link to="/kit/create">
         <FloatingActionButton className="Kits-floating-button">
           <ContentAdd/>
