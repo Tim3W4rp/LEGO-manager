@@ -2,11 +2,13 @@ package cz.muni.fi.legomanager.hateoas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import cz.fi.muni.legomanager.dto.KitDTO;
 import cz.fi.muni.legomanager.dto.SetOfKitsDTO;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Category rendered to JSON. The @Relation annotation specifies its name in HAL rendering of collections.
@@ -21,11 +23,14 @@ public class SetResource extends ResourceSupport {
     private long dtoId;
     private BigDecimal price;
     private String description;
+    private List<KitDTO> kits;
+
 
     public SetResource(SetOfKitsDTO dto) {
         this.dtoId = dto.getId();
         this.price = dto.getPrice();
         this.description = dto.getDescription();
+        this.kits = dto.getKits();
     }
 
     public long getDtoId() {
@@ -48,5 +53,13 @@ public class SetResource extends ResourceSupport {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<KitDTO> getKits() {
+        return kits;
+    }
+
+    public void setKits(List<KitDTO> kits) {
+        this.kits = kits;
     }
 }
