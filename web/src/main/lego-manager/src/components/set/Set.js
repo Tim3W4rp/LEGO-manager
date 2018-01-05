@@ -8,6 +8,15 @@ import Paper from 'material-ui/Paper'
 import Divider from 'material-ui/Divider'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import {
+    Table,
+    TableBody,
+    TableHeader,
+    TableHeaderColumn,
+    TableRow,
+    TableRowColumn
+} from 'material-ui/Table'
+
 import * as actions from './actions'
 import './Set.css'
 
@@ -49,7 +58,6 @@ class Set extends Component {
             <TableRow>
                       <TableHeaderColumn>ID</TableHeaderColumn>
                       <TableHeaderColumn>Name</TableHeaderColumn>
-                      <TableHeaderColumn>Price</TableHeaderColumn>
                       <TableHeaderColumn>Age Limit</TableHeaderColumn>
             </TableRow>
           </TableHeader>
@@ -65,11 +73,6 @@ class Set extends Component {
                 <TableRowColumn>
                   <Link to={'/kit/' + kit.id}>
                     {kit.description}
-                  </Link>
-                </TableRowColumn>
-                <TableRowColumn>
-                  <Link to={'/kit/' + kit.id}>
-                    {kit.price}
                   </Link>
                 </TableRowColumn>
                 <TableRowColumn>
