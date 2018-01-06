@@ -160,7 +160,7 @@ public class KitServiceImpl implements KitService {
         int piecesTotal = 0;
         int numberOfBrick = 0;
 
-        for (Brick brick : bricksInKit) {
+        /*for (Brick brick : bricksInKit) {
             numberOfBrick++;
             Long id = kitBrickService.createKitBrick(randomKit, brick);
             KitBrick kitBrick = kitBrickService.findKitBrickById(id);
@@ -177,7 +177,7 @@ public class KitServiceImpl implements KitService {
                 kitBrickService.setBrickCount(randomKit, brick, brickCount);
             }
             randomKit.addKitBrick(kitBrick);
-        }
+        }*/
 
         return kitDao.create(randomKit);
     }
