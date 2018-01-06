@@ -5,6 +5,7 @@ import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.facade.CategoryFacade;
 import cz.fi.muni.legomanager.facade.KitFacade;
 import cz.muni.fi.legomanager.ApiUris;
+import cz.muni.fi.legomanager.exceptions.FormException;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.KitResource;
@@ -104,7 +105,7 @@ public class KitsRestController {
         log.debug("rest createKit()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException("Failed validation");
+            throw new FormException("Validation failed", bindingResult);
         }
         Long id = facade.createKit(paramDTOCreate);
         KitDTO foundDTO = facade.findKitById(id);
@@ -168,7 +169,7 @@ public class KitsRestController {
         log.debug("rest create random Kit()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException("Failed validation");
+            throw new FormException("Validation failed", bindingResult);
         }
         KitDTO foundDTO = facade.createRandomKitByRules(paramDTOCreate.getMin(), paramDTOCreate.getMax(), paramDTOCreate.getBricks());
 

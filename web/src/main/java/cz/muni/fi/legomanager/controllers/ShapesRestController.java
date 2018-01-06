@@ -4,6 +4,7 @@ import cz.fi.muni.legomanager.dto.ShapeCreateDTO;
 import cz.fi.muni.legomanager.dto.ShapeDTO;
 import cz.fi.muni.legomanager.facade.ShapeFacade;
 import cz.muni.fi.legomanager.ApiUris;
+import cz.muni.fi.legomanager.exceptions.FormException;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.ShapeResource;
@@ -109,7 +110,7 @@ public class ShapesRestController {
         log.debug("rest createShape()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException("Failed validation");
+            throw new FormException("Validation failed", bindingResult);
         }
 
         Long id = shapeFacade.create(shapeCreateDTO);
@@ -140,7 +141,7 @@ public class ShapesRestController {
         log.debug("rest change Shape({})", id);
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException(bindingResult.toString());
+            throw new FormException("Validation failed", bindingResult);
         }
 
         try {

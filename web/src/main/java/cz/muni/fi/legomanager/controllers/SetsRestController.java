@@ -5,6 +5,7 @@ import cz.fi.muni.legomanager.dto.*;
 import cz.fi.muni.legomanager.facade.SetOfKitsFacade;
 import cz.muni.fi.legomanager.ApiUris;
 import cz.muni.fi.legomanager.exceptions.ErrorResource;
+import cz.muni.fi.legomanager.exceptions.FormException;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.SetResource;
@@ -102,7 +103,7 @@ public class SetsRestController {
         log.debug("rest createSet)");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException("Failed validation");
+            throw new FormException("Validation failed", bindingResult);
         }
         Long id = setFacade.createSet(setDTOCreate);
         SetOfKitsDTO setDTO = setFacade.findSetById(id);
@@ -132,7 +133,7 @@ public class SetsRestController {
         log.debug("rest change Set({})", id);
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException(bindingResult.toString());
+            throw new FormException("Validation failed", bindingResult);
         }
 
 
