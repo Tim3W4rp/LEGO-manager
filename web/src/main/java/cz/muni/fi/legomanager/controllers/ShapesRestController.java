@@ -130,21 +130,25 @@ public class ShapesRestController {
             throw new ResourceNotFoundException("shape " + id + " not found");
         } catch (Throwable ex) {
             log.error("cannot delete shape " + id + " :" + ex.getMessage());
-            throw new ResourceNotFoundException("Unable to delete non existing item.");
+            throw new ResourceNotFoundException("Shape is being used by some brick.");
         }
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final ShapeDTO changeShape(@PathVariable("id") long id, @RequestBody @Valid ShapeDTO updatedShape) throws Exception {
+    public final ShapeDTO changeShape(@PathVariable("id") long id, @RequestBody @Valid ShapeDTO updatedShape, BindingResult bindingResult) throws Exception {
         log.debug("rest change Shape({})", id);
+        if (bindingResult.hasErrors()) {
+            log.error("failed validation {}", bindingResult.toString());
+            throw new InvalidRequestException(bindingResult.toString());
+        }
 
         try {
             updatedShape.setId(id);
             shapeFacade.update(updatedShape);
-            return shapeFacade.findById(id);
         } catch (Exception ex) {
             throw new ResourceNotFoundException("Unable to update shape");
         }
+        return shapeFacade.findById(id);
     }
 }

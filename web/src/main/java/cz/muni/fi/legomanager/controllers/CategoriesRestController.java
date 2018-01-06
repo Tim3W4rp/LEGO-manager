@@ -29,7 +29,6 @@ import javax.validation.Valid;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
- *
  * @author Michal Peška
  */
 
@@ -48,7 +47,7 @@ public class CategoriesRestController {
     public CategoriesRestController(
             CategoryResourceAssembler resourceAssembler,
             @SuppressWarnings("SpringJavaAutowiringInspection")
-            EntityLinks entityLinks,
+                    EntityLinks entityLinks,
             CategoryFacade facade) {
 
         this.resourceAssembler = resourceAssembler;
@@ -66,7 +65,7 @@ public class CategoriesRestController {
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.EMPLOYEE)
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<CategoryResource>> categories() {
-        log.debug("rest cats()");
+        log.debug("rest categories()");
 
         Resources<CategoryResource> resources = new Resources<>(
                 resourceAssembler.toResources(facade.getAllCategories()),
@@ -85,7 +84,7 @@ public class CategoriesRestController {
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.EMPLOYEE)
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<CategoryResource> category(@PathVariable("id") long id) throws Exception {
-        log.debug("rest cat({})", id);
+        log.debug("rest category({})", id);
         CategoryDTO foundDTO = facade.getCategoryById(id);
         if (foundDTO == null) throw new ResourceNotFoundException("category " + id + " not found");
         CategoryResource resource = resourceAssembler.toResource(foundDTO);
@@ -93,7 +92,7 @@ public class CategoriesRestController {
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<CategoryResource> createCategory(@RequestBody @Valid CategoryDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
         log.debug("rest createCategory()");
         if (bindingResult.hasErrors()) {
@@ -116,22 +115,22 @@ public class CategoriesRestController {
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void deleteCategory(@PathVariable("id") long id) throws Exception {
-        log.debug("rest deleteCat({})", id);
+        log.debug("rest deleteCategory({})", id);
         try {
             facade.removeCategory(id);
         } catch (IllegalArgumentException ex) {
             log.error("category " + id + " not found");
             throw new ResourceNotFoundException("category " + id + " not found");
-        } catch(JpaSystemException ex) {
+        } catch (JpaSystemException ex) {
             log.error("Category is not empty");
             throw new InvalidRequestException("Category is not empty");
         }
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
-    @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public final CategoryDTO changeCategory(@PathVariable("id") long id, @RequestBody @Valid CategoryDTO updatedDTO, BindingResult bindingResult) throws Exception {
-        log.debug("rest change Cat({})", id);
+        log.debug("rest change Category({})", id);
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
             throw new FormException("Validation failed", bindingResult);
@@ -147,8 +146,6 @@ public class CategoriesRestController {
         return facade.getCategoryById(id);
 
     }
-
-
 }
 
 

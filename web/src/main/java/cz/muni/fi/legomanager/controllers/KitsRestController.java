@@ -124,22 +124,27 @@ public class KitsRestController {
             throw new ResourceNotFoundException("kit " + id + " not found");
         } catch (Throwable ex) {
             log.error("cannot delete kit " + id + " :" + ex.getMessage());
-            throw new ResourceNotFoundException("Unable to delete non existing item");
+            throw new ResourceNotFoundException("Kit is being used in some set.");
         }
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final KitDTO changeKit(@PathVariable("id") long id, @RequestBody @Valid KitDTO updatedDTO) throws Exception {
+    public final KitDTO changeKit(@PathVariable("id") long id, @RequestBody @Valid KitDTO updatedDTO, BindingResult bindingResult) throws Exception {
         log.debug("rest change kit({})", id);
+        if (bindingResult.hasErrors()) {
+            log.error("failed validation {}", bindingResult.toString());
+            throw new InvalidRequestException(bindingResult.toString());
+        }
 
         try {
             updatedDTO.setId(id);
             facade.updateKit(updatedDTO);
-            return facade.findKitById(id);
+
         } catch (Exception ex) {
             throw new ResourceNotFoundException("Unable to update kit");
         }
+        return facade.findKitById(id);
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.EMPLOYEE)

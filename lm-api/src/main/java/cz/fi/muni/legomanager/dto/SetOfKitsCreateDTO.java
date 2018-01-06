@@ -1,10 +1,19 @@
 package cz.fi.muni.legomanager.dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 public class SetOfKitsCreateDTO {
     private Long id;
+
+    @NotNull
+    @Size(min = 1)
     private String description;
+
+    @NotNull
+    @Min(0)
     private BigDecimal price;
 
     public Long getId() {
@@ -30,8 +39,6 @@ public class SetOfKitsCreateDTO {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
-
-
 
     @Override
     public boolean equals(Object o) {

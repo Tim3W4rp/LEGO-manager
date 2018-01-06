@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @JsonPropertyOrder({"id", "name"})
 public class SetResource extends ResourceSupport {
 
-    @JsonProperty("id") //ResourceSupport alrerady has getId() method
+    @JsonProperty("id") //ResourceSupport already has getId() method
     private long dtoId;
     private BigDecimal price;
     private String description;

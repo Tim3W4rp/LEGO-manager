@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  *
- * @author Radoslav Karlik
+ * @author Štěpán Granát
  */
 @Configuration
 @ComponentScan("cz.muni.fi.legomanager.security")

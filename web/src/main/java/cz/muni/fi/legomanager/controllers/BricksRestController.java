@@ -19,6 +19,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,6 @@ import javax.validation.Valid;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
- *
  * @author Michal Peška
  */
 
@@ -44,9 +44,9 @@ public class BricksRestController {
 
     @Autowired
     public BricksRestController(
-             BrickResourceAssembler resourceAssembler,
+            BrickResourceAssembler resourceAssembler,
             @SuppressWarnings("SpringJavaAutowiringInspection")
-            EntityLinks entityLinks,
+                    EntityLinks entityLinks,
             BrickFacade facade) {
 
         this.resourceAssembler = resourceAssembler;
@@ -64,7 +64,7 @@ public class BricksRestController {
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.EMPLOYEE)
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Resources<BrickResource>> bricks() {
-        log.debug("rest sets()");
+        log.debug("rest bricks()");
 
         Resources<BrickResource> resources = new Resources<>(
                 resourceAssembler.toResources(facade.findAll()),
@@ -83,7 +83,7 @@ public class BricksRestController {
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.EMPLOYEE)
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<BrickResource> brick(@PathVariable("id") long id) throws Exception {
-        log.debug("rest set({})", id);
+        log.debug("rest brick({})", id);
         BrickDTO foundDTO = facade.findById(id);
         if (foundDTO == null) throw new ResourceNotFoundException("brick " + id + " not found");
         BrickResource resource = resourceAssembler.toResource(foundDTO);
@@ -91,16 +91,23 @@ public class BricksRestController {
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<BrickResource> createBrick(@RequestBody @Valid BrickCreateDTO paramDTOCreate, BindingResult bindingResult) throws Exception {
         log.debug("rest createBrick()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException("Failed validation");
+            throw new InvalidRequestException(bindingResult.toString());
         }
-        Long id = facade.create(paramDTOCreate);
-        BrickDTO foundDTO = facade.findById(id);
 
+        Long id;
+        try {
+            id = facade.create(paramDTOCreate);
+        } catch (JpaSystemException ex) {
+            log.error("Cannot create such brick.");
+            throw new InvalidRequestException("Cannot create such brick.");
+        }
+
+        BrickDTO foundDTO = facade.findById(id);
         BrickResource resource = resourceAssembler.toResource(foundDTO);
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
@@ -108,33 +115,37 @@ public class BricksRestController {
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void deleteBrick(@PathVariable("id") long id) throws Exception {
-        log.debug("rest deleteSet({})", id);
+        log.debug("rest deleteBrick({})", id);
         try {
             facade.delete(id);
         } catch (IllegalArgumentException ex) {
-            log.error("set " + id + " not found");
-            throw new ResourceNotFoundException("set " + id + " not found");
-        } catch (Throwable ex) {
-            log.error("cannot delete set " + id + " :" + ex.getMessage());
-            throw new ResourceNotFoundException("Unable to delete non existing item");
+            log.error("brick " + id + " not found");
+            throw new ResourceNotFoundException("brick " + id + " not found");
+        } catch (JpaSystemException ex) {
+            log.error("cannot delete brick " + id + " :" + ex.getMessage());
+            throw new ResourceNotFoundException("Brick is being used in some kit.");
         }
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
-    @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public final BrickDTO changeBrick(@PathVariable("id") long id, @RequestBody @Valid BrickDTO updatedDTO) throws Exception {
-        log.debug("rest change Set({})", id);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public final BrickDTO changeBrick(@PathVariable("id") long id, @RequestBody @Valid BrickDTO updatedDTO, BindingResult bindingResult) throws Exception {
+        log.debug("rest change Brick({})", id);
+        if (bindingResult.hasErrors()) {
+            log.error("failed validation {}", bindingResult.toString());
+            throw new InvalidRequestException(bindingResult.toString());
+        }
 
         try {
             updatedDTO.setId(id);
             facade.update(updatedDTO);
-            return facade.findById(id);
-        } catch (Exception ex) {
-            throw new ResourceNotFoundException("Unable to update set");
+        } catch (JpaSystemException ex) {
+            log.error("Unable to update brick.");
+            throw new InvalidRequestException("Unable to update brick.");
         }
+
+        return facade.findById(id);
     }
-
-
 }
 
 

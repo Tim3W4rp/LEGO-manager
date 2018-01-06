@@ -10,7 +10,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -19,7 +18,7 @@ import java.time.LocalDate;
 
 /**
  *
- * @author Radoslav Karlik
+ * @author Štěpán Granát
  */
 @Service
 public class AuthorizationService {

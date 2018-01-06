@@ -165,7 +165,7 @@ public class DozerServiceTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testMapToPiece() throws Exception {
         Brick actual = dozerService.mapTo(leftFrontWheelDTO, Brick.class);
-        
+
         assertEquals(actual.getRed(), leftFrontWheel.getRed());
         assertEquals(actual.getGreen(), leftFrontWheel.getGreen());
         assertEquals(actual.getBlue(), leftFrontWheel.getRed());

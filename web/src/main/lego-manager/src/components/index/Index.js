@@ -5,7 +5,7 @@ class Index extends Component {
   render() {
     return (
       <div className="Index">
-        Welcome to our LegoManager. :)
+        <p><b>Welcome to our LegoManager.</b></p> Here you can manage categories, sets, kits, bricks and shapes.
       </div>
     );
   }

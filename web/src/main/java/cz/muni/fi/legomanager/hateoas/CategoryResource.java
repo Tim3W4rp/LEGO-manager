@@ -7,7 +7,6 @@ import cz.fi.muni.legomanager.dto.KitSimpleDTO;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +18,7 @@ import java.util.List;
 @JsonPropertyOrder({"id", "name"})
 public class CategoryResource extends ResourceSupport {
 
-    @JsonProperty("id") //ResourceSupport alrerady has getId() method
+    @JsonProperty("id") //ResourceSupport already has getId() method
     private long dtoId;
     private String name;
     private String description;
