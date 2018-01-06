@@ -2,6 +2,7 @@ package cz.muni.fi.legomanager.controllers;
 
 import cz.fi.muni.legomanager.dto.*;
 import cz.fi.muni.legomanager.facade.CategoryFacade;
+import cz.muni.fi.legomanager.ApiUris;
 import cz.muni.fi.legomanager.exceptions.FormException;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
@@ -34,7 +35,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RestController
 @ExposesResourceFor(CategoryDTO.class)
-@RequestMapping("/categories")
+@RequestMapping(ApiUris.ROOT_URI_CATEGORIES)
 public class CategoriesRestController {
 
     private final static Logger log = LoggerFactory.getLogger(CategoriesRestController.class);

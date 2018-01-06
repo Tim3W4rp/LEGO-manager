@@ -4,16 +4,15 @@ import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
 import cz.fi.muni.legomanager.entity.Category;
 import org.hibernate.Session;
 import org.junit.Assert;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -57,18 +56,18 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(category.getName(), "Star Wars");
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createCategoryWithNull() {
         categoryDao.create(null);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createCategoryWithNullName() {
         testCategory.setName(null);
         categoryDao.create(testCategory);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createAlreadyExists() {
         categoryDao.create(testCategory);
     }
@@ -82,7 +81,7 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(b_db.getDescription(), "Changed test category");
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void updateWithNull() {
         categoryDao.update(null);
     }
@@ -101,12 +100,12 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(0, tableSize);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void deleteWithNull() {
         categoryDao.delete(null);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void deleteDoesNotExist() {
         categoryDao.delete(starWarsCategory);
     }
@@ -117,12 +116,12 @@ public class CategoryDaoTest extends AbstractTestNGSpringContextTests {
         assertEquals(category, testCategory);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void findByIdNull() {
         categoryDao.findById(null);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void findByIdDoesNotExist() {
         categoryDao.findById(999L);
     }

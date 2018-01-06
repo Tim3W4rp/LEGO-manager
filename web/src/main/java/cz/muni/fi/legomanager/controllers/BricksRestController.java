@@ -2,6 +2,7 @@ package cz.muni.fi.legomanager.controllers;
 
 import cz.fi.muni.legomanager.dto.*;
 import cz.fi.muni.legomanager.facade.BrickFacade;
+import cz.muni.fi.legomanager.ApiUris;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.BrickResource;
@@ -32,7 +33,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RestController
 @ExposesResourceFor(BrickDTO.class)
-@RequestMapping("/bricks")
+@RequestMapping(ApiUris.ROOT_URI_BRICKS)
 public class BricksRestController {
 
     private final static Logger log = LoggerFactory.getLogger(BricksRestController.class);

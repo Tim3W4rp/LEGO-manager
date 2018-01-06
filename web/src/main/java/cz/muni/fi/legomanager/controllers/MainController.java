@@ -38,6 +38,7 @@ public class MainController {
         resourcesMap.put("kits_uri", ApiUris.ROOT_URI_KITS);
         resourcesMap.put("sets_uri", ApiUris.ROOT_URI_SETS);
         resourcesMap.put("categories_uri", ApiUris.ROOT_URI_CATEGORIES);
+        resourcesMap.put("users_uri", ApiUris.ROOT_URI_USERS);
 
         return Collections.unmodifiableMap(resourcesMap);
 

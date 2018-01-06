@@ -3,24 +3,20 @@ package cz.fi.muni.legomanager.dao;
 import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
 import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Shape;
-
 import org.hibernate.Session;
 import org.junit.Assert;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.List;
 
 /**
@@ -86,12 +82,12 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(255, brick.getRed());
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createWithNull() {
         brickDao.create(null);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createDuplicate() {
         brickDao.create(greenBlockBrick);
     }
@@ -104,12 +100,12 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(2, tableSize);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void deleteWithNull() {
         brickDao.delete(null);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void deleteDuplicate() {
         brickDao.delete(greenBlockBrick);
         brickDao.delete(greenBlockBrick);
@@ -128,7 +124,7 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(0, foundBrick.getBlue());
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void updateWithNull() {
         brickDao.update(null);
     }
@@ -139,12 +135,12 @@ public class BrickDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(blueBlockBrick.getId(), brick.getId());
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void findByIdWithNull() {
         brickDao.findById(null);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void findByIdNotExists() {
         brickDao.findById(-1L);
     }

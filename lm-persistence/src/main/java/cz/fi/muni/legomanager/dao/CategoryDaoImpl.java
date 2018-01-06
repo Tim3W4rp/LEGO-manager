@@ -1,7 +1,6 @@
 package cz.fi.muni.legomanager.dao;
 
 import cz.fi.muni.legomanager.entity.Category;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -20,15 +19,15 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public void create(Category category) {
         if (category == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null");
+            throw new IllegalArgumentException("Argument cannot be null");
         }
 
         if (em.contains(category)) {
-            throw new InvalidDataAccessApiUsageException("Such category already exists");
+            throw new IllegalArgumentException("Such category already exists");
         }
 
         if (category.getName() == null) {
-            throw new InvalidDataAccessApiUsageException("Name cannot be null");
+            throw new IllegalArgumentException("Name cannot be null");
         }
 
         em.persist(category);
@@ -37,7 +36,7 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public Category update(Category category) {
         if (category == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null");
+            throw new IllegalArgumentException("Argument cannot be null");
         }
         em.merge(category);
         em.flush();
@@ -48,11 +47,11 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public void delete(Category category) {
         if (category == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null");
+            throw new IllegalArgumentException("Argument cannot be null");
         }
 
         if (!em.contains(category)) {
-            throw new InvalidDataAccessApiUsageException("Such category does not exist");
+            throw new IllegalArgumentException("Such category does not exist");
         }
         em.remove(category);
     }
@@ -60,11 +59,11 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public Category findById(Long id) {
         if (id == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null");
+            throw new IllegalArgumentException("Argument cannot be null");
         }
 
         if (em.find(Category.class, id) == null) {
-            throw new InvalidDataAccessApiUsageException("Category with such ID does not exist");
+            throw new IllegalArgumentException("Category with such ID does not exist");
         }
         return em.find(Category.class, id);
     }

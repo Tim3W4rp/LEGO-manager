@@ -14,4 +14,5 @@ public class ApiUris {
     public static final String ROOT_URI_KITS = "/kits";
     public static final String ROOT_URI_SETS = "/sets";
     public static final String ROOT_URI_CATEGORIES = "/categories";
+    public static final String ROOT_URI_USERS = "/users";
 }

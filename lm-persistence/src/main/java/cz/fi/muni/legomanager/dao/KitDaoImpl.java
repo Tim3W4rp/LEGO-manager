@@ -1,7 +1,6 @@
 package cz.fi.muni.legomanager.dao;
 
 import cz.fi.muni.legomanager.entity.Kit;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -20,23 +19,23 @@ public class KitDaoImpl implements KitDao {
     @Override
     public Kit create(Kit kit) {
         if (kit == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null");
+            throw new IllegalArgumentException("Argument cannot be null");
         }
 
         if (em.contains(kit)) {
-            throw new InvalidDataAccessApiUsageException("Such kit already exists");
+            throw new IllegalArgumentException("Such kit already exists");
         }
 
         if (kit.getAgeLimit() == null) {
-            throw new InvalidDataAccessApiUsageException("Age limit cannot be null");
+            throw new IllegalArgumentException("Age limit cannot be null");
         }
 
         if (kit.getDescription() == null) {
-            throw new InvalidDataAccessApiUsageException("Description cannot be null");
+            throw new IllegalArgumentException("Description cannot be null");
         }
 
         if (kit.getPrice() == null) {
-            throw new InvalidDataAccessApiUsageException("Price cannot be null");
+            throw new IllegalArgumentException("Price cannot be null");
         }
 
         em.persist(kit);
@@ -46,11 +45,11 @@ public class KitDaoImpl implements KitDao {
     @Override
     public Kit findById(Long id) {
         if (id == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null");
+            throw new IllegalArgumentException("Argument cannot be null");
         }
 
         if (em.find(Kit.class, id) == null) {
-            throw new InvalidDataAccessApiUsageException("Kit with such ID does not exist");
+            throw new IllegalArgumentException("Kit with such ID does not exist");
         }
 
         return em.find(Kit.class, id);
@@ -59,7 +58,7 @@ public class KitDaoImpl implements KitDao {
     @Override
     public void update(Kit kit) {
         if (kit == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null");
+            throw new IllegalArgumentException("Argument cannot be null");
         }
         em.merge(kit);
         em.flush();
@@ -68,11 +67,11 @@ public class KitDaoImpl implements KitDao {
     @Override
     public void delete(Kit kit) {
         if (kit == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null");
+            throw new IllegalArgumentException("Argument cannot be null");
         }
 
         if (!em.contains(kit)) {
-            throw new InvalidDataAccessApiUsageException("Such kit does not exist");
+            throw new IllegalArgumentException("Such kit does not exist");
         }
 
         em.remove(kit);

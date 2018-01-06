@@ -4,6 +4,7 @@ import cz.fi.muni.legomanager.dto.*;
 import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.facade.CategoryFacade;
 import cz.fi.muni.legomanager.facade.KitFacade;
+import cz.muni.fi.legomanager.ApiUris;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.KitResource;
@@ -37,7 +38,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @RestController
 @ExposesResourceFor(KitDTO.class)
 @Transactional
-@RequestMapping("/kits")
+@RequestMapping(ApiUris.ROOT_URI_KITS)
 public class KitsRestController {
 
     private final static Logger log = LoggerFactory.getLogger(KitsRestController.class);

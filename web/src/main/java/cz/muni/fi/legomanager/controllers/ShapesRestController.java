@@ -3,6 +3,7 @@ package cz.muni.fi.legomanager.controllers;
 import cz.fi.muni.legomanager.dto.ShapeCreateDTO;
 import cz.fi.muni.legomanager.dto.ShapeDTO;
 import cz.fi.muni.legomanager.facade.ShapeFacade;
+import cz.muni.fi.legomanager.ApiUris;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.ShapeResource;
@@ -38,7 +39,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  */
 @RestController
 @ExposesResourceFor(ShapeDTO.class)
-@RequestMapping("/shapes")
+@RequestMapping(ApiUris.ROOT_URI_SHAPES)
 public class ShapesRestController {
 
     private final static Logger log = LoggerFactory.getLogger(ShapesRestController.class);
