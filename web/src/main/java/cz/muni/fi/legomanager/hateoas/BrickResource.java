@@ -31,7 +31,7 @@ public class BrickResource extends ResourceSupport {
     public BrickResource(BrickDTO dto) {
         this.dtoId = dto.getId();
         this.red = dto.getRed();
-        this.green = dto.getRed();
+        this.green = dto.getGreen();
         this.blue = dto.getBlue();
         this.kitBricks = dto.getKitBricks();
         this.shape = dto.getShape();
@@ -69,11 +69,11 @@ public class BrickResource extends ResourceSupport {
         this.blue = value;
     }
 
-    public ShapeDTO getDtoShape() {
+    public ShapeDTO getShape() {
         return shape;
     }
 
-    public void setDtoShape(ShapeDTO shape) {
+    public void setShape(ShapeDTO shape) {
         this.shape = shape;
     }
 
