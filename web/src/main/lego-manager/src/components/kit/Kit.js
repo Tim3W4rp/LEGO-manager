@@ -79,6 +79,24 @@ class Kit extends Component {
                     </TableBody>
                 </Table>
 
+                <div className="Kit-bricks">Kits similar to this kit</div>
+
+                <Table selectable={false} onRowClick={this.handleClick}>
+                    <TableHeader displaySelectAll={false}>
+                        <TableRow>
+                            <TableHeaderColumn>ID</TableHeaderColumn>
+                            <TableHeaderColumn>Name</TableHeaderColumn>
+                            <TableHeaderColumn>Price</TableHeaderColumn>
+                            <TableHeaderColumn>Age Limit</TableHeaderColumn>
+                            <TableHeaderColumn>Category</TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody displayRowCheckbox={false} showRowHover={true}>
+                        {
+                        }
+                    </TableBody>
+                </Table>
+
             </Paper>
         )
     }

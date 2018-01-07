@@ -1,21 +1,29 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 import Paper from 'material-ui/Paper'
 import Divider from 'material-ui/Divider'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { TextField } from 'redux-form-material-ui'
-import { Field, reduxForm } from 'redux-form'
+import {TextField, SelectField} from 'redux-form-material-ui'
+import {Field, reduxForm} from 'redux-form'
 
-import './KitCreate.css'
+import MenuItem from 'material-ui/MenuItem';
+
 import * as actions from './actions'
+import {loadShapes} from '../shapes/actions'
+import {loadBrick} from '../brick/actions'
+import {loadCategories} from '../categories/actions'
+import './KitCreate.css'
 
 import Link from '../../elements/link/Link'
 
-
 class KitCreate extends Component {
+
+    componentWillMount() {
+    }
+
   submit(values) {
     this.props.addKit(values)
       .then(r => (
@@ -36,29 +44,27 @@ class KitCreate extends Component {
             className="KitCreate-item"
             name="description"
             component={TextField}
-            hintText="Description"
+            hintText="Name"
             validate={[ required ]} />
 
           <Field
             className="KitCreate-item"
             name="price"
             component={TextField}
-            hintText="price"
-            multiLine={true} />
+            hintText="Price"
+            multiLine={true}
+            validate={[ required ]} />
 
           <Field
             className="KitCreate-item"
             name="ageLimit"
             component={TextField}
             hintText="Age Limit"
-            multiLine={true} />
+            multiLine={true}
+            validate={[ required ]} />
 
-          <Field
-            className="KitCreate-item"
-            name="category"
-            component={TextField}
-            hintText="category"
-            multiLine={true} />
+          <Field className="KitCreate-item" name="category" component={SelectField} hintText="Category" validate={[required]}>
+          </Field>
 
           <RaisedButton type="submit" label="Add kit" primary={true} />
         </form>
