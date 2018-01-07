@@ -104,4 +104,6 @@ public class KitFacadeImpl implements KitFacade {
 
         return dozerService.mapTo(kitService.createRandomKitByRules(minBrickCount, maxBrickCount, bricksEnt), KitDTO.class);
     }
+
+
 }

@@ -3,7 +3,7 @@ import client from '../../client'
 export const loadKits = () => ({
   type: 'FETCH_KITS',
   payload: client({
-    url: '/kits',
+    url: '/kits/',
     method: 'GET',
   })
 })

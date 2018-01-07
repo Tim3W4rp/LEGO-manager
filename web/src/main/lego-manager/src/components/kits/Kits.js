@@ -24,6 +24,7 @@ class Kits extends Component {
   }
 
   render() {
+    let category = this.props.ca
     return (<div className="Kits">
       <Table selectable={false} onRowClick={this.handleClick}>
         <TableHeader displaySelectAll={false}>
@@ -59,8 +60,8 @@ class Kits extends Component {
                 </Link>
               </TableRowColumn>
               <TableRowColumn>
-                <Link to={'/kit/' + kit.id}>
-                  {kit.category}
+                <Link to={'/category/' + kit.category.id}>
+                  {kit.category.name}
                 </Link>
               </TableRowColumn>
             </TableRow>)
@@ -82,7 +83,7 @@ class Kits extends Component {
 }
 
 export default connect(store => ({
-  kits: store.kitsPage.kits
-}), dispatch => bindActionCreators({
-  ...actions
-}, dispatch))(Kits)
+    kits: store.kitsPage.kits
+}), dispatch => (
+    bindActionCreators({ ...actions }, dispatch)
+))(Kits)
