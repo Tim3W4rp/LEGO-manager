@@ -3,6 +3,7 @@
   margin: 10px;
   padding: 15px;
   min-height: 200px;
+  position: relative;
 }
 
 .Kit-title {
@@ -16,4 +17,35 @@
   margin-bottom: 5px;
   font-weight: bold;
   font-size: 13px;
+}
+
+.Kit-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Kit-update {
+  position: absolute;
+  right: 15px;
+  top: 50px;
+}
+
+.Kit-delete {
+  position: absolute;
+  right: 15px;
+  top: 90px;
+}
+
+.Kit-description {
+  margin-bottom: 40px;
+}
+
+.Kit-bricks {
+  margin-bottom: 5px;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.Brick-table {
+  margin-top: 10px;
 }

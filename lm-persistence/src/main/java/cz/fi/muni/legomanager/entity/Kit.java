@@ -66,6 +66,10 @@ public class Kit {
         return Collections.unmodifiableList(kitBricks);
     }
 
+    public void setKitBricks(List<KitBrick> kitBricks) {
+        this.kitBricks = kitBricks;
+    }
+
     public void addKitBrick(KitBrick kitBrick) {
         kitBricks.add(kitBrick);
     }
