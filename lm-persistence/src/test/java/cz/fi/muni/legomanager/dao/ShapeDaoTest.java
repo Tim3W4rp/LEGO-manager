@@ -2,25 +2,20 @@ package cz.fi.muni.legomanager.dao;
 
 import cz.fi.muni.legomanager.PersistenceSampleApplicationContext;
 import cz.fi.muni.legomanager.entity.Shape;
-
-
 import org.hibernate.Session;
 import org.junit.Assert;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.List;
 
 /**
@@ -68,12 +63,12 @@ public class ShapeDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(shape.getName(), "Darth Vader");
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createWithNull() {
         shapeDao.create(null);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createDuplicate() {
         shapeDao.create(vaderShape);
     }
@@ -86,12 +81,12 @@ public class ShapeDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(2, tableSize);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void deleteWithNull() {
         shapeDao.delete(null);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void deleteDuplicate() {
         shapeDao.delete(vaderShape);
         shapeDao.delete(vaderShape);
@@ -106,7 +101,7 @@ public class ShapeDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(foundShape.getName(), "Tower block");
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void updateWithNull() {
         shapeDao.update(null);
     }
@@ -117,7 +112,7 @@ public class ShapeDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(shape.getName(), "Gandalf");
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void findWithNull() {
         shapeDao.findById(null);
     }
@@ -128,7 +123,7 @@ public class ShapeDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(found, vaderShape);
     }
 
-    @Test(expectedExceptions = EmptyResultDataAccessException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void findByNonExistingName() {
         shapeDao.findByName("Non existing name");
     }

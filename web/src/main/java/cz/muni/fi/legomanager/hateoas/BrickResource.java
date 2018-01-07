@@ -2,12 +2,12 @@ package cz.muni.fi.legomanager.hateoas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import cz.fi.muni.legomanager.dto.*;
+import cz.fi.muni.legomanager.dto.BrickDTO;
+import cz.fi.muni.legomanager.dto.KitBrickDTO;
 import cz.fi.muni.legomanager.dto.ShapeDTO;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
 @JsonPropertyOrder({"id", "name"})
 public class BrickResource extends ResourceSupport {
 
-    @JsonProperty("id") //ResourceSupport alrerady has getId() method
+    @JsonProperty("id") //ResourceSupport already has getId() method
     private Long dtoId;
     private int red;
     private int green;
@@ -31,7 +31,7 @@ public class BrickResource extends ResourceSupport {
     public BrickResource(BrickDTO dto) {
         this.dtoId = dto.getId();
         this.red = dto.getRed();
-        this.green = dto.getRed();
+        this.green = dto.getGreen();
         this.blue = dto.getBlue();
         this.kitBricks = dto.getKitBricks();
         this.shape = dto.getShape();
@@ -69,27 +69,12 @@ public class BrickResource extends ResourceSupport {
         this.blue = value;
     }
 
-
-    public ShapeDTO getDtoShape() {
+    public ShapeDTO getShape() {
         return shape;
     }
 
-    public void setDtoShape(ShapeDTO shape) {
+    public void setShape(ShapeDTO shape) {
         this.shape = shape;
     }
 
-
-    /*public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) { this.price = price; }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }*/
 }

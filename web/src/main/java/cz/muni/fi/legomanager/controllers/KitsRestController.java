@@ -5,6 +5,8 @@ import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.facade.BrickFacade;
 import cz.fi.muni.legomanager.facade.CategoryFacade;
 import cz.fi.muni.legomanager.facade.KitFacade;
+import cz.muni.fi.legomanager.ApiUris;
+import cz.muni.fi.legomanager.exceptions.FormException;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.KitResource;
@@ -39,7 +41,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @RestController
 @ExposesResourceFor(KitDTO.class)
 @Transactional
-@RequestMapping("/kits")
+@RequestMapping(ApiUris.ROOT_URI_KITS)
 public class KitsRestController {
 
     private final static Logger log = LoggerFactory.getLogger(KitsRestController.class);
@@ -107,7 +109,7 @@ public class KitsRestController {
         log.debug("rest createKit()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException("Failed validation");
+            throw new FormException("Validation failed", bindingResult);
         }
         Long id = facade.createKit(paramDTOCreate);
         KitDTO foundDTO = facade.findKitById(id);
@@ -127,22 +129,27 @@ public class KitsRestController {
             throw new ResourceNotFoundException("kit " + id + " not found");
         } catch (Throwable ex) {
             log.error("cannot delete kit " + id + " :" + ex.getMessage());
-            throw new ResourceNotFoundException("Unable to delete non existing item");
+            throw new ResourceNotFoundException("Kit is being used in some set.");
         }
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public final KitDTO changeKit(@PathVariable("id") long id, @RequestBody @Valid KitDTO updatedDTO) throws Exception {
+    public final KitDTO changeKit(@PathVariable("id") long id, @RequestBody @Valid KitDTO updatedDTO, BindingResult bindingResult) throws Exception {
         log.debug("rest change kit({})", id);
+        if (bindingResult.hasErrors()) {
+            log.error("failed validation {}", bindingResult.toString());
+            throw new InvalidRequestException(bindingResult.toString());
+        }
 
         try {
             updatedDTO.setId(id);
             facade.updateKit(updatedDTO);
-            return facade.findKitById(id);
+
         } catch (Exception ex) {
             throw new ResourceNotFoundException("Unable to update kit");
         }
+        return facade.findKitById(id);
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.EMPLOYEE)
@@ -166,7 +173,7 @@ public class KitsRestController {
         log.debug("rest create random Kit()");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException("Failed validation");
+            throw new FormException("Validation failed", bindingResult);
         }
 
 

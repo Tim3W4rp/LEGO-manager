@@ -110,6 +110,10 @@ public class SampleDataLoadingFacade {
         Brick thorPerson = brick(251, 255, 33, person);
         Brick hulkPerson = brick(0, 155, 25, person);
 
+        Brick redBrick = brick(255, 0, 0, brick2x2);
+        Brick greenBrick = brick(0, 255, 0, brick2x2);
+        Brick bluBrick = brick(0, 0, 255, brick2x2);
+
         Brick gray2x2 = brick(100, 100, 100, brick2x2);
         Brick black2x2 = brick(0, 0, 0, brick2x2);
 

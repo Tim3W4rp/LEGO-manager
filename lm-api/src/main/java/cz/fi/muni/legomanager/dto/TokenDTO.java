@@ -1,7 +1,6 @@
 package cz.fi.muni.legomanager.dto;
 
 /**
- *
  * @author Štěpán Granát
  */
 public class TokenDTO {
@@ -18,5 +17,5 @@ public class TokenDTO {
     public TokenDTO(String token) {
         this.token = token;
     }
-    
+
 }

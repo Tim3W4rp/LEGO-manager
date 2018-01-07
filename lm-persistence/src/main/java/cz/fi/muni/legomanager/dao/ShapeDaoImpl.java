@@ -1,7 +1,6 @@
 package cz.fi.muni.legomanager.dao;
 
 import cz.fi.muni.legomanager.entity.Shape;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -22,11 +21,11 @@ public class ShapeDaoImpl implements ShapeDao {
     @Override
     public void create(Shape shape) {
         if (shape == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
+            throw new IllegalArgumentException("Argument cannot be null.");
         }
 
         if (em.contains(shape)) {
-            throw new InvalidDataAccessApiUsageException("Such shape already exists.");
+            throw new IllegalArgumentException("Such shape already exists.");
         }
 
         em.persist(shape);
@@ -35,7 +34,7 @@ public class ShapeDaoImpl implements ShapeDao {
     @Override
     public void update(Shape shape) {
         if (shape == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
+            throw new IllegalArgumentException("Argument cannot be null.");
         }
 
         em.merge(shape);
@@ -45,11 +44,11 @@ public class ShapeDaoImpl implements ShapeDao {
     @Override
     public void delete(Shape shape) {
         if (shape == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
+            throw new IllegalArgumentException("Argument cannot be null.");
         }
 
         if (!em.contains(shape)) {
-            throw new InvalidDataAccessApiUsageException("Such shape does not exist.");
+            throw new IllegalArgumentException("Such shape does not exist.");
         }
 
         em.remove(shape);
@@ -58,11 +57,11 @@ public class ShapeDaoImpl implements ShapeDao {
     @Override
     public Shape findById(Long id) {
         if (id == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
+            throw new IllegalArgumentException("Argument cannot be null.");
         }
 
         if (em.find(Shape.class, id) == null) {
-            throw new InvalidDataAccessApiUsageException("Shape with such ID does not exist.");
+            throw new IllegalArgumentException("Shape with such ID does not exist.");
         }
 
         return em.find(Shape.class, id);
@@ -71,7 +70,7 @@ public class ShapeDaoImpl implements ShapeDao {
     @Override
     public Shape findByName(String name) {
         if (name == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
+            throw new IllegalArgumentException("Argument cannot be null.");
         }
 
         return em.createQuery("SELECT s FROM Shape s WHERE s.name = :shapeName", Shape.class)

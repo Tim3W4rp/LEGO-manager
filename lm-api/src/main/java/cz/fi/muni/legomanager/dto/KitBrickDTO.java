@@ -1,9 +1,21 @@
 package cz.fi.muni.legomanager.dto;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class KitBrickDTO {
     private Long id;
+
+    @NotNull
     private BrickDTO brick;
+
+    @NotNull
     private KitDTO kit;
+
+    @NotNull
+    @Min(1)
+    @Max(Integer.MAX_VALUE)
     private long count;
 
     public BrickDTO getBrick() {

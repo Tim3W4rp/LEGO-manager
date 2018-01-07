@@ -3,7 +3,9 @@ package cz.muni.fi.legomanager.controllers;
 import cz.fi.muni.legomanager.dto.*;
 
 import cz.fi.muni.legomanager.facade.SetOfKitsFacade;
+import cz.muni.fi.legomanager.ApiUris;
 import cz.muni.fi.legomanager.exceptions.ErrorResource;
+import cz.muni.fi.legomanager.exceptions.FormException;
 import cz.muni.fi.legomanager.exceptions.InvalidRequestException;
 import cz.muni.fi.legomanager.exceptions.ResourceNotFoundException;
 import cz.muni.fi.legomanager.hateoas.SetResource;
@@ -32,13 +34,12 @@ import java.util.List;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
- *
  * @author Michal Peška, partly
  */
 
 @RestController
 @ExposesResourceFor(SetOfKitsDTO.class)
-@RequestMapping("/sets")
+@RequestMapping(ApiUris.ROOT_URI_SETS)
 public class SetsRestController {
 
     private final static Logger log = LoggerFactory.getLogger(SetsRestController.class);
@@ -49,9 +50,9 @@ public class SetsRestController {
 
     @Autowired
     public SetsRestController(
-             SetResourceAssembler setResourceAssembler,
+            SetResourceAssembler setResourceAssembler,
             @SuppressWarnings("SpringJavaAutowiringInspection")
-            EntityLinks entityLinks,
+                    EntityLinks entityLinks,
             SetOfKitsFacade setFacade) {
 
         this.setResourceAssembler = setResourceAssembler;
@@ -97,12 +98,12 @@ public class SetsRestController {
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<SetResource> createSet(@RequestBody @Valid SetOfKitsCreateDTO setDTOCreate, BindingResult bindingResult) throws Exception {
-        log.debug("rest createCategory()");
+        log.debug("rest createSet)");
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
-            throw new InvalidRequestException("Failed validation");
+            throw new FormException("Validation failed", bindingResult);
         }
         Long id = setFacade.createSet(setDTOCreate);
         SetOfKitsDTO setDTO = setFacade.findSetById(id);
@@ -122,22 +123,28 @@ public class SetsRestController {
             throw new ResourceNotFoundException("set " + id + " not found");
         } catch (Throwable ex) {
             log.error("cannot delete set " + id + " :" + ex.getMessage());
-            throw new ResourceNotFoundException("Unable to delete non existing item");
+            throw new ResourceNotFoundException("Set is being used is some category.");
         }
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)
-    @RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public final SetOfKitsDTO changeSet(@PathVariable("id") long id, @RequestBody @Valid SetOfKitsDTO updatedSet) throws Exception {
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public final SetOfKitsDTO changeSet(@PathVariable("id") long id, @RequestBody @Valid SetOfKitsDTO updatedSet, BindingResult bindingResult) throws Exception {
         log.debug("rest change Set({})", id);
+        if (bindingResult.hasErrors()) {
+            log.error("failed validation {}", bindingResult.toString());
+            throw new FormException("Validation failed", bindingResult);
+        }
+
 
         try {
             updatedSet.setId(id);
             setFacade.updateSet(updatedSet);
-            return setFacade.findSetById(id);
         } catch (Exception ex) {
             throw new ResourceNotFoundException("Unable to update set");
         }
+
+        return setFacade.findSetById(id);
     }
 
 

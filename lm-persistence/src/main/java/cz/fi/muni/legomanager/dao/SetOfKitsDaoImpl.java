@@ -1,9 +1,7 @@
 package cz.fi.muni.legomanager.dao;
 
 import cz.fi.muni.legomanager.entity.SetOfKits;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Repository;
-
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,11 +19,11 @@ public class SetOfKitsDaoImpl implements SetOfKitsDao {
     @Override
     public void create(SetOfKits set) {
         if (set == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
+            throw new IllegalArgumentException("Argument cannot be null.");
         }
 
         if (em.contains(set)) {
-            throw new InvalidDataAccessApiUsageException("Such set already exists.");
+            throw new IllegalArgumentException("Such set already exists.");
         }
 
         em.persist(set);
@@ -34,11 +32,11 @@ public class SetOfKitsDaoImpl implements SetOfKitsDao {
     @Override
     public SetOfKits findById(Long id) {
         if (id == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
+            throw new IllegalArgumentException("Argument cannot be null.");
         }
 
         if (em.find(SetOfKits.class, id) == null) {
-            throw new InvalidDataAccessApiUsageException("Set with such ID does not exist.");
+            throw new IllegalArgumentException("Set with such ID does not exist.");
         }
 
         return em.find(SetOfKits.class, id);
@@ -47,7 +45,7 @@ public class SetOfKitsDaoImpl implements SetOfKitsDao {
     @Override
     public void update(SetOfKits set) {
         if (set == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
+            throw new IllegalArgumentException("Argument cannot be null.");
         }
 
         em.merge(set);
@@ -63,11 +61,11 @@ public class SetOfKitsDaoImpl implements SetOfKitsDao {
     @Override
     public void delete(SetOfKits set) {
         if (set == null) {
-            throw new InvalidDataAccessApiUsageException("Argument cannot be null.");
+            throw new IllegalArgumentException("Argument cannot be null.");
         }
 
         if (!em.contains(set)) {
-            throw new InvalidDataAccessApiUsageException("Such set does not exist.");
+            throw new IllegalArgumentException("Such set does not exist.");
         }
 
         em.remove(set);

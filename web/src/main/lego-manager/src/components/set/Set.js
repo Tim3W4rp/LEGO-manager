@@ -26,11 +26,8 @@ class Set extends Component {
     this.props.loadSet(this.props.routeParams.id)
   }
 
-  submit(id) {
-    this.props.removeSet(id)
-      .then(r => (
-        Link.redirect('/sets')
-      ))
+  delete() {
+      this.props.deleteSet(this.props.set.id).then(r => (Link.redirect('/sets/')))
   }
 
   render() {
@@ -43,7 +40,7 @@ class Set extends Component {
           <Link to={'/set/update/' + this.props.set.id}>
             <RaisedButton className="Set-update">Update</RaisedButton>
           </Link>
-          <RaisedButton onClick={e => this.submit(this.props.set.id)} className="Set-delete">Delete</RaisedButton>
+            <RaisedButton className="Set-delete" onClick={e => this.delete()}>Delete</RaisedButton>
         </form>
         <div className="Set-label">Set {this.props.set.id}</div>
         <Divider />

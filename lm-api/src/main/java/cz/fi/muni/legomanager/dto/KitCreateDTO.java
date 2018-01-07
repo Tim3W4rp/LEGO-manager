@@ -1,8 +1,24 @@
 package cz.fi.muni.legomanager.dto;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class KitCreateDTO {
+
+    @NotNull
+    @Size(min = 1)
     private String description;
+
+    @NotNull
+    @Min(1)
+    @Max(Integer.MAX_VALUE)
     private Integer price;
+
+    @NotNull
+    @Min(0)
+    @Max(100)
     private Integer ageLimit;
 
     public String getDescription() {
