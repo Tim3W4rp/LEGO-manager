@@ -37,6 +37,10 @@ public class KitResource extends ResourceSupport {
         this.kitBricks = dto.getKitBricks();
     }
 
+    public Long getCategoryId() {
+        return category.getId();
+    }
+
     public Long getDTOId() {
         return id;
     }
@@ -64,5 +68,21 @@ public class KitResource extends ResourceSupport {
     }
 
     public void setAgeLimit(Integer ageLimit) { this.ageLimit = ageLimit; }
+
+    public CategoryDTO getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDTO category) {
+        this.category = category;
+    }
+
+    public List<KitBrickDTO> getKitBricks() {
+        return kitBricks;
+    }
+
+    public void setKitBricks(List<KitBrickDTO> kitBricks) {
+        this.kitBricks = kitBricks;
+    }
 
 }

@@ -2,6 +2,7 @@ package cz.muni.fi.legomanager.controllers;
 
 import cz.fi.muni.legomanager.dto.*;
 import cz.fi.muni.legomanager.entity.Category;
+import cz.fi.muni.legomanager.facade.BrickFacade;
 import cz.fi.muni.legomanager.facade.CategoryFacade;
 import cz.fi.muni.legomanager.facade.KitFacade;
 import cz.muni.fi.legomanager.ApiUris;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -45,6 +47,7 @@ public class KitsRestController {
     private final static Logger log = LoggerFactory.getLogger(KitsRestController.class);
     private KitFacade facade;
     private CategoryFacade categoryFacade;
+    private BrickFacade brickFacade;
     private KitResourceAssembler resourceAssembler;
     private EntityLinks entityLinks;
 
@@ -55,13 +58,14 @@ public class KitsRestController {
             @SuppressWarnings("SpringJavaAutowiringInspection")
                     EntityLinks entityLinks,
             KitFacade facade,
-            CategoryFacade categoryFacade) {
+            CategoryFacade categoryFacade,
+            BrickFacade brickFacade) {
 
         this.resourceAssembler = resourceAssembler;
         this.entityLinks = entityLinks;
         this.facade = facade;
         this.categoryFacade = categoryFacade;
-
+        this.brickFacade = brickFacade;
     }
 
 
@@ -171,7 +175,16 @@ public class KitsRestController {
             log.error("failed validation {}", bindingResult.toString());
             throw new FormException("Validation failed", bindingResult);
         }
-        KitDTO foundDTO = facade.createRandomKitByRules(paramDTOCreate.getMin(), paramDTOCreate.getMax(), paramDTOCreate.getBricks());
+
+
+        List<BrickDTO> bricksReal = new ArrayList<>();
+        for (BrickDTO brick :paramDTOCreate.getBricks()) {
+            bricksReal.add(brickFacade.findById(brick.getId()));
+        }
+
+        System.out.println("RMUHAHAHA");
+        KitDTO foundDTO = facade.createRandomKitByRules(paramDTOCreate.getMin(), paramDTOCreate.getMax(), bricksReal);
+        System.out.println("RAAMUHAHAHA");
 
         KitResource resource = resourceAssembler.toResource(foundDTO);
         return new ResponseEntity<>(resource, HttpStatus.OK);

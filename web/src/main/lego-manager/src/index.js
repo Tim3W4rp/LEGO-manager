@@ -38,6 +38,7 @@ import ShapeUpdate from './components/shapeUpdate/ShapeUpdate'
 import Shape from './components/shape/Shape'
 import Kits from './components/kits/Kits'
 import KitCreate from './components/kitCreate/KitCreate'
+import KitCreateRandom from './components/kitCreateRandom/KitCreateRandom'
 import Kit from './components/kit/Kit'
 
 // reducers
@@ -117,6 +118,7 @@ render(<Theme>
           <Route path="shape/:id" component={Shape}/>
           <Route path="kits" component={Kits}/>
           <Route path="kit/create" component={KitCreate}/>
+          <Route path="kit/createrandom" component={KitCreateRandom}/>
           <Route path="kit/:id" component={Kit}/>
         </Route>
         <Route path="/" component={App}>
