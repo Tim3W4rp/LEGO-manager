@@ -3,3 +3,11 @@
   bottom: 20px;
   right: 20px;
 }
+.Kits-floating-random-button {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+}div.Kits-floating-random-button button{
+  background-color: rgba(104, 11, 5, 0.9) !important;
+}
+

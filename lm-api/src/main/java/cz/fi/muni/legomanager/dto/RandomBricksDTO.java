@@ -33,7 +33,11 @@ public class RandomBricksDTO {
     }
 
     public List<BrickDTO> getBricks() {
-        return Collections.unmodifiableList(bricks);
+        return bricks;
+    }
+
+    public void setBricks() {
+        this.bricks = bricks;
     }
 
     public void addBrick(BrickDTO brick) {

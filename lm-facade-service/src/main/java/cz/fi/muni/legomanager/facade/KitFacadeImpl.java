@@ -12,6 +12,7 @@ import cz.fi.muni.legomanager.services.KitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,6 +99,7 @@ public class KitFacadeImpl implements KitFacade {
 
     @Override
     public KitDTO createRandomKitByRules(int minBrickCount, int maxBrickCount, List<BrickDTO> bricks) {
+
         List<Brick> bricksEnt = dozerService.mapTo(bricks, Brick.class);
 
         return dozerService.mapTo(kitService.createRandomKitByRules(minBrickCount, maxBrickCount, bricksEnt), KitDTO.class);
