@@ -57,12 +57,8 @@ public class KitDTO {
         return Collections.unmodifiableList(kitBricks);
     }
 
-    public void addKitBrick(KitBrickDTO kitBrick) {
-        kitBricks.add(kitBrick);
-    }
-
-    public void removeKitBrick(KitBrickDTO kitBrick) {
-        kitBricks.remove(kitBrick);
+    public void setKitBricksHidden(List<KitBrickDTO> kitBricks) {
+        this.kitBricks = kitBricks;
     }
 
     @Override

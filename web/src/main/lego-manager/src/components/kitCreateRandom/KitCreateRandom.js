@@ -7,6 +7,8 @@ import Divider from 'material-ui/Divider'
 import RaisedButton from 'material-ui/RaisedButton'
 import MenuItem from 'material-ui/MenuItem';
 
+import BrickElement from '../../elements/brick/Brick'
+
 import {TextField, SelectField} from 'redux-form-material-ui'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 
@@ -30,7 +32,6 @@ class KitCreate extends Component {
   submit(values) {
     values.min = Number.parseInt(values.min, 10);
     values.max = Number.parseInt(values.max, 10);
-    values.bricks = [{id: 1}, {id: 2}, {id: 3}];
     this.props.addKit(values)
       .then(r => (
         Link.redirect('/kit/' + r.value.data.id)
@@ -52,12 +53,6 @@ class KitCreate extends Component {
         <Divider />
 
         <form className="KitCreate-form" onSubmit={handleSubmit(vals => this.submit(vals))}>
-          <Field
-            className="KitCreate-item"
-            name="name"
-            component={TextField}
-            hintText="Kit name"
-            validate={[ required ]} />
 
           <Field
             className="KitCreate-item"
@@ -88,7 +83,12 @@ class KitCreate extends Component {
                 key={brick.id}
                 value={brick}
                 checked={form && form.bricks && form.bricks.find(b => b.id === brick.id) !== undefined}
-                primaryText={<div>{brick.id}</div>}
+                primaryText={
+                  <div className="KitCreate-brick-item">
+                    <div>{brick.id}</div>
+                    <BrickElement size="15" color={'rgb(' + brick.dtoRed + ', ' + brick.dtoGreen + ', ' + brick.dtoBlue + ')'}/>
+                  </div>
+                }
                 insetChildren={true}/>
             ))}
           </Field>

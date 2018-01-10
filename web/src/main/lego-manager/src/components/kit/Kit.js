@@ -7,6 +7,7 @@ import Paper from 'material-ui/Paper'
 import Divider from 'material-ui/Divider'
 import RaisedButton from 'material-ui/RaisedButton';
 import * as KitActions from './actions'
+import BrickElement from '../../elements/brick/Brick'
 import {
     Table,
     TableBody,
@@ -31,7 +32,7 @@ class Kit extends Component {
     }
 
     render() {
-        let bricks = this.props.bricks ? this.props.bricks : []
+        let kitBricks = this.props.kit.kitBricks ? this.props.kit.kitBricks : []
         return (
             <Paper className="Kit" zDepth={1}>
                 <div className="Kit-label">Kit {this.props.kit.id}</div>
@@ -57,25 +58,38 @@ class Kit extends Component {
                     <TableHeader displaySelectAll={false}>
                         <TableRow>
                             <TableHeaderColumn>ID</TableHeaderColumn>
+                            <TableHeaderColumn></TableHeaderColumn>
                             <TableHeaderColumn>Shape</TableHeaderColumn>
+                            <TableHeaderColumn>Count</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false} showRowHover={true}>
                         {
-                            bricks.map((brick) => (
-                                <TableRow key={brick.id}>
+                            kitBricks.map((kitBrick) => {
+                                console.log(kitBrick.brick.red)
+                                return <TableRow key={kitBrick.brick.id}>
                                     <TableRowColumn>
-                                        <Link to={'/brick/' + brick.id}>
-                                            {brick.id}
+                                        <Link to={'/brick/' + kitBrick.brick.id}>
+                                            {kitBrick.brick.id}
                                         </Link>
                                     </TableRowColumn>
                                     <TableRowColumn>
-                                        <Link to={'/brick/' + brick.id}>
-                                            {brick.shape}
-                                        </Link>
+                                      <Link to={'/brick/' + kitBrick.brick.id}>
+                                        <BrickElement size="40" color={'rgb(' + kitBrick.brick.red + ', ' + kitBrick.brick.green + ', ' + kitBrick.brick.blue + ')'}/>
+                                      </Link>
+                                    </TableRowColumn>
+                                    <TableHeaderColumn>
+                                      <Link to={'/brick/' + kitBrick.brick.id}>
+                                        {kitBrick.brick.shape.name}
+                                      </Link>
+                                    </TableHeaderColumn>
+                                    <TableRowColumn>
+                                      <Link to={'/brick/' + kitBrick.brick.id}>
+                                        {kitBrick.count}
+                                      </Link>
                                     </TableRowColumn>
                                 </TableRow>
-                            ))}
+                            })}
                     </TableBody>
                 </Table>
 

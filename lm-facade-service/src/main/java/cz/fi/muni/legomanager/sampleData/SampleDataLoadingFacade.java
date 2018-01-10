@@ -130,6 +130,105 @@ public class SampleDataLoadingFacade {
         brickToKit(jokerWehicle, black2x4, 50);
         brickToKit(jokerWehicle, gray2x4, 100);
 
+        brickToKit(batCave, black2x2, 12);
+        brickToKit(batCave, joker, 1);
+        brickToKit(batCave, batmanPerson, 1);
+        brickToKit(batCave, redBrick, 12);
+
+        brickToKit(ultimateBatMobile, blackWheel, 4);
+        brickToKit(ultimateBatMobile, black2x4, 3);
+        brickToKit(ultimateBatMobile, black2x4, 3);
+        brickToKit(ultimateBatMobile, bluBrick, 1);
+        brickToKit(ultimateBatMobile, gray2x2, 10);
+
+        brickToKit(riddler, black2x2, 4);
+        brickToKit(riddler, blackWheel, 1);
+        brickToKit(riddler, black2x4, 5);
+        brickToKit(riddler, gray2x2, 6);
+        brickToKit(riddler, gray2x4, 4);
+
+        brickToKit(battleOfAtlantis, thorPerson, 1);
+        brickToKit(battleOfAtlantis, black2x2, 4);
+        brickToKit(battleOfAtlantis, gray2x4, 10);
+
+        brickToKit(battleOfAsgarad, thorPerson, 1);
+        brickToKit(battleOfAtlantis, gray2x2, 4);
+        brickToKit(battleOfAtlantis, gray2x4, 10);
+
+        brickToKit(arenaClash, hulkPerson, 1);
+        brickToKit(arenaClash, greenBrick, 2);
+        brickToKit(arenaClash, black2x4, 10);
+        brickToKit(arenaClash, bluBrick, 5);
+
+        brickToKit(starDestroyer, lukeSkywalker, 1);
+        brickToKit(starDestroyer, greenBrick, 2);
+        brickToKit(starDestroyer, black2x4, 10);
+        brickToKit(starDestroyer, bluBrick, 5);
+
+        brickToKit(scoutWalker, lukeSkywalker, 1);
+        brickToKit(scoutWalker, greenBrick, 2);
+        brickToKit(scoutWalker, black2x4, 10);
+        brickToKit(scoutWalker, bluBrick, 5);
+
+        brickToKit(transportPod, lukeSkywalker, 1);
+        brickToKit(transportPod, greenBrick, 2);
+        brickToKit(transportPod, black2x4, 10);
+        brickToKit(transportPod, bluBrick, 5);
+
+        brickToKit(tieFighter, lukeSkywalker, 1);
+        brickToKit(tieFighter, greenBrick, 2);
+        brickToKit(tieFighter, black2x4, 10);
+        brickToKit(tieFighter, bluBrick, 5);
+
+        brickToKit(assaultWalker, lukeSkywalker, 1);
+        brickToKit(assaultWalker, greenBrick, 2);
+        brickToKit(assaultWalker, black2x4, 10);
+        brickToKit(assaultWalker, bluBrick, 5);
+
+        brickToKit(bb8, lukeSkywalker, 1);
+        brickToKit(bb8, greenBrick, 2);
+        brickToKit(bb8, black2x4, 10);
+        brickToKit(bb8, bluBrick, 5);
+
+        brickToKit(bomber, lukeSkywalker, 1);
+        brickToKit(bomber, greenBrick, 2);
+        brickToKit(bomber, black2x4, 10);
+        brickToKit(bomber, bluBrick, 5);
+
+        brickToKit(deathStar, lukeSkywalker, 1);
+        brickToKit(deathStar, greenBrick, 2);
+        brickToKit(deathStar, black2x4, 10);
+        brickToKit(deathStar, bluBrick, 5);
+
+        brickToKit(snowSpeeder, lukeSkywalker, 1);
+        brickToKit(snowSpeeder, greenBrick, 2);
+        brickToKit(snowSpeeder, black2x4, 10);
+        brickToKit(snowSpeeder, bluBrick, 5);
+
+        brickToKit(slave1, lukeSkywalker, 1);
+        brickToKit(slave1, greenBrick, 2);
+        brickToKit(slave1, black2x4, 10);
+        brickToKit(slave1, bluBrick, 5);
+
+        brickToKit(mountainCave, black2x2, 1000);
+        brickToKit(mountainCave, gray2x2, 1000);
+
+        brickToKit(craftingBox, black2x2, 1000);
+        brickToKit(craftingBox, gray2x2, 1000);
+        brickToKit(craftingBox, bluBrick, 1000);
+        brickToKit(craftingBox, redBrick, 1000);
+
+        brickToKit(oceanMonument, bluBrick, 1000);
+
+        brickToKit(ultimateRobotFull, black2x2, 10);
+        brickToKit(ultimateRobotFull, gray2x2, 10);
+        brickToKit(ultimateRobotFull, bluBrick, 10);
+        brickToKit(ultimateRobotFull, redBrick, 10);
+
+        brickToKit(engine, gray2x4, 1);
+
+        brickToKit(sensors, bluBrick, 4);
+
     }
 
     private Category category(String name, String description) {
