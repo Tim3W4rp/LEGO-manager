@@ -5,17 +5,28 @@ import {bindActionCreators} from 'redux'
 import Paper from 'material-ui/Paper'
 import Divider from 'material-ui/Divider'
 import RaisedButton from 'material-ui/RaisedButton'
+import MenuItem from 'material-ui/MenuItem';
 
-import { TextField } from 'redux-form-material-ui'
-import { Field, reduxForm } from 'redux-form'
+import {TextField, SelectField} from 'redux-form-material-ui'
+import { Field, reduxForm, formValueSelector } from 'redux-form'
 
 import './KitCreateRandom.css'
 import * as actions from './actions'
+
+import { loadBricks } from '../bricks/actions'
 
 import Link from '../../elements/link/Link'
 
 
 class KitCreate extends Component {
+
+  constructor() {
+    super()
+    this.state = {
+      values: [],
+    };
+  }
+
   submit(values) {
     values.min = Number.parseInt(values.min, 10);
     values.max = Number.parseInt(values.max, 10);
@@ -26,8 +37,14 @@ class KitCreate extends Component {
       ))
   }
 
+  componentWillMount() {
+    this.props.loadBricks()
+  }
+
   render() {
     const { handleSubmit } = this.props
+    let { form } = this.props
+
     return (
       <Paper className="KitCreate" zDepth={1}>
         <div className="KitCreate-label">Create new kit with random bricks</div>
@@ -37,24 +54,44 @@ class KitCreate extends Component {
         <form className="KitCreate-form" onSubmit={handleSubmit(vals => this.submit(vals))}>
           <Field
             className="KitCreate-item"
+            name="name"
+            component={TextField}
+            hintText="Kit name"
+            validate={[ required ]} />
+
+          <Field
+            className="KitCreate-item"
             name="min"
             component={TextField}
-            hintText="Minimum value"
-            validate={[ required ]} />
+            hintText="Minimum bricks"
+            type="number"
+            validate={[ required, greaterThenZero ]} />
 
           <Field
             className="KitCreate-item"
             name="max"
             component={TextField}
-            hintText="Maximum value"
-            multiLine={true} />
+            hintText="Maximum bricks"
+            type="number"
+            validate={[ required, greaterThenZero, maxIsGreater ]} />
 
           <Field
             className="KitCreate-item"
             name="bricks"
-            component={TextField}
-            hintText="List of bricks"
-            multiLine={true} />
+            component={SelectField}
+            hintText="Bricks"
+            validate={[required]}
+            selectionRenderer={bricks => bricks.length ? `${String(bricks.length)} selected` : ''}
+            multiple={true}>
+            {this.props.bricks.data.map((brick) => (
+              <MenuItem
+                key={brick.id}
+                value={brick}
+                checked={form && form.bricks && form.bricks.find(b => b.id === brick.id) !== undefined}
+                primaryText={<div>{brick.id}</div>}
+                insetChildren={true}/>
+            ))}
+          </Field>
 
           <RaisedButton type="submit" label="Generate kit" primary={true} />
         </form>
@@ -65,14 +102,28 @@ class KitCreate extends Component {
 
 const required = value => value ? undefined : 'Required'
 
-let component = connect(store => ({
+const greaterThenZero = value => parseInt(value, 10) > 0 ? undefined : 'Must be > 0'
 
+const maxIsGreater = (value, values) => {
+  if(values.min && values.max && parseInt(values.min, 10) > parseInt(values.max, 10)) {
+    return 'Min is greater then max'
+  }
+  return undefined
+}
+
+const selector = formValueSelector('kitCreate')
+let component = connect(store => ({
+  bricks: store.bricksPage.bricks,
+  form: {
+    bricks: selector(store, 'bricks'),
+  }
 }), dispatch => bindActionCreators({
-  ...actions
+  ...actions,
+  loadBricks
 }, dispatch))(KitCreate)
 
 component = reduxForm({
-  form: 'kitCreate'
+  form: 'kitCreate',
 })(component)
 
 export default component
