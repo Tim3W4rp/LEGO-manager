@@ -93,10 +93,9 @@ public class KitFacadeImpl implements KitFacade {
     }
 
     @Override
-    public List<KitDTO> findSimilarKits(KitDTO kitDTO, int priceRange, int ageLimitRange, CategoryDTO categoryDTO) {
-        Kit mappedKit = dozerService.mapTo(kitDTO, Kit.class);
-        Category mappedCategory = dozerService.mapTo(categoryDTO, Category.class);
-        return dozerService.mapTo(kitService.findSimilarKits(mappedKit, priceRange, ageLimitRange, mappedCategory), KitDTO.class);
+    public List<KitDTO> findSimilarKits(long kitId, int priceRange, int ageLimitRange) {
+        Kit kit = kitService.findKitById(kitId);
+        return dozerService.mapTo(kitService.findSimilarKits(kit, priceRange, ageLimitRange), KitDTO.class);
     }
 
     @Override

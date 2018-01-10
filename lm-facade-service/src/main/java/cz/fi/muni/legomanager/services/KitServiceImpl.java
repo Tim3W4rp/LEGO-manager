@@ -96,7 +96,7 @@ public class KitServiceImpl implements KitService {
     }
 
     @Override
-    public List<Kit> findSimilarKits(Kit similarKit, int priceRange, int ageLimitRange, Category category) {
+    public List<Kit> findSimilarKits(Kit similarKit, int priceRange, int ageLimitRange) {
         if (similarKit == null) {
             throw new RuntimeException("Kit is null");
         }
@@ -115,7 +115,8 @@ public class KitServiceImpl implements KitService {
         for (Kit kit : allKits) {
             if (((kit.getPrice() >= lowPrice && kit.getPrice() <= highPrice) &&
                     (kit.getAgeLimit() >= lowAge && kit.getAgeLimit() <= highAge) &&
-                    kit.getCategory().equals(category)) && !similarKits.contains(kit)) {
+                    kit.getCategory().equals(similarKit.getCategory())) && !similarKits.contains(kit) &&
+                    !kit.equals(similarKit)) {
                 similarKits.add(kit);
             }
         }

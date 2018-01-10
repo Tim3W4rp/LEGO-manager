@@ -153,18 +153,15 @@ public class KitsRestController {
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.EMPLOYEE)
-    @RequestMapping(value = "/{id}/{priceRange}/{ageLimitRange}/{categoryId}", method = RequestMethod.GET)
-    public final List<KitDTO> findSimilarKits(@PathVariable("id") long kitId,
-                                              @PathVariable("priceRange") int priceRange,
-                                              @PathVariable("ageLimitRange") int ageLimitRange,
-                                              @PathVariable("categoryId") Long categoryId) throws Exception {
-        log.debug("rest findSimilarKits({})", kitId);
+    @RequestMapping(value = "/similar/{id}", method = RequestMethod.GET)
+    public HttpEntity<Resources<KitResource>> similarKits(@PathVariable("id") long id) throws Exception {
+        log.debug("rest findSimilarKits({})", id);
 
-        try {
-            return facade.findSimilarKits(facade.findKitById(kitId), priceRange, ageLimitRange, categoryFacade.getCategoryById(categoryId));
-        } catch (Exception ex) {
-            throw new ResourceNotFoundException("Unable to find similar kits");
-        }
+        Resources<KitResource> resources = new Resources<>(
+                resourceAssembler.toResources(facade.findSimilarKits(id, 100, 100)),
+                linkTo(KitsRestController.class).withSelfRel(),
+                linkTo(KitsRestController.class).slash("/create").withRel("create"));
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
     @ApplyAuthorizeFilter(securityLevel = SecurityLevel.ADMIN)

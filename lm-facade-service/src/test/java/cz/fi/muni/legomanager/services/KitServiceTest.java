@@ -209,36 +209,33 @@ public class KitServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(100, kitService.findSimilarKits(
                 generateKitInRange(15, 15, 5, 5, c1),
                 5,
-                5,
-                c1
+                5
         ).size());
 
         // filter all kits with category c2
-        Assert.assertEquals(100, kitService.findSimilarKits(
+        Assert.assertEquals(400, kitService.findSimilarKits(
                 generateKitInRange(15, 15, 5, 5, c1),
                 100,
-                100,
-                c2
+                100
         ).size());
 
         // filter all kits in price range and category c1
         Assert.assertEquals(200, kitService.findSimilarKits(
                 generateKitInRange(15, 15, 5, 5, c1),
                 100,
-                5,
-                c1
+                5
         ).size());
     }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testFindSimilarKitsEmpty() {
         when(kitDao.findAll()).thenReturn(new ArrayList<>());
-        kitService.findSimilarKits(kit, 5, 5, category);
+        kitService.findSimilarKits(kit, 5, 5);
     }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testFindSimilarKitsNull() {
-        kitService.findSimilarKits(null, 5, 5, category);
+        kitService.findSimilarKits(null, 5, 5);
     }
 
     /*@Test

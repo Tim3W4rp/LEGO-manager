@@ -22,6 +22,7 @@ class Kit extends Component {
 
     componentWillMount() {
         this.props.loadKit(this.props.routeParams.id)
+        this.props.loadSimilarKits(this.props.routeParams.id)
     }
 
     delete() {
@@ -33,6 +34,7 @@ class Kit extends Component {
 
     render() {
         let kitBricks = this.props.kit.kitBricks ? this.props.kit.kitBricks : []
+        let similarKits = this.props.kit.similarKits ? this.props.kit.similarKits: []
         return (
             <Paper className="Kit" zDepth={1}>
                 <div className="Kit-label">Kit {this.props.kit.id}</div>
@@ -40,7 +42,12 @@ class Kit extends Component {
                 <div className="Kit-title">{this.props.kit.description}</div>
                 <div className="Kit-price">Price: {this.props.kit.price},-</div>
                 <div className="Kit-ageLimit">Age limit: {this.props.kit.ageLimit}</div>
-                <div className="Kit-category">Category: {this.props.kit.categoryId}</div><br></br>
+                <div className="Kit-category">Category: {
+                    this.props.kit.category ?
+                      <Link to={'/category/' +  this.props.kit.categoryId}>{this.props.kit.category.name}</Link>
+                      : ""
+                    }
+                </div><br></br>
                 <Link to={'/kit/update/' + this.props.kit.id}>
                     <RaisedButton
                         className="Kit-update">Update</RaisedButton>
@@ -107,6 +114,35 @@ class Kit extends Component {
                     </TableHeader>
                     <TableBody displayRowCheckbox={false} showRowHover={true}>
                         {
+                          similarKits.map((kit) => {
+                            return (<TableRow key={kit.id}>
+                              <TableRowColumn>
+                                <Link to={'/kit/' + kit.id}>
+                                  {kit.id}
+                                </Link>
+                              </TableRowColumn>
+                              <TableRowColumn>
+                                <Link to={'/kit/' + kit.id}>
+                                  {kit.description}
+                                </Link>
+                              </TableRowColumn>
+                              <TableRowColumn>
+                                <Link to={'/kit/' + kit.id}>
+                                  {kit.price}
+                                </Link>
+                              </TableRowColumn>
+                              <TableRowColumn>
+                                <Link to={'/kit/' + kit.id}>
+                                  {kit.ageLimit}
+                                </Link>
+                              </TableRowColumn>
+                              <TableRowColumn>
+                                <Link to={'/category/' + kit.category.id}>
+                                  {kit.category.name}
+                                </Link>
+                              </TableRowColumn>
+                            </TableRow>)
+                          })
                         }
                     </TableBody>
                 </Table>
