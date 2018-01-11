@@ -34,8 +34,7 @@ public class Kit {
     private Category category;
 
     @NotNull
-    @ElementCollection(fetch = FetchType.EAGER)
-    @OneToMany(mappedBy = "kit", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "kit", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<KitBrick> kitBricks = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -72,10 +71,6 @@ public class Kit {
 
     public void addKitBrick(KitBrick kitBrick) {
         kitBricks.add(kitBrick);
-    }
-
-    public void removeKitBrick(KitBrick kitBrick) {
-        kitBricks.remove(kitBrick);
     }
 
     public String getDescription() {

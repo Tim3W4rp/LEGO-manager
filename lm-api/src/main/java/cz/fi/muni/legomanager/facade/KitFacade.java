@@ -23,6 +23,6 @@ public interface KitFacade {
     public void addBrickToKit(Long kitId, Long brickId);
     public void removeOneBrickFromKitById(Long kitId, Long brickId);
     public void removeAllBricksOfThisTypeFromKitById(Long kitId, Long brickId);
-    public List<KitDTO> findSimilarKits(KitDTO kitDTO, int priceRange, int ageLimitRange, CategoryDTO category);
+    public List<KitDTO> findSimilarKits(long kitId, int priceRange, int ageLimitRange);
     public KitDTO createRandomKitByRules(int minBrickCount, int maxBrickCount, List<BrickDTO> bricks);
 }

@@ -9,9 +9,9 @@ export const loadKit = (id) => ({
 })
 
 export const loadSimilarKits = (id) => ({
-    type: 'FETCH_KIT',
+    type: 'FETCH_SIMILAR_KIT',
     payload: client({
-      url: '/kits/' + id,
+      url: '/kits/similar/' + id,
       method: 'GET',
     })
 })

@@ -1,18 +1,17 @@
 package cz.fi.muni.legomanager.facade;
 
-import cz.fi.muni.legomanager.dto.BrickDTO;
-import cz.fi.muni.legomanager.dto.CategoryDTO;
-import cz.fi.muni.legomanager.dto.KitCreateDTO;
-import cz.fi.muni.legomanager.dto.KitDTO;
+import cz.fi.muni.legomanager.dto.*;
 import cz.fi.muni.legomanager.entity.Brick;
 import cz.fi.muni.legomanager.entity.Category;
 import cz.fi.muni.legomanager.entity.Kit;
+import cz.fi.muni.legomanager.entity.KitBrick;
 import cz.fi.muni.legomanager.services.DozerService;
 import cz.fi.muni.legomanager.services.KitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -36,7 +35,10 @@ public class KitFacadeImpl implements KitFacade {
 
     @Override
     public KitDTO findKitById(Long kitId) {
-        return dozerService.mapTo(kitService.findKitById(kitId), KitDTO.class);
+        Kit kit = kitService.findKitById(kitId);
+        KitDTO kitDTO = dozerService.mapTo(kitService.findKitById(kitId), KitDTO.class);
+        kitDTO.setKitBricksHidden(dozerService.mapTo(kit.getKitBricks(), KitBrickDTO.class));
+        return kitDTO;
     }
 
     @Override
@@ -91,10 +93,9 @@ public class KitFacadeImpl implements KitFacade {
     }
 
     @Override
-    public List<KitDTO> findSimilarKits(KitDTO kitDTO, int priceRange, int ageLimitRange, CategoryDTO categoryDTO) {
-        Kit mappedKit = dozerService.mapTo(kitDTO, Kit.class);
-        Category mappedCategory = dozerService.mapTo(categoryDTO, Category.class);
-        return dozerService.mapTo(kitService.findSimilarKits(mappedKit, priceRange, ageLimitRange, mappedCategory), KitDTO.class);
+    public List<KitDTO> findSimilarKits(long kitId, int priceRange, int ageLimitRange) {
+        Kit kit = kitService.findKitById(kitId);
+        return dozerService.mapTo(kitService.findSimilarKits(kit, priceRange, ageLimitRange), KitDTO.class);
     }
 
     @Override
