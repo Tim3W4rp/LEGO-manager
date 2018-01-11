@@ -25,6 +25,10 @@ class Kit extends Component {
         this.props.loadSimilarKits(this.props.routeParams.id)
     }
 
+    reload() {
+      setTimeout(() => this.componentWillMount(), 0)
+    }
+
     delete() {
         this.props.deleteKit(this.props.kit.id)
             .then(r => (
@@ -73,8 +77,7 @@ class Kit extends Component {
                     <TableBody displayRowCheckbox={false} showRowHover={true}>
                         {
                             kitBricks.map((kitBrick) => {
-                                console.log(kitBrick.brick.red)
-                                return <TableRow key={kitBrick.brick.id}>
+                                return <TableRow key={kitBrick.brick.id + 'kit'}>
                                     <TableRowColumn>
                                         <Link to={'/brick/' + kitBrick.brick.id}>
                                             {kitBrick.brick.id}
@@ -117,27 +120,27 @@ class Kit extends Component {
                           similarKits.map((kit) => {
                             return (<TableRow key={kit.id}>
                               <TableRowColumn>
-                                <Link to={'/kit/' + kit.id}>
+                                <Link onClick={e => this.reload()} to={'/kit/' + kit.id}>
                                   {kit.id}
                                 </Link>
                               </TableRowColumn>
                               <TableRowColumn>
-                                <Link to={'/kit/' + kit.id}>
+                                <Link onClick={e => this.reload()} to={'/kit/' + kit.id}>
                                   {kit.description}
                                 </Link>
                               </TableRowColumn>
                               <TableRowColumn>
-                                <Link to={'/kit/' + kit.id}>
+                                <Link onClick={e => this.reload()} to={'/kit/' + kit.id}>
                                   {kit.price}
                                 </Link>
                               </TableRowColumn>
                               <TableRowColumn>
-                                <Link to={'/kit/' + kit.id}>
+                                <Link onClick={e => this.reload()} to={'/kit/' + kit.id}>
                                   {kit.ageLimit}
                                 </Link>
                               </TableRowColumn>
                               <TableRowColumn>
-                                <Link to={'/category/' + kit.category.id}>
+                                <Link onClick={e => this.reload()} to={'/category/' + kit.category.id}>
                                   {kit.category.name}
                                 </Link>
                               </TableRowColumn>
