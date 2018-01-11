@@ -7,6 +7,9 @@ const reducer = (state = [], action) => {
       }
 
     case 'FETCH_SIMILAR_KIT_FULFILLED':
+      if (!action.payload.data._embedded) {
+        return state
+      }
       return {
         ...state,
         similarKits: action.payload.data._embedded.kits

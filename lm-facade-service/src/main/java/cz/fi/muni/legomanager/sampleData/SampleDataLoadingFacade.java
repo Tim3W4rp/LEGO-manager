@@ -137,7 +137,6 @@ public class SampleDataLoadingFacade {
 
         brickToKit(ultimateBatMobile, blackWheel, 4);
         brickToKit(ultimateBatMobile, black2x4, 3);
-        brickToKit(ultimateBatMobile, black2x4, 3);
         brickToKit(ultimateBatMobile, bluBrick, 1);
         brickToKit(ultimateBatMobile, gray2x2, 10);
 
@@ -152,8 +151,8 @@ public class SampleDataLoadingFacade {
         brickToKit(battleOfAtlantis, gray2x4, 10);
 
         brickToKit(battleOfAsgarad, thorPerson, 1);
-        brickToKit(battleOfAtlantis, gray2x2, 4);
-        brickToKit(battleOfAtlantis, gray2x4, 10);
+        brickToKit(battleOfAsgarad, gray2x2, 4);
+        brickToKit(battleOfAsgarad, gray2x4, 10);
 
         brickToKit(arenaClash, hulkPerson, 1);
         brickToKit(arenaClash, greenBrick, 2);
