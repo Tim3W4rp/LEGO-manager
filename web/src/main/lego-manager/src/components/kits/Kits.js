@@ -24,7 +24,6 @@ class Kits extends Component {
   }
 
   render() {
-    let category = this.props.ca
     return (<div className="Kits">
       <Table selectable={false} onRowClick={this.handleClick}>
         <TableHeader displaySelectAll={false}>

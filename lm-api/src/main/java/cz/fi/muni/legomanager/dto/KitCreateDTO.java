@@ -4,6 +4,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 public class KitCreateDTO {
 
@@ -20,6 +21,12 @@ public class KitCreateDTO {
     @Min(0)
     @Max(100)
     private Integer ageLimit;
+
+    @NotNull
+    private CategoryDTO category;
+
+    @NotNull
+    private List<BrickDTO> bricks;
 
     public String getDescription() {
         return description;
@@ -43,6 +50,22 @@ public class KitCreateDTO {
 
     public void setAgeLimit(Integer ageLimit) {
         this.ageLimit = ageLimit;
+    }
+
+    public CategoryDTO getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDTO category) {
+        this.category = category;
+    }
+
+    public List<BrickDTO> getBricks() {
+        return bricks;
+    }
+
+    public void setBricks(List<BrickDTO> bricks) {
+        this.bricks = bricks;
     }
 
     @Override
