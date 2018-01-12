@@ -4,6 +4,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 public class KitCreateDTO {
@@ -26,7 +27,9 @@ public class KitCreateDTO {
     private CategoryDTO category;
 
     @NotNull
-    private List<BrickDTO> bricks;
+    private List<BrickDTO> bricks= new ArrayList<>();
+
+    private List<KitBrickDTO> kitBricks = new ArrayList<>();
 
     public String getDescription() {
         return description;
@@ -66,6 +69,14 @@ public class KitCreateDTO {
 
     public void setBricks(List<BrickDTO> bricks) {
         this.bricks = bricks;
+    }
+
+    public List<KitBrickDTO> getKitBricks() {
+        return kitBricks;
+    }
+
+    public void setKitBricks(List<KitBrickDTO> kitBricks) {
+        this.kitBricks = kitBricks;
     }
 
     @Override
