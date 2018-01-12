@@ -78,7 +78,7 @@ class KitUpdate extends Component {
                                 value={brick}
                                 checked={form && form.bricks && form.bricks.find(b => b.id === brick.id) !== undefined}
                                 primaryText={
-                                    <div className="KitCreate-brick-item">
+                                    <div className="KitUpdate-brick-item">
                                         <div>{brick.id}</div>
                                         <BrickElement size="15" color={'rgb(' + brick.dtoRed + ', ' + brick.dtoGreen + ', ' + brick.dtoBlue + ')'}/>
                                     </div>

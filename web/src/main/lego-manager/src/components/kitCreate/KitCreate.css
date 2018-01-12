@@ -1,18 +1,24 @@
 .KitCreate {
-  display: block;
-  margin: 10px;
-  padding: 15px;
-  min-height: 200px;
+    display: block;
+    margin: 10px;
+    padding: 15px;
+    min-height: 200px;
 }
 
 .KitCreate-title {
-  margin-top: 10px;
-  font-size: 25px;
-  margin-bottom: 20px;
+    margin-top: 10px;
+    font-size: 25px;
+    margin-bottom: 20px;
 }
 
 .KitCreate-item {
-  display: block !important;
-  margin-top: 10px;
-  margin-bottom: 10px;
+    display: block !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.KitCreate-brick-item {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
