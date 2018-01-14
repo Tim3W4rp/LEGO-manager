@@ -12,6 +12,7 @@ public class KitDTO {
     private Integer ageLimit;
     private CategoryDTO category;
     private List<KitBrickDTO> kitBricks = new ArrayList<>();
+    private List<BrickDTO> bricks = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -59,6 +60,14 @@ public class KitDTO {
 
     public void setKitBricksHidden(List<KitBrickDTO> kitBricks) {
         this.kitBricks = kitBricks;
+    }
+
+    public List<BrickDTO> getBricks() {
+        return bricks;
+    }
+
+    public void setBricks(List<BrickDTO> bricks) {
+        this.bricks = bricks;
     }
 
     @Override

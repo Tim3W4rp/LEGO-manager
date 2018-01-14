@@ -38,6 +38,7 @@ import ShapeUpdate from './components/shapeUpdate/ShapeUpdate'
 import Shape from './components/shape/Shape'
 import Kits from './components/kits/Kits'
 import KitCreate from './components/kitCreate/KitCreate'
+import KitUpdate from './components/kitUpdate/KitUpdate'
 import KitCreateRandom from './components/kitCreateRandom/KitCreateRandom'
 import Kit from './components/kit/Kit'
 
@@ -51,7 +52,6 @@ import bricks from './components/bricks/reducer'
 import brick from './components/brick/reducer'
 import shapes from './components/shapes/reducer'
 import shape from './components/shape/reducer'
-import setUpdate from './components/setUpdate/reducer'
 import loading from './components/loading/reducer'
 import errorToast from './components/errorToast/reducer'
 import kits from './components/kits/reducer'
@@ -70,24 +70,23 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 // create store
 export const store = createStore(combineReducers({
-  browser: responsiveStateReducer,
-  responsiveDrawer: responsiveDrawer,
-  routing: routerReducer,
-  form: reduxFormReducer,
-  loading: loading,
-  error: errorToast,
-  user: authentification,
-  categoriesPage: combineReducers({categories}),
-  categoryPage: combineReducers({category}),
-  setsPage: combineReducers({sets}),
-  setPage: combineReducers({set: setReducer}),
-  bricksPage: combineReducers({bricks}),
-  brickPage: combineReducers({brick}),
-  shapesPage: combineReducers({shapes}),
-  shapePage: combineReducers({shape}),
-  kitPage: combineReducers({kit}),
-  kitsPage: combineReducers({kits}),
-  setUpdatePage: combineReducers({setUpdate})
+    browser: responsiveStateReducer,
+    responsiveDrawer: responsiveDrawer,
+    routing: routerReducer,
+    form: reduxFormReducer,
+    loading: loading,
+    error: errorToast,
+    user: authentification,
+    categoriesPage: combineReducers({categories}),
+    categoryPage: combineReducers({category}),
+    setsPage: combineReducers({sets}),
+    setPage: combineReducers({set: setReducer}),
+    bricksPage: combineReducers({bricks}),
+    brickPage: combineReducers({brick}),
+    shapesPage: combineReducers({shapes}),
+    shapePage: combineReducers({shape}),
+    kitPage: combineReducers({kit}),
+    kitsPage: combineReducers({kits}),
 }), composeEnhancers(applyMiddleware(promiseMiddleware()), responsiveStoreEnhancer))
 
 // Create an enhanced history that syncs navigation events with the store
@@ -95,36 +94,37 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 // init react with store and router
 render(<Theme>
-  <Provider store={store}>
-    <Router history={history}>
-      <Route component={Authentification}>
-        <Route path={env.PUBLIC_URL} component={App}>
-          <IndexRoute component={Index}/>
-          <Route path="categories" component={Categories}/>
-          <Route path="category/create" component={CategoryCreate}/>
-          <Route path="category/update/:id" component={CategoryUpdate}/>
-          <Route path="category/:id" component={Category}/>
-          <Route path="sets" component={Sets}/>
-          <Route path="set/create" component={SetCreate}/>
-          <Route path="set/:id" component={Set}/>
-          <Route path="set/update/:id" component={SetUpdate}/>
-          <Route path="bricks" component={Bricks}/>
-          <Route path="brick/create" component={BrickCreate}/>
-          <Route path="brick/update/:id" component={BrickUpdate}/>
-          <Route path="brick/:id" component={Brick}/>
-          <Route path="shapes" component={Shapes}/>
-          <Route path="shape/create" component={ShapeCreate}/>
-          <Route path="shape/update/:id" component={ShapeUpdate}/>
-          <Route path="shape/:id" component={Shape}/>
-          <Route path="kits" component={Kits}/>
-          <Route path="kit/create" component={KitCreate}/>
-          <Route path="kit/createrandom" component={KitCreateRandom}/>
-          <Route path="kit/:id" component={Kit}/>
-        </Route>
-        <Route path="/" component={App}>
-          <Route path="*" component={NotFound}/>
-        </Route>
-      </Route>
-    </Router>
-  </Provider>
+    <Provider store={store}>
+        <Router history={history}>
+            <Route component={Authentification}>
+                <Route path={env.PUBLIC_URL} component={App}>
+                    <IndexRoute component={Index}/>
+                    <Route path="categories" component={Categories}/>
+                    <Route path="category/create" component={CategoryCreate}/>
+                    <Route path="category/update/:id" component={CategoryUpdate}/>
+                    <Route path="category/:id" component={Category}/>
+                    <Route path="sets" component={Sets}/>
+                    <Route path="set/create" component={SetCreate}/>
+                    <Route path="set/:id" component={Set}/>
+                    <Route path="set/update/:id" component={SetUpdate}/>
+                    <Route path="bricks" component={Bricks}/>
+                    <Route path="brick/create" component={BrickCreate}/>
+                    <Route path="brick/update/:id" component={BrickUpdate}/>
+                    <Route path="brick/:id" component={Brick}/>
+                    <Route path="shapes" component={Shapes}/>
+                    <Route path="shape/create" component={ShapeCreate}/>
+                    <Route path="shape/update/:id" component={ShapeUpdate}/>
+                    <Route path="shape/:id" component={Shape}/>
+                    <Route path="kits" component={Kits}/>
+                    <Route path="kit/create" component={KitCreate}/>
+                    <Route path="kit/update/:id" component={KitUpdate}/>
+                    <Route path="kit/createrandom" component={KitCreateRandom}/>
+                    <Route path="kit/:id" component={Kit}/>
+                </Route>
+                <Route path="/" component={App}>
+                    <Route path="*" component={NotFound}/>
+                </Route>
+            </Route>
+        </Router>
+    </Provider>
 </Theme>, document.getElementById('root'))
